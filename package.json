@@ -19,11 +19,5 @@
     "astro": "^6.3.8",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
   }
 }
