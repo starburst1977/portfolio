@@ -55,7 +55,7 @@ const sorted = allCaseStudies.sort((a, b) => {
         const imageOrder = i % 2 === 0 ? 'md:order-2' : 'md:order-1';
         const textOrder = i % 2 === 0 ? 'md:order-1' : 'md:order-2';
         return (
-          <a href={`/work/${cs.id}`} class="group grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          <a href={`${import.meta.env.BASE_URL}/work/${cs.id}`} class="group grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
             <div class={`${imageOrder} aspect-[4/3] overflow-hidden bg-hairline/30 rounded-2xl`}>
               <Image
                 src={cardImg}

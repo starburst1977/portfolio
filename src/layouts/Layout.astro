@@ -22,7 +22,7 @@ const { title, description = 'Sven Read — Senior Product Designer. Complex B2B
   <body class="bg-cream text-ink font-sans">
     <header class="bg-linear-to-b from-zinc-900 via-zinc-800 to-zinc-700 border-b border-black text-cream">
       <div class="mx-auto max-w-6xl px-6 md:px-10 py-6 flex items-center justify-between">
-        <a href="/" class="block" aria-label="Sven Read — Home">
+        <a href={import.meta.env.BASE_URL} class="block" aria-label="Sven Read — Home">
           <svg viewBox="0 0 131 76" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-auto" role="img">
             <title>Sven Read</title>
             <ellipse cx="111.295" cy="34.105" rx="4.33917" ry="4.375" fill="#FF7300"/>
@@ -31,9 +31,9 @@ const { title, description = 'Sven Read — Senior Product Designer. Complex B2B
           </svg>
         </a>
         <nav class="font-sans text-sm flex gap-8">
-          <a href="/" class="hover:text-accent">Work</a>
-          <a href="/about" class="hover:text-accent">About</a>
-          <a href="/contact" class="hover:text-accent">Contact</a>
+          <a href={import.meta.env.BASE_URL} class="hover:text-accent">Work</a>
+          <a href={`${import.meta.env.BASE_URL}/about`} class="hover:text-accent">About</a>
+          <a href={`${import.meta.env.BASE_URL}/contact`} class="hover:text-accent">Contact</a>
         </nav>
       </div>
     </header>
