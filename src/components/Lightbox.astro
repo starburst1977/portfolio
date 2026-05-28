@@ -1,0 +1,128 @@
+---
+// Lightbox: opens any <img class="lightbox-trigger"> on the page in a fullscreen
+// overlay. Uses the native <dialog> element (ESC to close, backdrop click to close).
+---
+
+<dialog id="lightbox" class="lightbox" aria-label="Image viewer">
+  <button type="button" class="lightbox-close" aria-label="Close">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+  <img class="lightbox-img" alt="" />
+</dialog>
+
+<script>
+  const lightbox = document.getElementById('lightbox') as HTMLDialogElement | null;
+  if (lightbox) {
+    const lightboxImg = lightbox.querySelector('.lightbox-img') as HTMLImageElement | null;
+    const lightboxClose = lightbox.querySelector('.lightbox-close') as HTMLButtonElement | null;
+
+    document.querySelectorAll<HTMLImageElement>('img.lightbox-trigger').forEach((img) => {
+      img.addEventListener('click', () => {
+        if (!lightboxImg) return;
+        lightboxImg.src = img.currentSrc || img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.showModal();
+      });
+    });
+
+    lightboxClose?.addEventListener('click', () => lightbox.close());
+
+    // Click outside the image (on the dialog/backdrop) to close.
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) lightbox.close();
+    });
+  }
+</script>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: #141414;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      opacity 200ms ease,
+      display 200ms ease allow-discrete,
+      overlay 200ms ease allow-discrete;
+  }
+
+  .lightbox[open] {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .lightbox[open] {
+      opacity: 0;
+    }
+  }
+
+  .lightbox::backdrop {
+    background: rgba(0, 0, 0, 0);
+    transition: background 200ms ease;
+  }
+
+  .lightbox[open]::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  @starting-style {
+    .lightbox[open]::backdrop {
+      background: rgba(0, 0, 0, 0);
+    }
+  }
+
+  .lightbox-img {
+    display: block;
+    max-width: 95vw;
+    max-height: 90vh;
+    margin: 5vh auto;
+    object-fit: contain;
+    border-radius: 0.75rem;
+    transform: scale(0.96);
+    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lightbox[open] .lightbox-img {
+    transform: scale(1);
+  }
+
+  @starting-style {
+    .lightbox[open] .lightbox-img {
+      transform: scale(0.96);
+    }
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 10;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f8f4ed;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .lightbox-close:hover,
+  .lightbox-close:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+  }
+</style>

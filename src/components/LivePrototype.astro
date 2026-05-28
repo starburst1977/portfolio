@@ -1,0 +1,56 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  caption?: string;
+  aspectRatio?: string;
+}
+
+const {
+  src,
+  title,
+  caption,
+  aspectRatio = '16/10',
+} = Astro.props;
+---
+
+<div class="live-prototype my-12 md:my-16 not-prose">
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    class="w-full rounded-2xl border border-hairline bg-zinc-900"
+    style={`aspect-ratio: ${aspectRatio};`}
+  ></iframe>
+  <div class="mt-4 flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+    {caption && (
+      <span class="font-sans text-sm text-muted max-w-2xl block">{caption}</span>
+    )}
+    <a
+      href={src}
+      target="_blank"
+      rel="noopener"
+      class="font-sans text-sm text-accent hover:underline shrink-0"
+    >
+      Open in new tab ↗
+    </a>
+  </div>
+</div>
+
+<style>
+  /* Break out of the parent prose container (max-w-3xl) to match the
+     top hero and bottom gallery width (max-w-7xl). */
+  .live-prototype {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 3rem);
+    max-width: 80rem;
+  }
+
+  @media (min-width: 768px) {
+    .live-prototype {
+      width: calc(100vw - 5rem);
+    }
+  }
+</style>

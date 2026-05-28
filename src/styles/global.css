@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/source-sans-3";
+
+@theme {
+  /* Color palette — warm editorial */
+  --color-cream: #F8F4ED;
+  --color-ink: #1F1B16;
+  --color-muted: #6B635A;
+  --color-accent: #B85C38;
+  --color-hairline: #E5DDD0;
+
+  /* Typography */
+  --font-display: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;
+  --font-sans: "Source Sans 3 Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-cream);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: var(--color-ink);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-cream);
+  }
+
+  /* Strong emphasis: accent color + semibold weight, scoped to content areas */
+  main strong,
+  article strong {
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  /* Images that open in the lightbox get a zoom-in cursor */
+  img.lightbox-trigger {
+    cursor: zoom-in;
+  }
+}

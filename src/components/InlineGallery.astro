@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+
+interface ImageItem {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+interface Props {
+  images: ImageItem[];
+}
+
+const { images } = Astro.props;
+const isGrid = images.length > 1;
+const isThreeUp = images.length === 3;
+const gridColsClass = isThreeUp ? 'md:grid-cols-3' : 'md:grid-cols-2';
+const imageWidths = isThreeUp ? [400, 700, 1000] : [600, 1000, 1400];
+const imageSizes = isThreeUp
+  ? '(max-width: 768px) 100vw, 420px'
+  : '(max-width: 768px) 100vw, 640px';
+---
+
+<div class="inline-gallery my-12 md:my-16 not-prose">
+  {isGrid ? (
+    <div class={`grid grid-cols-1 ${gridColsClass} gap-4 md:gap-6`}>
+      {images.map((img) => (
+        <figure class="m-0">
+          <Image
+            src={img.src}
+            alt={img.alt}
+            widths={imageWidths}
+            sizes={imageSizes}
+            class="w-full h-auto rounded-2xl lightbox-trigger"
+          />
+          {img.caption && (
+            <figcaption class="font-sans text-sm text-muted mt-3">
+              {img.caption}
+            </figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  ) : (
+    <figure class="m-0">
+      <Image
+        src={images[0].src}
+        alt={images[0].alt}
+        widths={[800, 1400, 2000]}
+        sizes="(max-width: 768px) 100vw, 1280px"
+        class="w-full h-auto rounded-2xl lightbox-trigger"
+      />
+      {images[0].caption && (
+        <figcaption class="font-sans text-sm text-muted mt-3 max-w-2xl">
+          {images[0].caption}
+        </figcaption>
+      )}
+    </figure>
+  )}
+</div>
+
+<style>
+  /* Break out of the parent prose container (max-w-3xl) to match the
+     top hero and bottom gallery width (max-w-7xl = 80rem). Centers via
+     viewport-relative positioning. */
+  .inline-gallery {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 3rem);
+    max-width: 80rem;
+  }
+
+  @media (min-width: 768px) {
+    .inline-gallery {
+      width: calc(100vw - 5rem);
+    }
+  }
+</style>
