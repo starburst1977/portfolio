@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const address = {
+  name: 'Sven Read',
+  street: 'Pfarrhof 2',
+  city: '83342 Tacherting',
+  phone: '+49 160 6191277',
+  email: 'me@svenread.com',
+};
+---
+
+<Layout lang="de" title="Impressum — Sven Read" description="Impressum und Anbieterkennzeichnung von Sven Read, Senior Product Designer.">
+  <article class="mx-auto max-w-3xl px-6 md:px-10 pt-32 md:pt-40 lg:pt-48 pb-32">
+    <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Rechtliches</p>
+    <h1 class="font-display text-4xl md:text-6xl leading-[1.05] tracking-tight">Impressum</h1>
+
+    <div class="mt-16 space-y-12 font-sans text-base leading-relaxed text-ink">
+      <section>
+        <h2 class="font-display text-2xl mb-4">Angaben gemäß § 5 DDG</h2>
+        <p>
+          {address.name}<br />
+          Senior Product Designer<br />
+          {address.street}<br />
+          {address.city}<br />
+          Deutschland
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Kontakt</h2>
+        <p>
+          Telefon: <a href={`tel:${address.phone.replace(/\s/g, '')}`} class="text-accent underline underline-offset-4 decoration-1">{address.phone}</a><br />
+          E-Mail: <a href={`mailto:${address.email}`} class="text-accent underline underline-offset-4 decoration-1">{address.email}</a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Umsatzsteuer</h2>
+        <p>
+          Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE349511338
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <p>
+          {address.name}<br />
+          {address.street}<br />
+          {address.city}
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Verbraucherstreitbeilegung</h2>
+        <p>
+          Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Haftung für Inhalte</h2>
+        <p>
+          Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen. Als Diensteanbieter bin ich gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Haftung für Links</h2>
+        <p>
+          Diese Website enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft; rechtswidrige Inhalte waren zu diesem Zeitpunkt nicht erkennbar. Bei Bekanntwerden von Rechtsverletzungen werde ich derartige Links umgehend entfernen.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">Urheberrecht</h2>
+        <p>
+          Die auf dieser Website veröffentlichten Inhalte und Werke unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Gezeigte Arbeiten aus Projekten für Auftraggeber und Arbeitgeber sind Eigentum der jeweiligen Unternehmen und werden hier als Referenz mit deren Kenntnis dargestellt. Genannte Marken- und Firmennamen sind Eigentum der jeweiligen Inhaber.
+        </p>
+      </section>
+    </div>
+  </article>
+</Layout>

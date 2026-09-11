@@ -62,7 +62,11 @@ const navItems = [
     <footer class="border-t border-hairline mt-32">
       <div class="mx-auto max-w-6xl px-6 md:px-10 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-sm text-muted">
         <p>© {new Date().getFullYear()} Sven Read</p>
-        <a href="mailto:me@svenread.com" class="hover:text-accent">me@svenread.com</a>
+        <nav class="flex flex-wrap gap-x-6 gap-y-2" aria-label="Legal">
+          <a href="mailto:me@svenread.com" class="hover:text-accent">me@svenread.com</a>
+          <a href={`${base}/impressum`} class="hover:text-accent">Impressum</a>
+          <a href={`${base}/datenschutz`} class="hover:text-accent">Datenschutz</a>
+        </nav>
       </div>
     </footer>
   </body>

@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Keep in sync with /impressum.
+const address = {
+  name: 'Sven Read',
+  street: 'Pfarrhof 2',
+  city: '83342 Tacherting',
+  phone: '+49 160 6191277',
+  email: 'me@svenread.com',
+};
+const stand = 'September 2026';
+---
+
+<Layout lang="de" title="Datenschutzerklärung — Sven Read" description="Datenschutzerklärung für svenread.com.">
+  <article class="mx-auto max-w-3xl px-6 md:px-10 pt-32 md:pt-40 lg:pt-48 pb-32">
+    <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Rechtliches</p>
+    <h1 class="font-display text-4xl md:text-6xl leading-[1.05] tracking-tight">Datenschutzerklärung</h1>
+    <p class="font-display text-xl md:text-2xl text-muted mt-8 leading-snug">
+      Kurzfassung: Diese Website setzt keine Cookies, verwendet kein Tracking und keine Analyse-Dienste, und lädt keine Schriften oder Skripte von Dritten. Was anfällt, sind die technisch notwendigen Server-Logs des Hosters — und Ihre E-Mail, wenn Sie mir schreiben.
+    </p>
+
+    <div class="mt-16 space-y-12 font-sans text-base leading-relaxed text-ink">
+      <section>
+        <h2 class="font-display text-2xl mb-4">1. Verantwortlicher</h2>
+        <p>
+          {address.name}<br />
+          {address.street}<br />
+          {address.city}<br />
+          Telefon: {address.phone}<br />
+          E-Mail: <a href={`mailto:${address.email}`} class="text-accent underline underline-offset-4 decoration-1">{address.email}</a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">2. Hosting und Server-Logfiles</h2>
+        <p>
+          Diese Website wird über <strong>GitHub Pages</strong> bereitgestellt, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf der Seiten verarbeitet GitHub technisch notwendige Daten in Server-Logfiles: IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, übertragene Datenmenge, Browsertyp und -version, Betriebssystem sowie die zuvor besuchte Seite (Referrer). Diese Daten werden nicht mit anderen Datenquellen zusammengeführt und dienen ausschließlich dem sicheren und stabilen Betrieb der Website.
+        </p>
+        <p class="mt-4">
+          Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der sicheren Bereitstellung der Website). GitHub ist unter dem EU-US Data Privacy Framework zertifiziert; die Datenverarbeitung erfolgt auf Basis der Datenschutzbestimmungen von GitHub, abrufbar unter
+          <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" class="text-accent underline underline-offset-4 decoration-1">docs.github.com/de/site-policy/privacy-policies</a>.
+        </p>
+        <p class="mt-4">
+          Einige Fallstudien betten interaktive Prototypen als iframe ein. Diese werden ebenfalls über GitHub Pages ausgeliefert; es gelten dieselben Angaben.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">3. Keine Cookies, kein Tracking</h2>
+        <p>
+          Diese Website setzt keine Cookies und verwendet keine Analyse-, Tracking- oder Werbedienste. Schriftarten werden lokal vom eigenen Server geladen; es findet keine Verbindung zu Google Fonts oder vergleichbaren Anbietern statt. Es sind keine Social-Media-Plugins eingebunden.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">4. Kontaktaufnahme per E-Mail</h2>
+        <p>
+          Wenn Sie mir per E-Mail schreiben, werden Ihre Angaben (E-Mail-Adresse, Name, Inhalt der Nachricht) zur Bearbeitung der Anfrage und für den Fall von Anschlussfragen gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit die Anfrage auf einen Vertrag abzielt, im Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Die Daten werden gelöscht, sobald sie für den Zweck nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Der E-Mail-Verkehr läuft über iCloud Mail (Apple Inc.).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">5. Externe Links</h2>
+        <p>
+          Diese Website verlinkt auf externe Angebote (z. B. LinkedIn, GitHub, Dribbble). Es handelt sich um reine Verlinkungen; beim Aufruf dieser Website werden keine Daten an diese Anbieter übertragen. Erst wenn Sie einem Link folgen, gelten die Datenschutzbestimmungen des jeweiligen Anbieters.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">6. Ihre Rechte</h2>
+        <p>Sie haben gegenüber mir folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
+        <ul class="mt-4 flex flex-col gap-2">
+          <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Recht auf Auskunft (Art. 15 DSGVO)</li>
+          <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Recht auf Berichtigung (Art. 16 DSGVO)</li>
+          <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Recht auf Löschung (Art. 17 DSGVO)</li>
+          <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+          <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+          <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Recht auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+        </ul>
+        <p class="mt-4">
+          Zur Ausübung dieser Rechte genügt eine formlose E-Mail an <a href={`mailto:${address.email}`} class="text-accent underline underline-offset-4 decoration-1">{address.email}</a>.
+        </p>
+        <p class="mt-4">
+          Sie haben zudem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach,
+          <a href="https://www.lda.bayern.de" target="_blank" rel="noopener" class="text-accent underline underline-offset-4 decoration-1">www.lda.bayern.de</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl mb-4">7. Änderungen</h2>
+        <p>
+          Ich behalte mir vor, diese Datenschutzerklärung anzupassen, wenn sich die Rechtslage oder die Website ändert. Es gilt die jeweils hier veröffentlichte Fassung.
+        </p>
+        <p class="mt-4 text-muted">Stand: {stand}</p>
+      </section>
+    </div>
+  </article>
+</Layout>
