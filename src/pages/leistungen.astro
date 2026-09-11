@@ -1,0 +1,254 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import portraitAbout from '../assets/portrait-about.jpeg';
+
+const allCaseStudies = await getCollection('case-studies');
+const references = allCaseStudies
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
+  .slice(0, 3);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Pre-filled subject line so a reply from a cold mail lands recognizably.
+const mailto =
+  'mailto:me@svenread.com?subject=' +
+  encodeURIComponent('Projektanfrage') +
+  '&body=' +
+  encodeURIComponent(
+    'Hallo Sven,\n\nkurz zum Projekt:\n\n- Produkt / Kontext:\n- Was konkret ansteht:\n- Zeitrahmen:\n- Budgetrahmen:\n\nViele Grüße\n',
+  );
+
+const services = [
+  {
+    kicker: '01',
+    title: 'Komplexe Systeme entwirren',
+    body: 'Software, in der viel gleichzeitig passiert: Anlagen- und Gerätedaten, Hierarchien über tausende Assets, Alarme, Regelwerke, Zustände. Ich strukturiere die Informationsarchitektur und die Interaktionslogik so, dass Ihre Nutzer schnell verstehen, was gerade der Fall ist — und der Oberfläche vertrauen können, wenn eine Entscheidung daran hängt.',
+    tags: ['Informationsarchitektur', 'Interaktionskonzept', 'Datenintensive UIs'],
+  },
+  {
+    kicker: '02',
+    title: 'Design und Umsetzung aus einer Hand',
+    body: 'Ich baue Prototypen in echtem Code — React, TypeScript, Tailwind — statt in klickbaren Attrappen. Das heißt: kein Übergabeverlust zwischen Design und Entwicklung, testbare Stände statt Screenshots, und Ihr Team bekommt Komponenten, an die es direkt andocken kann.',
+    tags: ['React / TypeScript', 'Tailwind', 'Design-Systeme'],
+  },
+  {
+    kicker: '03',
+    title: 'Klassisches Produkt- und UX-Design',
+    body: 'Wenn Sie das brauchen, auch ohne Code: Nutzerinterviews und Anforderungsklärung, Flows und Wireframes, UI-Design in Figma, Design-System-Aufbau und -Pflege, Usability-Reviews bestehender Anwendungen.',
+    tags: ['Research', 'Flows & Wireframes', 'UI-Design in Figma'],
+  },
+];
+
+const formats = [
+  {
+    title: 'Design-Sprint',
+    duration: '1–2 Wochen',
+    body: 'Eine konkrete Frage, ein klickbarer Stand am Ende. Gut geeignet, um eine Produktidee oder ein Redesign zu prüfen, bevor Entwicklungszeit hineinfließt.',
+  },
+  {
+    title: 'Feature oder Modul',
+    duration: '4–8 Wochen',
+    body: 'Ein abgegrenzter Teil Ihres Produkts von der Konzeption bis zum umsetzbaren Design — inklusive Prototyp im Code, wenn es die Sache klarer macht.',
+  },
+  {
+    title: 'UX-Review',
+    duration: 'Wenige Tage',
+    body: 'Ich gehe durch Ihre bestehende Anwendung und liefere einen priorisierten Befund: was Nutzer aufhält, was davon schnell behebbar ist, was strukturell ist.',
+  },
+  {
+    title: 'Design-System',
+    duration: 'Nach Umfang',
+    body: 'Aufbau oder Konsolidierung eines Komponenten- und Token-Systems, das Design und Frontend gemeinsam tragen — nicht nur eine Figma-Bibliothek.',
+  },
+];
+---
+
+<Layout
+  lang="de"
+  title="Freelance Produktdesign — Sven Read"
+  description="Freelance Produktdesign und Design Engineering für komplexe B2B-Software. Sven Read, Senior Product Designer mit 20+ Jahren Erfahrung, Raum München, remote."
+>
+  <article>
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pt-32 md:pt-40 lg:pt-48 pb-16 md:pb-24">
+      <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-12 md:gap-20 items-start">
+        <div class="w-56 md:w-72 lg:w-96 shrink-0">
+          <Image
+            src={portraitAbout}
+            alt="Porträt von Sven Read"
+            widths={[280, 400, 600, 800]}
+            sizes="(max-width: 768px) 224px, (max-width: 1024px) 288px, 384px"
+            class="w-full h-auto rounded-2xl"
+          />
+        </div>
+        <div>
+          <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">
+            Freelance
+          </p>
+          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
+            Produktdesign für Software, die <strong>kompliziert</strong> sein darf — aber nicht <strong>verwirrend</strong>.
+          </h1>
+        </div>
+      </div>
+
+      <p class="font-display text-xl md:text-2xl text-muted mt-12 md:mt-16 max-w-4xl leading-snug">
+        Seit 20+ Jahren gestalte ich Oberflächen für Menschen, die damit arbeiten müssen: Chirurgen, Anlagenbauer, Rechenzentrumsbetreiber, Facility Manager, Disponenten.
+      </p>
+      <p class="font-sans text-base text-muted mt-8">
+        <strong>Sven Read</strong>, Senior Product Designer im Raum München. Remote, für Termine im Großraum München auch vor Ort.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-12 md:mb-16">
+          Wobei ich helfe
+        </h2>
+        <div class="flex flex-col gap-14 md:gap-20">
+          {services.map((s) => (
+            <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr] gap-4 md:gap-12">
+              <p class="font-display text-2xl text-accent leading-none pt-1">{s.kicker}</p>
+              <div>
+                <h3 class="font-display text-2xl md:text-3xl tracking-tight leading-[1.15]">
+                  {s.title}
+                </h3>
+                <p class="font-sans text-lg leading-relaxed text-muted mt-5 max-w-2xl">
+                  {s.body}
+                </p>
+                <p class="font-sans text-xs uppercase tracking-[0.2em] text-muted mt-6">
+                  {s.tags.join(' · ')}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">
+          Typische Zuschnitte
+        </h2>
+        <p class="font-sans text-base text-muted mb-12 max-w-2xl leading-relaxed">
+          Anhaltspunkte, keine Pakete — der tatsächliche Zuschnitt kommt aus dem ersten Gespräch.
+        </p>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          {formats.map((f) => (
+            <div class="border-t border-hairline pt-6">
+              <dt class="flex items-baseline justify-between gap-4 mb-3">
+                <span class="font-display text-xl md:text-2xl tracking-tight">{f.title}</span>
+                <span class="font-sans text-xs uppercase tracking-[0.15em] text-muted shrink-0">
+                  {f.duration}
+                </span>
+              </dt>
+              <dd class="font-sans text-base text-muted leading-relaxed">{f.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">
+          Ausgewählte Arbeiten
+        </h2>
+        <p class="font-sans text-base text-muted mb-12 max-w-2xl leading-relaxed">
+          Die ausführlichen Case Studies sind auf Englisch.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+          {references.map((cs) => (
+            <a href={`${base}/work/${cs.id}`} class="group block">
+              <div class="aspect-[4/3] overflow-hidden bg-hairline/30 rounded-2xl mb-5">
+                <Image
+                  src={cs.data.cardImage ?? cs.data.heroImage}
+                  alt={cs.data.cardImageAlt ?? cs.data.heroImageAlt}
+                  widths={[400, 700]}
+                  sizes="(max-width: 768px) 100vw, 340px"
+                  class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.01]"
+                />
+              </div>
+              <h3 class="font-display text-2xl tracking-tight group-hover:text-accent transition-colors">
+                {cs.data.title}
+              </h3>
+              <p class="font-sans text-xs uppercase tracking-[0.2em] text-muted mt-3">
+                {cs.data.company} · {cs.data.dates}
+              </p>
+              <p class="font-sans text-sm text-muted mt-3 leading-relaxed">
+                {cs.data.domain}
+              </p>
+            </a>
+          ))}
+        </div>
+        <p class="font-sans text-base mt-12">
+          <a href={`${base}/`} class="text-accent underline underline-offset-4 decoration-1">
+            Alle Arbeiten ansehen →
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-10">
+          Rahmenbedingungen
+        </h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          <div>
+            <dt class="font-display text-lg mb-3">Kapazität</dt>
+            <dd class="font-sans text-base text-muted leading-relaxed">
+              Ich bin fest angestellt und nehme daneben <strong>ausgewählte Projekte</strong> an — in der Regel eines zur Zeit, mit klar umrissenem Umfang. Das heißt: keine Vollzeit-Auslastung und keine Vor-Ort-Präsenz während der Woche, dafür verlässliche Termine und ein Ansprechpartner, der das Projekt selbst macht.
+            </dd>
+          </div>
+          <div>
+            <dt class="font-display text-lg mb-3">Zusammenarbeit</dt>
+            <dd class="font-sans text-base text-muted leading-relaxed">
+              Remote aus dem Raum München, Zeitzone CET. Für Kick-off und Workshops komme ich im Großraum München gerne vor Ort. Projektsprache Deutsch oder Englisch — beides Muttersprache.
+            </dd>
+          </div>
+          <div>
+            <dt class="font-display text-lg mb-3">Konditionen</dt>
+            <dd class="font-sans text-base text-muted leading-relaxed">
+              Abrechnung auf Tagessatzbasis oder als Festpreis bei klar abgegrenztem Umfang. Tagessatz auf Anfrage. Kleine Projekte gerne mit einem festen Budgetdeckel.
+            </dd>
+          </div>
+          <div>
+            <dt class="font-display text-lg mb-3">Was ich nicht mache</dt>
+            <dd class="font-sans text-base text-muted leading-relaxed">
+              Reine Grafik- und Markenarbeit, Websites für Endkunden, Arbeitnehmerüberlassung. Und keine unbezahlten Konzeptentwürfe im Pitch — dafür ein kostenloses Erstgespräch, in dem Sie einschätzen können, ob es passt.
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 md:px-10 pb-32">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-display text-2xl md:text-4xl leading-snug tracking-tight">
+          Wenn Sie gerade ein Produkt bauen, bei dem die Oberfläche das Nadelöhr ist — schreiben Sie mir kurz, worum es geht.
+        </h2>
+        <p class="font-sans text-lg text-muted mt-8 leading-relaxed">
+          Ein, zwei Absätze reichen: was Sie bauen, was konkret ansteht, welcher Zeitrahmen. Ich melde mich innerhalb von zwei Werktagen mit einer ehrlichen Einschätzung, ob ich der Richtige dafür bin.
+        </p>
+        <a
+          href={mailto}
+          class="font-display text-3xl md:text-5xl tracking-tight text-ink hover:text-accent transition-colors inline-block mt-10"
+        >
+          me@svenread.com
+        </a>
+        <p class="font-sans text-sm text-muted mt-8">
+          <a
+            href="https://www.linkedin.com/in/svenread/"
+            target="_blank"
+            rel="noopener"
+            class="underline underline-offset-4 decoration-1 hover:text-accent"
+          >
+            LinkedIn ↗
+          </a>
+        </p>
+      </div>
+    </section>
+  </article>
+</Layout>

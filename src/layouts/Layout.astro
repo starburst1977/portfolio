@@ -4,16 +4,30 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  lang?: 'en' | 'de';
 }
 
-const { title, description = 'Sven Read — Senior Product Designer. Complex B2B systems where clarity matters.' } = Astro.props;
+const {
+  title,
+  description = 'Sven Read — Senior Product Designer. Complex B2B systems where clarity matters.',
+  lang = 'en',
+} = Astro.props;
 
 // Strip trailing slash so concatenation works whether base is '/' or '/portfolio'.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// One nav on every page, labels in English. The route stays /leistungen — it's
+// the German-language services page and the German URL reads well in outreach.
+const navItems = [
+  { href: `${base}/`, label: 'Work' },
+  { href: `${base}/leistungen`, label: 'Freelance' },
+  { href: `${base}/about`, label: 'About' },
+  { href: `${base}/contact`, label: 'Contact' },
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,10 +47,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <path d="M81.024 35.456L88.8311 24.192C83.1991 24.1067 69.76 24.2773 64.128 24.192C58.5813 24.192 52.7787 24.192 46.72 24.192L46.72 34.048C46.72 40.96 48.384 46.0373 51.712 49.28C55.04 52.608 59.264 54.272 64.384 54.272C69.76 54.272 73.856 52.7787 76.672 49.792C79.5733 46.8053 81.024 42.0267 81.024 35.456ZM105.206 11.776L111.831 14.8389L86.912 35.84C86.912 45.6533 84.9493 53.2907 81.024 58.752C77.0987 64.2133 71.5946 66.944 64.512 66.944C59.5626 66.944 55.04 65.152 50.944 61.568C46.848 57.984 44.16 52.608 42.88 45.44C42.112 49.1947 40.448 52.2667 37.888 54.656C35.4133 57.1307 31.6586 59.0933 26.624 60.544L7.67998 66.048L6.52798 75.904L1.27998 75.904C0.938647 74.624 0.639977 73.1733 0.383977 71.552C0.127977 70.016 -1.82428e-05 68.2667 -1.8157e-05 66.304C-1.79817e-05 62.2933 0.597315 59.264 1.79198 57.216C2.98665 55.2533 5.11998 53.888 8.19198 53.12L28.672 48C32.1706 47.232 34.7733 46.1227 36.48 44.672C38.272 43.2213 39.4666 41.344 40.064 39.04C40.6613 36.8213 40.96 33.9627 40.96 30.464L40.96 24.192C34.816 24.192 29.056 24.192 23.68 24.192C18.304 24.2773 13.056 24.3627 7.93598 24.448L6.52798 36.224L1.27998 36.224L1.27998 -4.83234e-06L6.52798 -4.60294e-06L7.93598 11.776C13.312 11.9467 18.7733 12.032 24.32 12.032C29.8667 12.032 35.4133 12.032 40.96 12.032L47.232 12.032C52.7787 12.032 58.2827 12.032 63.744 12.032C69.2907 12.032 74.7947 11.9467 80.256 11.776L105.206 11.776Z" fill="currentColor"/>
           </svg>
         </a>
-        <nav class="font-sans text-sm flex gap-8">
-          <a href={`${base}/`} class="hover:text-accent">Work</a>
-          <a href={`${base}/about`} class="hover:text-accent">About</a>
-          <a href={`${base}/contact`} class="hover:text-accent">Contact</a>
+        <nav class="font-sans text-sm flex gap-5 sm:gap-8">
+          {navItems.map((item) => (
+            <a href={item.href} class="hover:text-accent">{item.label}</a>
+          ))}
         </nav>
       </div>
     </header>

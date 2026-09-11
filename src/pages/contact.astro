@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout
@@ -31,10 +33,14 @@ import Layout from '../layouts/Layout.astro';
 
     <div class="mt-16 md:mt-20 border-t border-hairline pt-12 md:pt-16">
       <p class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-6">
-        What I'm looking for
+        Freelance availability
       </p>
       <p class="font-sans text-lg leading-relaxed">
-        <strong>Senior, staff, or principal IC roles</strong> on small-to-mid teams building complex software — surgical, infrastructure, industrial, fintech, or AI-first. Remote preferred; hybrid possible for the Munich area. No people-management track. Bilingual roles welcome — German and English are both native.
+        I'm employed full-time and take on a <strong>small number of freelance projects</strong> alongside it — usually one at a time, with a clearly bounded scope. Best fit: complex B2B software (industrial, medical, infrastructure, fintech, AI-first), design systems, and coded prototypes. Remote from CET; on-site possible in the Munich area for kick-offs and workshops. German and English are both native.
+      </p>
+      <p class="font-sans text-base text-muted leading-relaxed mt-6">
+        Full service overview in German:
+        <a href={`${base}/leistungen`} class="text-accent underline underline-offset-4 decoration-1">Leistungen &amp; Konditionen</a>
       </p>
     </div>
 
@@ -88,13 +94,13 @@ import Layout from '../layouts/Layout.astro';
       </p>
       <ul class="flex flex-col gap-3 font-sans text-base text-muted leading-relaxed">
         <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">
-          <strong>Recruiters:</strong> company name (or anonymized but specific industry), role title, comp range, and on-site/remote split. If those aren't shared yet, just say so — but vague outreach without any of these tends to get archived.
+          <strong>Project enquiries:</strong> what you're building, what specifically needs doing, your rough timeline and budget range. Two paragraphs is plenty. I'll come back within two working days with an honest read on whether I'm the right person.
         </li>
         <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">
-          <strong>Hiring managers:</strong> what the team is building, who I'd work with, and what the design org looks like today.
+          <strong>Rates:</strong> day rate or fixed price for well-bounded scope — happy to share numbers once I know roughly what the work is.
         </li>
         <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">
-          <strong>Freelance or contract:</strong> scope, rough timeline, and which language (German or English) the engagement runs in.
+          <strong>Recruiters:</strong> I'm not looking for a permanent role right now. Contract work, see above — but I'd need the client, the scope, and the rate, not a job description.
         </li>
         <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">
           I'm based in <strong>CET</strong> (Munich) and reply during European working hours. Inbound from US timezones still gets answered — just maybe not within the hour.
