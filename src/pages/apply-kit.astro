@@ -1,0 +1,316 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import cvEn from '../assets/apply-kit/cv-en.png';
+import letterEn from '../assets/apply-kit/letter-en.png';
+import cvDe from '../assets/apply-kit/cv-de.png';
+import letterDe from '../assets/apply-kit/letter-de.png';
+import portrait from '../assets/portrait-about.jpeg';
+
+// Set these once the listing exists. With no link, the buttons read "Coming soon".
+const PRICE = '€65 or $75';
+const BUY_URL = 'https://buy.polar.sh/polar_cl_NmROLmRsVNrLNKKkFgJAEBsBnHEwqMfQgLxwi3gB17Y';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pdf = (name: string) => `${base}/apply-kit/Lena_Hoffmann_${name}.pdf`;
+
+// Sven's own search, counted from his applications tracker (Feb to Jun 2026).
+const proof = [
+  { n: '89', label: 'applications' },
+  { n: '65', label: 'tailored CVs' },
+  { n: '24', label: 'cover letters' },
+  { n: '42', label: 'rejections' },
+  { n: '7', label: 'interviews landed', accent: true },
+];
+
+const steps = [
+  {
+    title: 'Set up once, in 15 minutes',
+    body: 'Claude reads your old CV and your LinkedIn profile, lays your career out as one timeline and asks about everything that doesn’t add up between them. It asks what you’re aiming for and sets up your letterhead. You finish with your first CV as a PDF.',
+  },
+  {
+    title: 'Paste a job ad',
+    body: 'Claude tells you how well it fits, honestly: what matches, what’s missing, and whether the role sits below or above what you’re aiming for. Including when the answer is “not worth your time”.',
+  },
+  {
+    title: 'Get the PDFs',
+    body: 'A CV and a cover letter written for that job, in its language, from your confirmed facts only. Every number is checked against your profile before the PDF is made.',
+  },
+];
+
+const promises = [
+  { title: 'Nothing invented', body: 'Every fact comes from a profile you confirmed. Every number is checked against it before any PDF is made.' },
+  { title: 'Honest fit checks', body: 'Skills and role judged separately, so a job you could do but shouldn’t want gets called out.' },
+  { title: 'One-page letters', body: 'Letters that run a little long are fitted to one page automatically. Longer ones get a clear warning.' },
+  { title: 'PDFs that work everywhere', body: 'Real, selectable text that application systems can read, and the same result on every computer and printer.' },
+  { title: 'English and German', body: 'Including German conventions: Anschreiben with date and subject line, the right greetings and sign-offs, German quotation marks and dates.' },
+];
+
+const examples = [
+  { img: cvEn, title: 'CV', note: 'English, 2 pages', file: 'CV_Kestrel' },
+  { img: letterEn, title: 'Cover letter', note: 'English, opens with the ad’s own words', file: 'CoverLetter_Kestrel' },
+  { img: cvDe, title: 'Lebenslauf', note: 'German, 2 pages', file: 'CV_Nordlicht' },
+  { img: letterDe, title: 'Anschreiben', note: 'German, with recipient, date and subject', file: 'Anschreiben_Nordlicht' },
+];
+
+const faq = [
+  {
+    q: 'Does it work in the normal Claude chat?',
+    a: 'No. It needs Claude Code, which comes with the Claude desktop app, because it makes the PDFs on your computer. You need a Claude plan that includes Claude Code.',
+  },
+  {
+    q: 'Is it a subscription?',
+    a: 'No. You pay once and keep the kit. It runs on your own Claude plan.',
+  },
+  {
+    q: 'I’m not a designer. Is it for me?',
+    a: 'Yes. The examples come from a product manager in logistics. It works for any role where a CV and a cover letter matter.',
+  },
+  {
+    q: 'Will recruiters know Claude wrote it?',
+    a: 'It writes from your own facts, in your own voice, and you read and approve everything before it goes out. It’s your application; Claude does the drafting.',
+  },
+  {
+    q: 'Can I use it for German applications?',
+    a: 'Yes, in both directions. It picks the language from the job ad and follows German conventions for the Anschreiben.',
+  },
+  {
+    q: 'Does it run on Windows?',
+    a: 'Claude Code and Node.js both run on Windows, so it should. It has been tested on macOS so far.',
+  },
+];
+---
+
+<Layout
+  lang="en"
+  title="Apply Kit for Claude: tailored CVs and cover letters, nothing invented"
+  description="Paste a job ad, get a tailored CV and cover letter as print-ready PDFs. Written from your confirmed experience, in English or German. Runs in Claude Code."
+>
+  <article>
+    <!-- Hero -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pt-32 md:pt-40 lg:pt-44 pb-16 md:pb-20">
+      <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Apply Kit for Claude</p>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02] tracking-tight max-w-5xl">
+        A tailored CV and cover letter for every job. <strong>Nothing invented.</strong>
+      </h1>
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-14 lg:gap-20 items-center mt-12 md:mt-16">
+        <div>
+          <p class="font-display text-2xl md:text-3xl text-ink leading-snug">
+            Apply Kit turns Claude into a careful application writer. It learns your career once, checks every job ad honestly, and writes CVs and cover letters in English or German, as print-ready PDFs.
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+            {BUY_URL ? (
+              <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream">
+                Get Apply Kit
+              </a>
+            ) : (
+              <span class="inline-flex items-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
+                Coming soon
+              </span>
+            )}
+            <a href="#examples" class="font-sans text-sm text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">See real examples</a>
+          </div>
+          <p class="font-sans text-sm text-muted mt-6">Runs in Claude Code · One-time purchase · {PRICE}</p>
+        </div>
+
+        <div class="fan" aria-hidden="true">
+          <div class="sheet s1"><Image src={cvEn} alt="" widths={[360, 540]} sizes="(max-width: 1024px) 60vw, 330px" /></div>
+          <div class="sheet s3"><Image src={letterDe} alt="" widths={[360, 540]} sizes="(max-width: 1024px) 60vw, 330px" /></div>
+          <div class="sheet s2"><Image src={letterEn} alt="" widths={[360, 540]} sizes="(max-width: 1024px) 60vw, 330px" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proof: the real search, front and centre -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-10">Built on a real job search, February to June 2026</h2>
+        <dl class="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-10">
+          {proof.map((p) => (
+            <div>
+              <dt class:list={['font-fraunces text-6xl md:text-7xl leading-none tracking-tight', p.accent ? 'text-accent' : 'text-ink']}>{p.n}</dt>
+              <dd class="font-sans text-sm text-muted mt-3 leading-snug">{p.label}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Why -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-10">Why it exists</h2>
+        <div class="relative px-2 md:px-16 py-10 md:py-14">
+          <span aria-hidden="true" class="font-fraunces text-accent text-[7rem] md:text-[10rem] leading-none absolute -top-6 -left-2 md:-top-8 md:-left-4 select-none">&ldquo;</span>
+          <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+            <p class="font-display text-2xl md:text-3xl leading-snug">I built Apply Kit for my own job search. Those numbers are the real ones, counted from my own applications tracker, rejections included.</p>
+            <p class="text-lg text-muted leading-relaxed md:pt-1.5">Somewhere in there my CVs started contradicting each other: a date in one version, a different one in the next, a result that was 35% here and 40% there. So I rebuilt the whole process around one rule: nothing goes into an application unless I’ve confirmed it. The first time I ran the finished kit on myself, it found errors in my own CV.</p>
+          </div>
+          <span aria-hidden="true" class="font-fraunces text-accent text-[7rem] md:text-[10rem] leading-none absolute -bottom-16 right-0 md:-bottom-20 md:-right-2 select-none">&rdquo;</span>
+        </div>
+        <div class="flex items-center gap-4 mt-10 md:pl-16">
+          <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 rounded-full object-cover" />
+          <p class="font-sans text-sm text-muted"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a>, product designer near Munich</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-12">How it works</h2>
+        <ol class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10">
+          {steps.map((s, i) => (
+            <li>
+              <p class="font-fraunces text-6xl md:text-7xl text-accent leading-none tracking-tight">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="font-display text-2xl tracking-tight mt-6">{s.title}</h3>
+              <p class="font-sans text-base text-muted leading-relaxed mt-3">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- Proof -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div>
+          <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-6">What a fit check looks like</h2>
+          <div class="rounded-2xl border border-hairline bg-white/60 p-6 md:p-8 font-sans text-[15px] leading-relaxed">
+            <p><span class="font-semibold text-ink">Kestrel Logistics: Senior Product Manager, Carrier Platform.</span><br />Skills: strong fit. Role: matches your target.</p>
+            <p class="mt-4 font-semibold text-ink">Matches</p>
+            <ul class="mt-1 space-y-1 text-muted">
+              <li>“You run user interviews yourself” → weekly dispatcher interviews at Frachtwerk</li>
+              <li>“Comfortable with SQL and product analytics” → SQL and Looker</li>
+            </ul>
+            <p class="mt-4 font-semibold text-ink">Watch out</p>
+            <ul class="mt-1 space-y-1 text-muted">
+              <li>Hybrid, two office days a week in Munich</li>
+            </ul>
+            <p class="mt-4 text-muted">They want: CV and cover letter.</p>
+          </div>
+        </div>
+        <div>
+          <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-6">What the numbers check catches</h2>
+          <div class="rounded-2xl bg-ink p-6 md:p-8 font-mono text-[13px] leading-relaxed text-cream/90">
+            <p>✓ CV_Kestrel.md: all 5 numbers confirmed in your profile</p>
+            <p class="mt-2">CoverLetter_Kestrel.md: 1 to check, 3 confirmed</p>
+            <p class="pl-4">⚠ "25%": not in your profile …cut delivery complaints by 25%…</p>
+          </div>
+          <p class="font-sans text-base text-muted leading-relaxed mt-5">
+            Before any PDF is made, every number is checked against your profile, including numbers written as words and vague claims like “millions of users”. A flagged number either goes, or you confirm it and say where it comes from.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promises -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-12">What it promises</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+          {promises.map((p) => (
+            <div>
+              <dt class="font-display text-xl md:text-2xl tracking-tight">{p.title}</dt>
+              <dd class="font-sans text-base text-muted leading-relaxed mt-2">{p.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Examples -->
+    <section id="examples" class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28 scroll-mt-24">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">Real examples</h2>
+        <p class="font-sans text-base text-muted leading-relaxed max-w-2xl mb-12">
+          Made with the kit for Lena Hoffmann, a fictional product manager in logistics. Every number in her documents traces back to her profile. Open the PDFs: the text is real and selectable, exactly as a recruiter receives it.
+        </p>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {examples.map((e) => (
+            <a href={pdf(e.file)} class="group block" target="_blank" rel="noopener">
+              <div class="sheet transition-transform duration-300 group-hover:-translate-y-1">
+                <Image src={e.img} alt={`${e.title}: ${e.note}`} widths={[300, 500]} sizes="(max-width: 1024px) 45vw, 260px" />
+              </div>
+              <p class="font-display text-lg mt-4 group-hover:text-accent transition-colors">{e.title}</p>
+              <p class="font-sans text-sm text-muted">{e.note}</p>
+              <p class="font-sans text-xs uppercase tracking-[0.15em] text-muted mt-2 group-hover:text-accent">Open PDF ↗</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Needs + data -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-8">What you need</h2>
+          <ul class="space-y-3 font-sans text-base leading-relaxed">
+            <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">The <a href="https://claude.ai/download" target="_blank" rel="noopener" class="underline decoration-hairline underline-offset-4 hover:decoration-accent">Claude desktop app</a>, with a Claude plan that includes Claude Code</li>
+            <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent"><a href="https://nodejs.org" target="_blank" rel="noopener" class="underline decoration-hairline underline-offset-4 hover:decoration-accent">Node.js</a>, free, installed in a few minutes. The kit’s README walks you through it</li>
+            <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">Your current CV as a PDF. A LinkedIn profile saved as PDF helps too</li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-8">Your data</h2>
+          <p class="font-sans text-base leading-relaxed">
+            Everything stays in one folder on your computer. The kit has no account, no server and no cloud storage. The only place your information goes is to Claude, during your conversation, under your own Claude plan.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mx-auto max-w-3xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-10">Questions</h2>
+        <dl class="space-y-8">
+          {faq.map((f) => (
+            <div>
+              <dt class="font-display text-xl tracking-tight">{f.q}</dt>
+              <dd class="font-sans text-base text-muted leading-relaxed mt-2">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="mx-auto max-w-3xl px-6 md:px-10 pb-32">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <p class="font-display text-3xl md:text-4xl leading-snug tracking-tight">
+          Your next application, written from what you’ve actually done.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+          {BUY_URL ? (
+            <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream">
+              Get Apply Kit
+            </a>
+          ) : (
+            <span class="inline-flex items-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
+              Coming soon
+            </span>
+          )}
+          <p class="font-sans text-sm text-muted">One-time purchase · {PRICE}</p>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .sheet {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgb(31 27 22 / 0.08), 0 14px 34px -10px rgb(31 27 22 / 0.22);
+    overflow: hidden;
+  }
+  .sheet :global(img) { display: block; width: 100%; height: auto; }
+
+  .fan { position: relative; aspect-ratio: 1 / 1.08; max-width: 34rem; margin-inline: auto; width: 100%; }
+  .fan .sheet { position: absolute; width: 62%; }
+  .fan .s1 { left: 0; top: 7%; transform: rotate(-6deg); }
+  .fan .s3 { right: 0; top: 9%; transform: rotate(6deg); }
+  .fan .s2 { left: 19%; top: 0; z-index: 2; }
+</style>

@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource-variable/fraunces/full-italic.css";
 @import "@fontsource-variable/source-sans-3";
 
 @theme {
@@ -13,6 +15,7 @@
 
   /* Typography */
   --font-display: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;
+  --font-fraunces: "Fraunces Variable", Georgia, serif;
   --font-sans: "Source Sans 3 Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
