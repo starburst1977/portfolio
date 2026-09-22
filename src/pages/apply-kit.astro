@@ -14,6 +14,36 @@ const BUY_URL = 'https://buy.polar.sh/polar_cl_NmROLmRsVNrLNKKkFgJAEBsBnHEwqMfQg
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pdf = (name: string) => `${base}/apply-kit/Lena_Hoffmann_${name}.pdf`;
 
+// Product structured data. Prices stay in sync with PRICE above by hand; both are set in Polar.
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Apply Kit for Claude',
+  description:
+    'A one-time-purchase kit that turns Claude Code into a careful application writer: honest fit checks, tailored CVs and cover letters in English and German, rendered as print-ready PDFs on your own computer.',
+  image: 'https://www.svenread.com/apply-kit/og.png',
+  url: 'https://www.svenread.com/apply-kit/',
+  brand: { '@type': 'Brand', name: 'Sven Read' },
+  offers: [
+    {
+      '@type': 'Offer',
+      price: '65',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: BUY_URL,
+      seller: { '@type': 'Person', name: 'Sven Read' },
+    },
+    {
+      '@type': 'Offer',
+      price: '75',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: BUY_URL,
+      seller: { '@type': 'Person', name: 'Sven Read' },
+    },
+  ],
+};
+
 // Sven's own search, counted from his applications tracker (Feb to Jun 2026).
 const proof = [
   { n: '89', label: 'applications' },
@@ -85,7 +115,10 @@ const faq = [
   lang="en"
   title="Apply Kit for Claude: tailored CVs and cover letters, nothing invented"
   description="Paste a job ad, get a tailored CV and cover letter as print-ready PDFs. Written from your confirmed experience, in English or German. Runs in Claude Code."
+  image="/apply-kit/og.png"
+  altLang={{ lang: 'de', href: `${base}/apply-kit/de` }}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(productLd)} />
   <article>
     <!-- Hero -->
     <section class="mx-auto max-w-6xl px-6 md:px-10 pt-32 md:pt-40 lg:pt-44 pb-16 md:pb-20">
@@ -111,6 +144,7 @@ const faq = [
             <a href="#examples" class="font-sans text-sm text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">See real examples</a>
           </div>
           <p class="font-sans text-sm text-muted mt-6">Runs in Claude Code · One-time purchase · {PRICE}</p>
+          <p class="font-sans text-sm text-muted mt-2"><a href={`${base}/apply-kit/de`} class="underline decoration-hairline underline-offset-4 hover:text-accent hover:decoration-accent" hreflang="de">Diese Seite auf Deutsch</a></p>
         </div>
 
         <div class="fan" aria-hidden="true">

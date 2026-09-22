@@ -5,13 +5,25 @@ interface Props {
   title: string;
   description?: string;
   lang?: 'en' | 'de';
+  /** Absolute or site-relative path to a social preview image (1200x675). */
+  image?: string;
+  /** Alternate-language version of this page, for hreflang. */
+  altLang?: { href: string; lang: 'en' | 'de' };
 }
 
 const {
   title,
-  description = 'Sven Read — Senior Product Designer. Complex B2B systems where clarity matters.',
+  description = 'Sven Read, Senior Product Designer. Complex B2B systems where clarity matters.',
   lang = 'en',
+  image,
+  altLang,
 } = Astro.props;
+
+// Canonical and social tags need absolute URLs. Hardcoded to the www host on purpose:
+// astro.config sets site to the apex domain, which currently does not resolve.
+const SITE = 'https://www.svenread.com';
+const canonical = new URL(Astro.url.pathname, SITE);
+const ogImage = image ? new URL(image, canonical) : undefined;
 
 // Strip trailing slash so concatenation works whether base is '/' or '/portfolio'.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -34,7 +46,28 @@ const navItems = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    {altLang && <link rel="alternate" hreflang={altLang.lang} href={new URL(altLang.href, canonical).href} />}
+    {altLang && <link rel="alternate" hreflang={lang} href={canonical.href} />}
     <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sven Read" />
+    <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    {ogImage && <meta property="og:image" content={ogImage.href} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="675" />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage.href} />}
+
+    <!-- Cookieless analytics. No cookies, no personal data, nothing shared with third parties
+         beyond Plausible itself (EU-hosted). Described in /datenschutz. -->
+    <script is:inline defer data-domain="svenread.com" src="https://plausible.io/js/script.js"></script>
   </head>
   <body class="bg-cream text-ink font-sans">
     <header class="bg-linear-to-b from-zinc-900 via-zinc-800 to-zinc-700 border-b border-black text-cream">
