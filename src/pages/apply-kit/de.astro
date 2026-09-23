@@ -9,7 +9,8 @@ import portrait from '../../assets/portrait-about.jpeg';
 
 // German version of /apply-kit. Same product, same numbers, German market wording.
 const PRICE = '65 €';
-const BUY_URL = 'https://buy.polar.sh/polar_cl_NmROLmRsVNrLNKKkFgJAEBsBnHEwqMfQgLxwi3gB17Y';
+// German checkout link: returns to /apply-kit/de/, succeeds to /apply-kit/de/thanks/.
+const BUY_URL = 'https://buy.polar.sh/polar_cl_oy5ZBeS71ub3jzTs6Hfl86JcHbQhbn0Wo7OZn4QHc1s';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pdf = (name: string) => `${base}/apply-kit/Lena_Hoffmann_${name}.pdf`;
