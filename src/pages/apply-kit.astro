@@ -133,7 +133,7 @@ const faq = [
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
             {BUY_URL ? (
-              <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream">
+              <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
                 Get Apply Kit
               </a>
             ) : (
@@ -262,7 +262,7 @@ const faq = [
         </p>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {examples.map((e) => (
-            <a href={pdf(e.file)} class="group block" target="_blank" rel="noopener">
+            <a href={pdf(e.file)} class="group block plausible-event-name=Example+PDF" target="_blank" rel="noopener">
               <div class="sheet transition-transform duration-300 group-hover:-translate-y-1">
                 <Image src={e.img} alt={`${e.title}: ${e.note}`} widths={[300, 500]} sizes="(max-width: 1024px) 45vw, 260px" />
               </div>
@@ -318,7 +318,7 @@ const faq = [
         </p>
         <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
           {BUY_URL ? (
-            <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream">
+            <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
               Get Apply Kit
             </a>
           ) : (

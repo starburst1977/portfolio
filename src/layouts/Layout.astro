@@ -9,6 +9,8 @@ interface Props {
   image?: string;
   /** Alternate-language version of this page, for hreflang. */
   altLang?: { href: string; lang: 'en' | 'de' };
+  /** Keep the page out of search results (e.g. the post-purchase thank-you page). */
+  noindex?: boolean;
 }
 
 const {
@@ -17,6 +19,7 @@ const {
   lang = 'en',
   image,
   altLang,
+  noindex = false,
 } = Astro.props;
 
 // Canonical and social tags need absolute URLs. Hardcoded to the www host on purpose:
@@ -46,6 +49,7 @@ const navItems = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical.href} />
     {altLang && <link rel="alternate" hreflang={altLang.lang} href={new URL(altLang.href, canonical).href} />}
     {altLang && <link rel="alternate" hreflang={lang} href={canonical.href} />}
