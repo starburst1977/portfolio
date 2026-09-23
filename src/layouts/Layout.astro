@@ -67,7 +67,11 @@ const navItems = [
 
     <!-- Cookieless analytics. No cookies, no personal data, nothing shared with third parties
          beyond Plausible itself (EU-hosted). Described in /datenschutz. -->
-    <script is:inline defer data-domain="svenread.com" src="https://plausible.io/js/script.js"></script>
+    <script is:inline async src="https://plausible.io/js/pa-ow4h9xTWPiHUyFcG6KXkR.js"></script>
+    <script is:inline>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
   </head>
   <body class="bg-cream text-ink font-sans">
     <header class="bg-linear-to-b from-zinc-900 via-zinc-800 to-zinc-700 border-b border-black text-cream">
