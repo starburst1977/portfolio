@@ -59,19 +59,11 @@ const proof = [
   { n: '7', label: 'interviews landed', accent: true },
 ];
 
-const steps = [
-  {
-    title: 'Set up once, in 15 minutes',
-    body: 'Claude reads your old CV and your LinkedIn profile, lays your career out as one timeline and asks about everything that doesn’t add up between them. It asks what you’re aiming for and sets up your letterhead. You finish with your first CV as a PDF.',
-  },
-  {
-    title: 'Paste a job ad',
-    body: 'Claude tells you how well it fits, honestly: what matches, what’s missing, and whether the role sits below or above what you’re aiming for. Including when the answer is “not worth your time”.',
-  },
-  {
-    title: 'Get the PDFs',
-    body: 'A CV and a cover letter written for that job, in its language, from your confirmed facts only. Every number is checked against your profile before the PDF is made.',
-  },
+// Illustrated three steps under the hero. Images in public/apply-kit/steps/.
+const flow = [
+  { title: 'Unzip it, add your CV', body: 'Put the kit folder anywhere on your computer and drop your current CV into its inbox folder. A LinkedIn profile saved as PDF helps too.' },
+  { title: 'Open it in Claude, set up once', body: 'In the Claude desktop app, switch to Code and open the folder. In about 15 minutes Claude lays your career out as one timeline and asks about anything that doesn’t add up.' },
+  { title: 'Paste a job ad, get the PDFs', body: 'Claude tells you honestly how well it fits, then writes a CV and cover letter from your confirmed facts only. Every number is checked before the PDF is made.' },
 ];
 
 const promises = [
@@ -180,6 +172,21 @@ const faq = [
       </div>
     </section>
 
+    <!-- Three steps, illustrated -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted text-center mb-10 md:mb-12">How it works</h2>
+      <ol class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+        {flow.map((f, i) => (
+          <li class="text-center">
+            <img src={`${base}/apply-kit/steps/step-${i + 1}.svg`} alt="" width="320" height="240" loading="lazy" class="w-full max-w-[14rem] md:max-w-[20rem] h-auto mx-auto" />
+            <p class="font-fraunces text-2xl text-accent leading-none mt-4">{String(i + 1).padStart(2, '0')}</p>
+            <p class="font-display text-xl tracking-tight mt-2">{f.title}</p>
+            <p class="font-sans text-base text-muted leading-relaxed mt-1 max-w-[20rem] mx-auto">{f.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
     <!-- Proof: the real search, front and centre -->
     <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
       <div class="border-t border-hairline pt-12 md:pt-16">
@@ -211,22 +218,6 @@ const faq = [
           <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 rounded-full object-cover" />
           <p class="font-sans text-sm text-muted"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a>, product designer near Munich</p>
         </div>
-      </div>
-    </section>
-
-    <!-- How it works -->
-    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
-      <div class="border-t border-hairline pt-12 md:pt-16">
-        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-12">How it works</h2>
-        <ol class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10">
-          {steps.map((s, i) => (
-            <li>
-              <p class="font-fraunces text-6xl md:text-7xl text-accent leading-none tracking-tight">{String(i + 1).padStart(2, '0')}</p>
-              <h3 class="font-display text-2xl tracking-tight mt-6">{s.title}</h3>
-              <p class="font-sans text-base text-muted leading-relaxed mt-3">{s.body}</p>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
 

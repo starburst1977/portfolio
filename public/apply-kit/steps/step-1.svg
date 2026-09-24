@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="t1">
+  <title id="t1">Unzip the kit on your computer and drop your CV into its folder</title>
+  <!-- laptop -->
+  <rect x="62" y="74" width="196" height="128" rx="10" fill="#fff" stroke="#1F1B16" stroke-width="2.5"/>
+  <rect x="74" y="86" width="172" height="104" rx="4" fill="#F8F4ED"/>
+  <path d="M38 202h244l-10 14H48z" fill="#E5DDD0" stroke="#1F1B16" stroke-width="2.5"/>
+  <path d="M142 209h36" stroke="#1F1B16" stroke-width="2"/>
+  <!-- folder on screen -->
+  <path d="M116 112a5 5 0 0 1 5-5h24l8 8h46a5 5 0 0 1 5 5v8h-88z" fill="#B85C38" stroke="#1F1B16" stroke-width="2.5"/>
+  <rect x="116" y="124" width="88" height="54" rx="5" fill="#EBC7B2" stroke="#1F1B16" stroke-width="2.5"/>
+  <path d="M146 150h28" stroke="#1F1B16" stroke-width="2.5"/>
+  <!-- CV sheet dropping in -->
+  <g transform="rotate(-14 222 44)">
+    <rect x="198" y="14" width="48" height="62" rx="3" fill="#fff" stroke="#1F1B16" stroke-width="2.5"/>
+    <path d="M208 26h16" stroke="#B85C38" stroke-width="3"/>
+    <path d="M208 36h28M208 44h24M208 52h28M208 60h18" stroke="#6B635A" stroke-width="2"/>
+  </g>
+  <path d="M196 84c-8 6-14 14-17 24" stroke="#B85C38" stroke-width="2.5" stroke-dasharray="1 7"/>
+  <path d="M174 102l5 7 6-6" stroke="#B85C38" stroke-width="2.5"/>
+  <!-- sparkles -->
+  <path d="M84 40v14M77 47h14" stroke="#B85C38" stroke-width="2.5"/>
+  <path d="M276 106v10M271 111h10" stroke="#1F1B16" stroke-width="2"/>
+  <circle cx="108" cy="58" r="3" fill="#E5DDD0"/>
+</svg>

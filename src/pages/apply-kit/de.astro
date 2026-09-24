@@ -51,19 +51,11 @@ const proof = [
   { n: '7', label: 'Einladungen zum Gespräch', accent: true },
 ];
 
-const steps = [
-  {
-    title: 'Einmal einrichten, in 15 Minuten',
-    body: 'Claude liest Ihren alten Lebenslauf und Ihr LinkedIn-Profil, legt Ihren Werdegang als eine Zeitleiste an und fragt alles nach, was zwischen den Quellen nicht zusammenpasst. Dazu Ihre Ziele und Ihr Briefkopf. Am Ende steht Ihr erster Lebenslauf als PDF.',
-  },
-  {
-    title: 'Stellenanzeige einfügen',
-    body: 'Claude sagt Ihnen ehrlich, wie gut die Stelle passt: was übereinstimmt, was fehlt und ob die Rolle unter oder über Ihrem Ziel liegt. Auch dann, wenn die Antwort lautet: nicht Ihre Zeit wert.',
-  },
-  {
-    title: 'PDFs bekommen',
-    body: 'Lebenslauf und Anschreiben für genau diese Stelle, in der Sprache der Anzeige, ausschließlich aus Ihren bestätigten Fakten. Jede Zahl wird vor dem PDF gegen Ihr Profil geprüft.',
-  },
+// Drei Schritte, illustriert, unter dem Hero. Bilder in public/apply-kit/steps/.
+const flow = [
+  { title: 'Entpacken, Lebenslauf dazu', body: 'Den Kit-Ordner irgendwo auf Ihrem Rechner ablegen und Ihren aktuellen Lebenslauf in den Ordner inbox legen. Ein als PDF gespeichertes LinkedIn-Profil hilft zusätzlich.' },
+  { title: 'In Claude öffnen, einmal einrichten', body: 'In der Claude-Desktop-App auf Code wechseln und den Ordner öffnen. In etwa 15 Minuten legt Claude Ihren Werdegang als eine Zeitleiste an und fragt nach, was nicht zusammenpasst.' },
+  { title: 'Anzeige einfügen, PDFs bekommen', body: 'Claude sagt Ihnen ehrlich, wie gut die Stelle passt, und schreibt dann Lebenslauf und Anschreiben ausschließlich aus Ihren bestätigten Fakten. Jede Zahl wird vor dem PDF geprüft.' },
 ];
 
 const promises = [
@@ -172,6 +164,21 @@ const faq = [
       </div>
     </section>
 
+    <!-- Three steps, illustrated -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted text-center mb-10 md:mb-12">So läuft es ab</h2>
+      <ol class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+        {flow.map((f, i) => (
+          <li class="text-center">
+            <img src={`${base}/apply-kit/steps/step-${i + 1}.svg`} alt="" width="320" height="240" loading="lazy" class="w-full max-w-[14rem] md:max-w-[20rem] h-auto mx-auto" />
+            <p class="font-fraunces text-2xl text-accent leading-none mt-4">{String(i + 1).padStart(2, '0')}</p>
+            <p class="font-display text-xl tracking-tight mt-2">{f.title}</p>
+            <p class="font-sans text-base text-muted leading-relaxed mt-1 max-w-[20rem] mx-auto">{f.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
     <!-- Zahlen -->
     <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
       <div class="border-t border-hairline pt-12 md:pt-16">
@@ -203,22 +210,6 @@ const faq = [
           <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 rounded-full object-cover" />
           <p class="font-sans text-sm text-muted"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a>, Produktdesigner bei München</p>
         </div>
-      </div>
-    </section>
-
-    <!-- Ablauf -->
-    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
-      <div class="border-t border-hairline pt-12 md:pt-16">
-        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-12">So läuft es ab</h2>
-        <ol class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10">
-          {steps.map((s, i) => (
-            <li>
-              <p class="font-fraunces text-6xl md:text-7xl text-accent leading-none tracking-tight">{String(i + 1).padStart(2, '0')}</p>
-              <h3 class="font-display text-2xl tracking-tight mt-6">{s.title}</h3>
-              <p class="font-sans text-base text-muted leading-relaxed mt-3">{s.body}</p>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
 
