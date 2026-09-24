@@ -6,6 +6,10 @@ import letterEn from '../../assets/apply-kit/letter-en.png';
 import cvDe from '../../assets/apply-kit/cv-de.png';
 import letterDe from '../../assets/apply-kit/letter-de.png';
 import portrait from '../../assets/portrait-about.jpeg';
+import layoutClassic from '../../assets/apply-kit/layout-classic.png';
+import layoutModern from '../../assets/apply-kit/layout-modern.png';
+import layoutCompact from '../../assets/apply-kit/layout-compact.png';
+import layoutDin from '../../assets/apply-kit/layout-din5008.png';
 
 // German version of /apply-kit. Same product, same numbers, German market wording.
 const PRICE = '65 €';
@@ -13,6 +17,8 @@ const PRICE = '65 €';
 const BUY_URL = 'https://buy.polar.sh/polar_cl_oy5ZBeS71ub3jzTs6Hfl86JcHbQhbn0Wo7OZn4QHc1s';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Phone visitors can't use the kit on the spot; this lets them send the page to themselves.
+const MAIL_LATER = 'mailto:?subject=Apply%20Kit%20for%20Claude&body=Sp%C3%A4ter%20am%20Rechner%20anschauen%3A%20https%3A//www.svenread.com/apply-kit/de/%3Futm_source%3Demail-later';
 const pdf = (name: string) => `${base}/apply-kit/Lena_Hoffmann_${name}.pdf`;
 
 const productLd = {
@@ -66,6 +72,14 @@ const promises = [
   { title: 'Anschreiben auf einer Seite', body: 'Etwas zu lange Anschreiben werden automatisch auf eine Seite gebracht. Bei deutlich zu langen gibt es eine klare Warnung.' },
   { title: 'PDFs, die überall funktionieren', body: 'Echter, markierbarer Text, den Bewerbungssysteme lesen können, und dasselbe Ergebnis auf jedem Rechner und Drucker.' },
   { title: 'Deutsch und Englisch', body: 'Mit deutschen Konventionen: Anschreiben mit Empfänger, Ort, Datum und Betreff, passende Anrede und Grußformel, deutsche Anführungszeichen und Datumsformate.' },
+  { title: 'Vier Layouts', body: 'Classic, Modern, Compact und DIN 5008 für förmliche deutsche Anschreiben. Jederzeit wechselbar, die Fakten bleiben dieselben.' },
+];
+
+const layouts = [
+  { img: layoutClassic, title: 'Classic', note: 'Serifenschrift, zentriert. Die Voreinstellung.' },
+  { img: layoutModern, title: 'Modern', note: 'Serifenlos, linksbündig, ruhige Überschriften.' },
+  { img: layoutCompact, title: 'Compact', note: 'Dichter gesetzt, damit ein langer Werdegang auf zwei Seiten passt.' },
+  { img: layoutDin, title: 'DIN 5008', note: 'Förmlicher Geschäftsbrief, passend für Fensterumschläge.' },
 ];
 
 const examples = [
@@ -79,6 +93,10 @@ const faq = [
   {
     q: 'Funktioniert das im normalen Claude-Chat?',
     a: 'Nein. Es braucht Claude Code, das in der Claude-Desktop-App enthalten ist, weil die PDFs auf Ihrem Rechner entstehen. Sie brauchen einen Claude-Tarif, der Claude Code enthält.',
+  },
+  {
+    q: 'Und wenn es bei mir nicht funktioniert?',
+    a: 'Läuft das Kit auf Ihrem Rechner nicht, schreiben Sie innerhalb von 30 Tagen an me@svenread.com und Sie bekommen Ihr Geld zurück. Vorher helfe ich Ihnen gern, es zum Laufen zu bringen.',
   },
   {
     q: 'Ist das ein Abo?',
@@ -137,7 +155,12 @@ const faq = [
             )}
             <a href="#beispiele" class="font-sans text-sm text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">Echte Beispiele ansehen</a>
           </div>
-          <p class="font-sans text-sm text-muted mt-6">Läuft in Claude Code · Einmalkauf · {PRICE} inkl. MwSt.</p>
+          <p class="font-sans text-sm text-ink mt-6">Läuft auf Ihrem Rechner, in der Claude-Desktop-App mit Claude Code.</p>
+          <p class="font-sans text-sm text-muted mt-1">Einmalkauf · {PRICE} inkl. MwSt. · Geld zurück, wenn es auf Ihrem Rechner nicht läuft</p>
+          <div class="lg:hidden mt-6 rounded-2xl border border-hairline bg-white/60 p-5">
+            <p class="font-sans text-sm text-ink leading-relaxed">Gerade am Handy? Apply Kit braucht einen Rechner. Schicken Sie sich den Link und schauen Sie ihn später in Ruhe am Schreibtisch an.</p>
+            <a href={MAIL_LATER} class="mt-3 inline-flex items-center rounded-full border border-ink px-5 py-2.5 font-sans text-sm font-semibold text-ink hover:border-accent hover:text-accent plausible-event-name=Email+Later">Link per E-Mail schicken</a>
+          </div>
           <p class="font-sans text-sm text-muted mt-2"><a href={`${base}/apply-kit`} class="underline decoration-hairline underline-offset-4 hover:text-accent hover:decoration-accent" hreflang="en">Read this page in English</a></p>
         </div>
 
@@ -269,6 +292,23 @@ const faq = [
       </div>
     </section>
 
+    <!-- Layouts -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">Vier Layouts</h2>
+        <p class="font-sans text-base text-muted leading-relaxed max-w-2xl mb-12">Dieselben Fakten, vier Looks. Sie wählen beim Einrichten, wechseln jederzeit oder nehmen für ein einzelnes Dokument ein anderes, etwa ein Anschreiben nach DIN 5008 zum Lebenslauf in Modern.</p>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {layouts.map((l) => (
+            <div>
+              <div class="sheet"><Image src={l.img} alt={`${l.title}: ${l.note}`} widths={[300, 500]} sizes="(max-width: 1024px) 45vw, 260px" /></div>
+              <p class="font-display text-lg mt-4">{l.title}</p>
+              <p class="font-sans text-sm text-muted">{l.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- Voraussetzungen + Daten -->
     <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
       <div class="border-t border-hairline pt-12 md:pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -320,7 +360,7 @@ const faq = [
               Demnächst
             </span>
           )}
-          <p class="font-sans text-sm text-muted">Einmalkauf · {PRICE} inkl. MwSt.</p>
+          <p class="font-sans text-sm text-muted">Einmalkauf · {PRICE} inkl. MwSt. · Geld zurück, wenn es auf Ihrem Rechner nicht läuft</p>
         </div>
       </div>
     </section>
