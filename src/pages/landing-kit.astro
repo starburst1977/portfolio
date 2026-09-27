@@ -1,0 +1,384 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait-about.jpeg';
+import sheetHeroDark from '../assets/landing-kit/sheet-hero-dark.png';
+import sheetBento from '../assets/landing-kit/sheet-bento.png';
+import sheetPricing from '../assets/landing-kit/sheet-pricing.png';
+import insideHeroes from '../assets/landing-kit/inside-heroes.png';
+import insideSocial from '../assets/landing-kit/inside-social-proof.png';
+import insideCtas from '../assets/landing-kit/inside-ctas-footers.png';
+import insideTokens from '../assets/landing-kit/inside-tokens.png';
+
+// Set these once the listing exists. With no link, the buttons read "Coming soon".
+const PRICE = '€19 or $25';
+const BUY_URL = 'https://buy.polar.sh/polar_cl_be4fFfbhrSUlmebXvC4rTIyXyzc4kXVrQ2HPN405zA2';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Phone visitors can't use the kit on the spot; this lets them send the page to themselves.
+const MAIL_LATER = 'mailto:?subject=LandingKit%20for%20pen.dev&body=To%20look%20at%20on%20my%20computer%3A%20https%3A//www.svenread.com/landing-kit/%3Futm_source%3Demail-later';
+
+// Product structured data. Prices stay in sync with PRICE above by hand; both are set in Polar.
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'LandingKit for pen.dev',
+  description:
+    'A pen.dev design system for landing pages: shadcn/ui tokens, 53 primitives and 46 landing page blocks for desktop and mobile, in light and dark.',
+  image: 'https://www.svenread.com/landing-kit/og.png',
+  url: 'https://www.svenread.com/landing-kit/',
+  brand: { '@type': 'Brand', name: 'Sven Read' },
+  offers: [
+    {
+      '@type': 'Offer',
+      price: '19',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: BUY_URL,
+      seller: { '@type': 'Person', name: 'Sven Read' },
+    },
+    {
+      '@type': 'Offer',
+      price: '25',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: BUY_URL,
+      seller: { '@type': 'Person', name: 'Sven Read' },
+    },
+  ],
+};
+
+// Lucide icon paths (ISC licence), drawn inline so the page needs no icon package.
+const icons = {
+  library: '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>',
+  palette:
+    '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
+  layout: '<rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/>',
+};
+
+const flow = [
+  { icon: icons.library, title: 'Add it as a design system', body: 'Add LandingKit to pen.dev as a design system. From then on it’s there as the starting point for every new page.' },
+  { icon: icons.palette, title: 'Set your brand once', body: 'Change the brand colour, two fonts and the logo. All 99 components follow, in light and dark.' },
+  { icon: icons.layout, title: 'Stack blocks into a page', body: 'Pick a navbar, a hero, proof and pricing. Flip any section dark with one setting, then hand it to code.' },
+];
+
+const proof = [
+  { n: '53', label: 'primitives' },
+  { n: '63', label: 'design tokens' },
+  { n: '2', label: 'themes, light and dark' },
+  { n: '7', label: 'mobile layouts' },
+  { n: '46', label: 'landing page blocks', accent: true },
+];
+
+// Previews are the untouched kit, before any re-theming.
+const inside = [
+  { img: insideHeroes, title: 'Heroes', short: '6 layouts', note: '6 layouts, from centered product shots to a full-bleed photo' },
+  { img: sheetBento, title: 'Features', short: '8 layouts', note: '8 layouts, including a bento grid and alternating splits' },
+  { img: insideSocial, title: 'Social proof', short: '9 layouts', note: '9 layouts: logo strips, stats, quotes and a wall of love' },
+  { img: sheetPricing, title: 'Pricing and FAQ', short: '4 layouts', note: 'Three tiers, a comparison table and two FAQ styles' },
+  { img: insideCtas, title: 'Calls to action and footers', short: '8 layouts', note: '4 closing CTAs, a newsletter and 3 footers' },
+  { img: insideTokens, title: 'Tokens', short: '63 variables', note: '63 variables in light and dark, named like shadcn/ui' },
+];
+
+const promises = [
+  { title: 'Tokens, not hard-coded colours', body: 'Every colour, size and radius is a variable. Change the brand once and all 99 components follow.' },
+  { title: 'Light and dark from one set', body: 'Set any section to dark mode and it inverts cleanly, without a second set of components.' },
+  { title: 'Contrast checked', body: 'Every text colour pair meets WCAG AA in both themes. Form fields have visible borders and real labels.' },
+  { title: 'Mobile included', body: '390px versions of the navbar, hero, features, pricing, FAQ, call to action and footer, with 44px touch targets.' },
+  { title: 'Ready for code', body: 'Token names match Tailwind v4 and shadcn/ui, so a developer can rebuild any block without guessing.' },
+  { title: 'A complete example', body: 'A full SaaS page, desktop and mobile, built only from the kit’s blocks. Copy it and start editing.' },
+];
+
+const included = [
+  'The full library: 53 primitives and 46 blocks',
+  'Light and dark themes, desktop and mobile',
+  'All 1.x updates',
+  'Commercial use, including client projects',
+];
+
+const needs = [
+  'The pen.dev desktop app. It’s free for now',
+  'Your brand colour, two fonts and a logo',
+  'Optional: a Tailwind v4 and shadcn/ui project, if you build the page in code',
+];
+
+const faq = [
+  { q: 'Is this a Figma file?', a: 'No. It’s a pen.dev library, a .lib.pen file. pen.dev can export pages as HTML with Tailwind, and the token names match shadcn/ui.' },
+  { q: 'Does it include code?', a: 'No React components. The tokens are named like Tailwind v4 and shadcn/ui variables, so each block rebuilds quickly with shadcn.' },
+  { q: 'Can I use it for client work?', a: 'Yes, the licence covers client projects. You can’t resell or share the kit itself.' },
+  { q: 'What if it doesn’t work for me?', a: 'If the kit doesn’t open in pen.dev, email me@svenread.com within 30 days and you get your money back. Before that, I’ll happily help you get it running.' },
+  { q: 'Is it a subscription?', a: 'No. You pay once and keep the file. Updates within version 1 are included.' },
+  { q: 'Does it work with pen.dev’s AI?', a: 'Yes. Ask it to build a page from the kit’s blocks. That’s how this page was made.' },
+];
+
+// Small accent text uses a deeper terracotta: accent (#B85C38) is 4.14:1 on cream,
+// fine for large headings, short of 4.5:1 for small text. #A34F2F is 5.15:1.
+const accentSmall = 'text-[#A34F2F]';
+---
+
+<Layout
+  lang="en"
+  title="LandingKit for pen.dev: 46 landing page blocks on shadcn/ui tokens"
+  description="A pen.dev design system for landing pages: shadcn/ui tokens, 53 primitives and 46 blocks for desktop and mobile. Set your brand once and every block follows."
+  ogTitle="Build a landing page from 46 finished blocks"
+  ogDescription="LandingKit is a pen.dev design system with shadcn/ui tokens, light and dark themes and mobile layouts. One-time purchase."
+  image="/landing-kit/og.png"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(productLd)} />
+  <article>
+    <!-- Hero -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pt-14 md:pt-24 lg:pt-28 pb-16 md:pb-20">
+      <p class:list={['font-sans text-xs font-semibold uppercase tracking-[0.2em] mb-6', accentSmall]}>LandingKit for pen.dev</p>
+      <h1 class="font-display text-[2.7rem] md:text-7xl lg:text-[5.5rem] leading-[1.04] tracking-tight max-w-5xl">
+        Build a landing page from 46 finished blocks.
+        <span class="block text-accent">Not from a blank frame.</span>
+      </h1>
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-14 lg:gap-20 items-center mt-10 md:mt-16">
+        <div>
+          <p class="font-display text-2xl md:text-3xl text-ink leading-snug">
+            LandingKit is a pen.dev design system: shadcn/ui tokens, 53 primitives and 46 landing page blocks for desktop and mobile. Set your brand once and every block follows.
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+            {BUY_URL ? (
+              <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
+                Get LandingKit
+              </a>
+            ) : (
+              <span class="inline-flex items-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
+                Coming soon
+              </span>
+            )}
+            <a href="#inside" class="font-sans text-sm text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">See what’s inside</a>
+          </div>
+          <p class="font-sans text-sm text-ink mt-6">Opens in pen.dev as a library. Token names match Tailwind v4 and shadcn/ui.</p>
+          <p class="font-sans text-sm text-muted mt-1">One-time purchase · {PRICE} · Money back if it doesn’t open in pen.dev</p>
+          <div class="lg:hidden mt-6 rounded-2xl border border-hairline bg-white/60 p-5">
+            <p class="font-sans text-sm text-ink leading-relaxed">On your phone? LandingKit runs in pen.dev on a computer. Send yourself the link and look at it later at your desk.</p>
+            <a href={MAIL_LATER} class="mt-3 inline-flex items-center rounded-full border border-ink px-5 py-2.5 font-sans text-sm font-semibold text-ink hover:border-accent hover:text-accent plausible-event-name=Email+Later">Email me the link</a>
+          </div>
+        </div>
+
+        <div class="fan" aria-hidden="true">
+          <div class="sheet s-bento"><Image src={sheetBento} alt="" widths={[420, 760]} sizes="(max-width: 1024px) 70vw, 400px" /></div>
+          <div class="sheet s-pricing"><Image src={sheetPricing} alt="" widths={[420, 760]} sizes="(max-width: 1024px) 70vw, 400px" /></div>
+          <div class="sheet s-hero"><Image src={sheetHeroDark} alt="" widths={[440, 800]} sizes="(max-width: 1024px) 75vw, 420px" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted text-center mb-10 md:mb-12">How it works</h2>
+      <ol class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+        {flow.map((f, i) => (
+          <li class="text-center">
+            <span class="mx-auto flex size-[4.25rem] md:size-[5.25rem] items-center justify-center rounded-[1.25rem] border border-hairline bg-white/60 text-accent shadow-[0_1px_2px_rgb(31_27_22/0.05)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-7 md:size-9" aria-hidden="true" set:html={f.icon} />
+            </span>
+            <p class="font-fraunces text-2xl text-accent leading-none mt-4">{String(i + 1).padStart(2, '0')}</p>
+            <p class="font-display text-xl tracking-tight mt-2">{f.title}</p>
+            <p class="font-sans text-base text-muted leading-relaxed mt-1 max-w-[20rem] mx-auto">{f.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Numbers -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-10">What’s in the file</h2>
+        <dl class="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-10">
+          {proof.map((p) => (
+            <div>
+              <dt class:list={['font-fraunces text-6xl md:text-7xl leading-none tracking-tight', p.accent ? 'text-accent' : 'text-ink']}>{p.n}</dt>
+              <dd class="font-sans text-sm text-muted mt-3 leading-snug">{p.label}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Why -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-10">Why it exists</h2>
+        <div class="relative px-2 md:px-16 py-10 md:py-14">
+          <span aria-hidden="true" class="font-fraunces text-accent text-[7rem] md:text-[10rem] leading-none absolute -top-6 -left-2 md:-top-8 md:-left-4 select-none">&ldquo;</span>
+          <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+            <p class="font-display text-2xl md:text-3xl leading-snug">I was fed up with the two usual options: buying a landing page template and spending days bending it to fit, or building every page from scratch. Both took far too long.</p>
+            <p class="text-lg text-muted leading-relaxed md:pt-1.5">So I collected the sections that keep working on the best SaaS sites, from centred heroes and bento grids to pricing tables and FAQs, and rebuilt them as one system on shadcn/ui tokens, with every text colour checked for contrast. Now a new page starts with picking blocks and setting my brand, not with a blank frame. The page you’re reading is the kit’s first real test: it was assembled from LandingKit blocks and re-themed with my own colours and fonts.</p>
+          </div>
+          <span aria-hidden="true" class="font-fraunces text-accent text-[7rem] md:text-[10rem] leading-none absolute -bottom-16 right-0 md:-bottom-20 md:-right-2 select-none">&rdquo;</span>
+        </div>
+        <div class="flex items-center gap-4 mt-10 md:pl-16">
+          <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 rounded-full object-cover" />
+          <p class="font-sans text-sm text-muted"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a>, product designer near Munich</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What's inside -->
+    <section id="inside" class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28 scroll-mt-24">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">What’s inside</h2>
+        <p class="font-sans text-base text-muted leading-relaxed max-w-2xl mb-12">
+          Every block is a component you drop in and edit. The previews below are the untouched kit, before re-theming. Four navigation bars and seven mobile layouts come with it too.
+        </p>
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
+          {inside.map((e) => (
+            <figure>
+              <div class="thumb"><Image src={e.img} alt={`${e.title}: ${e.note}`} widths={[360, 720]} sizes="(max-width: 1024px) 45vw, 360px" /></div>
+              <figcaption class="mt-3 md:mt-4">
+                <span class="block font-display text-lg md:text-xl leading-snug">{e.title}</span>
+                <span class="block font-sans text-sm text-muted leading-snug mt-0.5"><span class="lg:hidden">{e.short}</span><span class="hidden lg:inline">{e.note}</span></span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Promises -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-12">What it promises</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+          {promises.map((p) => (
+            <div>
+              <dt class="font-display text-xl md:text-2xl tracking-tight">{p.title}</dt>
+              <dd class="font-sans text-base text-muted leading-relaxed mt-2">{p.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-10">Pricing</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_29rem] gap-10 lg:gap-20 items-start">
+          <div class="lg:pt-2">
+            <p class="font-display text-3xl md:text-4xl leading-tight tracking-tight">One purchase. Yours to keep.</p>
+            <p class="font-sans text-base md:text-lg text-muted leading-relaxed mt-5">One price for the whole kit: every primitive, every block, both themes and the mobile layouts. No tiers, no subscription.</p>
+            <p class="font-sans text-sm text-muted leading-relaxed mt-5">Secure checkout with Polar. Money back within 30 days if the kit doesn’t open in pen.dev.</p>
+          </div>
+          <div class="rounded-[1.25rem] border border-hairline bg-white/60 p-6 md:p-8">
+            <p class="font-display text-2xl">LandingKit</p>
+            <p class="font-sans text-sm text-muted mt-2">For your own products and client work.</p>
+            <p class="mt-6 flex items-baseline gap-2">
+              <span class="font-fraunces text-5xl leading-none tracking-tight">€19</span>
+              <span class="font-sans text-sm text-muted">one-time, or $25</span>
+            </p>
+            {BUY_URL ? (
+              <a href={BUY_URL} class="mt-6 flex w-full items-center justify-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
+                Get LandingKit
+              </a>
+            ) : (
+              <span class="mt-6 flex w-full items-center justify-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
+                Coming soon
+              </span>
+            )}
+            <ul class="mt-6 border-t border-hairline pt-6 space-y-3">
+              {included.map((item) => (
+                <li class="flex items-start gap-3 font-sans text-sm leading-snug">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Needs + licence -->
+    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-8">What you need</h2>
+          <ul class="space-y-3 font-sans text-base leading-relaxed">
+            {needs.map((n) => (
+              <li class="pl-6 relative before:content-['—'] before:absolute before:left-0 before:text-accent">{n}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-8">The licence</h2>
+          <p class="font-sans text-base leading-relaxed">
+            Use LandingKit for your own products and for client work, as often as you like. The pages you make are yours. Please don’t resell the kit itself or share the library file publicly.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mx-auto max-w-4xl px-6 md:px-10 pb-20 md:pb-28">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-fraunces italic [font-variation-settings:'WONK'_1] text-4xl md:text-5xl leading-tight tracking-tight text-accent mb-10">Questions</h2>
+        <div class="border-t border-hairline">
+          {faq.map((f, i) => (
+            <details class="faq group border-b border-hairline" open={i === 0}>
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-xl tracking-tight hover:text-accent">
+                {f.q}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+              </summary>
+              <p class="font-sans text-base text-muted leading-relaxed pb-5 max-w-2xl">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="mx-auto max-w-4xl px-6 md:px-10 pb-32">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <p class="font-display text-3xl md:text-4xl leading-snug tracking-tight max-w-[40rem]">
+          Your next landing page, started from finished blocks.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+          {BUY_URL ? (
+            <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
+              Get LandingKit
+            </a>
+          ) : (
+            <span class="inline-flex items-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
+              Coming soon
+            </span>
+          )}
+          <p class="font-sans text-sm text-muted">One-time purchase · {PRICE} · Money back if it doesn’t open in pen.dev</p>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .sheet {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px rgb(31 27 22 / 0.1), 0 1px 2px rgb(31 27 22 / 0.08), 0 14px 34px -10px rgb(31 27 22 / 0.22);
+    overflow: hidden;
+  }
+  .sheet :global(img) { display: block; width: 100%; height: auto; }
+
+  /* Gallery previews: fixed ratio, cropped from the centre like the design's image fill. */
+  .thumb {
+    aspect-ratio: 157 / 100;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgb(31 27 22 / 0.1), 0 1px 2px rgb(31 27 22 / 0.08), 0 14px 30px -10px rgb(31 27 22 / 0.2);
+  }
+  .thumb :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Three landscape screenshots, overlapping like the design's fan. Rotation pivots on the
+     top-left corner, as on the canvas. */
+  .fan { position: relative; aspect-ratio: 540 / 470; max-width: 34rem; margin-inline: auto; width: 100%; }
+  .fan .sheet { position: absolute; transform-origin: top left; }
+  .fan .s-bento { left: 0; top: 15%; width: 70%; transform: rotate(-4deg); }
+  .fan .s-pricing { left: 27%; top: 25.5%; width: 70%; transform: rotate(5deg); }
+  .fan .s-hero { left: 13%; top: 2%; width: 74%; z-index: 2; }
+
+  .faq summary::-webkit-details-marker { display: none; }
+</style>
