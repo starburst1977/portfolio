@@ -6,15 +6,11 @@ import letterEn from '../../assets/apply-kit/letter-en.png';
 import cvDe from '../../assets/apply-kit/cv-de.png';
 import letterDe from '../../assets/apply-kit/letter-de.png';
 import portrait from '../../assets/portrait-about.jpeg';
-import layoutClassic from '../../assets/apply-kit/layout-classic.png';
-import layoutModern from '../../assets/apply-kit/layout-modern.png';
-import layoutCompact from '../../assets/apply-kit/layout-compact.png';
-import layoutDin from '../../assets/apply-kit/layout-din5008.png';
 
 // German version of /apply-kit. Same product, same numbers, German market wording.
-const PRICE = '65 €';
+const PRICE = 'Kostenlos, Open Source (MIT)';
 // German checkout link: returns to /apply-kit/de/, succeeds to /apply-kit/de/thanks/.
-const BUY_URL = 'https://buy.polar.sh/polar_cl_oy5ZBeS71ub3jzTs6Hfl86JcHbQhbn0Wo7OZn4QHc1s';
+const BUY_URL = 'https://github.com/starburst1977/apply-kit';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // Phone visitors can't use the kit on the spot; this lets them send the page to themselves.
@@ -30,16 +26,7 @@ const productLd = {
   image: 'https://www.svenread.com/apply-kit/og.png',
   url: 'https://www.svenread.com/apply-kit/de/',
   brand: { '@type': 'Brand', name: 'Sven Read' },
-  offers: [
-    {
-      '@type': 'Offer',
-      price: '65',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-      url: BUY_URL,
-      seller: { '@type': 'Person', name: 'Sven Read' },
-    },
-  ],
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: BUY_URL },
 };
 
 // Svens eigene Suche, gezählt aus seinem Bewerbungstracker (Februar bis Juni 2026).
@@ -53,7 +40,7 @@ const proof = [
 
 // Drei Schritte, illustriert, unter dem Hero. Bilder in public/apply-kit/steps/.
 const flow = [
-  { title: 'Entpacken, Lebenslauf dazu', body: 'Den Kit-Ordner irgendwo auf Ihrem Rechner ablegen und Ihren aktuellen Lebenslauf in den Ordner inbox legen. Ein als PDF gespeichertes LinkedIn-Profil hilft zusätzlich.' },
+  { title: 'Herunterladen, Lebenslauf dazu', body: 'Das Kit von GitHub herunterladen, den Ordner irgendwo auf Ihrem Rechner ablegen und Ihren aktuellen Lebenslauf in den Ordner inbox legen. Ein als PDF gespeichertes LinkedIn-Profil hilft zusätzlich.' },
   { title: 'In Claude öffnen, einmal einrichten', body: 'In der Claude-Desktop-App auf Code wechseln und den Ordner öffnen. In etwa 15 Minuten legt Claude Ihren Werdegang als eine Zeitleiste an und fragt nach, was nicht zusammenpasst.' },
   { title: 'Anzeige einfügen, PDFs bekommen', body: 'Claude sagt Ihnen ehrlich, wie gut die Stelle passt, und schreibt dann Lebenslauf und Anschreiben ausschließlich aus Ihren bestätigten Fakten. Jede Zahl wird vor dem PDF geprüft.' },
 ];
@@ -64,14 +51,7 @@ const promises = [
   { title: 'Anschreiben auf einer Seite', body: 'Etwas zu lange Anschreiben werden automatisch auf eine Seite gebracht. Bei deutlich zu langen gibt es eine klare Warnung.' },
   { title: 'PDFs, die überall funktionieren', body: 'Echter, markierbarer Text, den Bewerbungssysteme lesen können, und dasselbe Ergebnis auf jedem Rechner und Drucker.' },
   { title: 'Deutsch und Englisch', body: 'Mit deutschen Konventionen: Anschreiben mit Empfänger, Ort, Datum und Betreff, passende Anrede und Grußformel, deutsche Anführungszeichen und Datumsformate.' },
-  { title: 'Vier Layouts', body: 'Classic, Modern, Compact und DIN 5008 für förmliche deutsche Anschreiben. Jederzeit wechselbar, die Fakten bleiben dieselben.' },
-];
-
-const layouts = [
-  { img: layoutClassic, title: 'Classic', note: 'Serifenschrift, zentriert. Die Voreinstellung.' },
-  { img: layoutModern, title: 'Modern', note: 'Serifenlos, linksbündig, ruhige Überschriften.' },
-  { img: layoutCompact, title: 'Compact', note: 'Dichter gesetzt, damit ein langer Werdegang auf zwei Seiten passt.' },
-  { img: layoutDin, title: 'DIN 5008', note: 'Förmlicher Geschäftsbrief, passend für Fensterumschläge.' },
+  { title: 'Kostenlos und Open Source', body: 'MIT-Lizenz, auf GitHub. Sie können jede Zeile lesen, bevor Sie es starten, und ändern, was Sie möchten.' },
 ];
 
 const examples = [
@@ -87,12 +67,12 @@ const faq = [
     a: 'Nein. Es braucht Claude Code, das in der Claude-Desktop-App enthalten ist, weil die PDFs auf Ihrem Rechner entstehen. Sie brauchen einen Claude-Tarif, der Claude Code enthält.',
   },
   {
-    q: 'Und wenn es bei mir nicht funktioniert?',
-    a: 'Läuft das Kit auf Ihrem Rechner nicht, schreiben Sie innerhalb von 30 Tagen an me@svenread.com und Sie bekommen Ihr Geld zurück. Vorher helfe ich Ihnen gern, es zum Laufen zu bringen.',
+    q: 'Ist das wirklich kostenlos?',
+    a: 'Ja. Das Kit steht unter MIT-Lizenz auf GitHub. Es läuft über Ihren eigenen Claude-Tarif, Kosten entstehen also nur für den Tarif, den Sie ohnehin haben.',
   },
   {
-    q: 'Ist das ein Abo?',
-    a: 'Nein. Sie zahlen einmal und behalten das Kit. Es läuft über Ihren eigenen Claude-Tarif.',
+    q: 'Und wenn es bei mir nicht funktioniert?',
+    a: 'Eröffnen Sie ein Issue auf GitHub oder schreiben Sie an me@svenread.com und sagen Sie mir, wo es nicht weiterging. Ein Screenshot hilft.',
   },
   {
     q: 'Ich bin kein Designer. Ist das trotzdem etwas für mich?',
@@ -137,8 +117,8 @@ const faq = [
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
             {BUY_URL ? (
-              <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
-                Apply Kit kaufen
+              <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=GitHub+Click">
+                Kostenlos auf GitHub
               </a>
             ) : (
               <span class="inline-flex items-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
@@ -148,7 +128,7 @@ const faq = [
             <a href="#beispiele" class="font-sans text-sm text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">Echte Beispiele ansehen</a>
           </div>
           <p class="font-sans text-sm text-ink mt-6">Läuft auf Ihrem Rechner, in der Claude-Desktop-App mit Claude Code.</p>
-          <p class="font-sans text-sm text-muted mt-1">Einmalkauf · {PRICE} inkl. MwSt. · Geld zurück, wenn es auf Ihrem Rechner nicht läuft</p>
+          <p class="font-sans text-sm text-muted mt-1">{PRICE} · Kein Konto, kein Abo</p>
           <div class="lg:hidden mt-6 rounded-2xl border border-hairline bg-white/60 p-5">
             <p class="font-sans text-sm text-ink leading-relaxed">Gerade am Handy? Apply Kit braucht einen Rechner. Schicken Sie sich den Link und schauen Sie ihn später in Ruhe am Schreibtisch an.</p>
             <a href={MAIL_LATER} class="mt-3 inline-flex items-center rounded-full border border-ink px-5 py-2.5 font-sans text-sm font-semibold text-ink hover:border-accent hover:text-accent plausible-event-name=Email+Later">Link per E-Mail schicken</a>
@@ -283,23 +263,6 @@ const faq = [
       </div>
     </section>
 
-    <!-- Layouts -->
-    <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
-      <div class="border-t border-hairline pt-12 md:pt-16">
-        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">Vier Layouts</h2>
-        <p class="font-sans text-base text-muted leading-relaxed max-w-2xl mb-12">Dieselben Fakten, vier Looks. Sie wählen beim Einrichten, wechseln jederzeit oder nehmen für ein einzelnes Dokument ein anderes, etwa ein Anschreiben nach DIN 5008 zum Lebenslauf in Modern.</p>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {layouts.map((l) => (
-            <div>
-              <div class="sheet"><Image src={l.img} alt={`${l.title}: ${l.note}`} widths={[300, 500]} sizes="(max-width: 1024px) 45vw, 260px" /></div>
-              <p class="font-display text-lg mt-4">{l.title}</p>
-              <p class="font-sans text-sm text-muted">{l.note}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
     <!-- Voraussetzungen + Daten -->
     <section class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28">
       <div class="border-t border-hairline pt-12 md:pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -343,15 +306,15 @@ const faq = [
         </p>
         <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
           {BUY_URL ? (
-            <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Buy+Click">
-              Apply Kit kaufen
+            <a href={BUY_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=GitHub+Click">
+              Kostenlos auf GitHub
             </a>
           ) : (
             <span class="inline-flex items-center rounded-full border border-hairline px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-muted">
               Demnächst
             </span>
           )}
-          <p class="font-sans text-sm text-muted">Einmalkauf · {PRICE} inkl. MwSt. · Geld zurück, wenn es auf Ihrem Rechner nicht läuft</p>
+          <p class="font-sans text-sm text-muted">{PRICE} · Kein Konto, kein Abo</p>
         </div>
       </div>
     </section>
