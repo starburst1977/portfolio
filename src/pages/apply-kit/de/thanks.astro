@@ -1,7 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 // German version of /apply-kit/thanks. Polar's German checkout link redirects here after a
-// completed purchase of Layout Pack 1. Kept out of search results and out of the sitemap.
+// completed purchase of the Layout Pack. Kept out of search results and out of the sitemap.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const GITHUB = 'https://github.com/starburst1977/apply-kit';
 const steps = [
@@ -13,13 +13,13 @@ const steps = [
 ---
 <Layout
   lang="de"
-  title="Danke: Layout Pack 1 für Apply Kit"
+  title="Danke: Layout Pack für Apply Kit"
   description="Ihr Layout-Paket ist unterwegs."
   noindex
   altLang={{ lang: 'en', href: `${base}/apply-kit/thanks` }}
 >
   <article class="mx-auto max-w-3xl px-6 md:px-10 pt-32 md:pt-40 pb-32">
-    <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Apply Kit · Layout Pack 1</p>
+    <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Apply Kit · Layout Pack</p>
     <h1 class="font-display text-5xl md:text-6xl leading-[1.05] tracking-tight">
       Danke. <strong>Ihre acht Layouts sind unterwegs.</strong>
     </h1>
@@ -40,7 +40,7 @@ const steps = [
         ))}
       </ol>
       <p class="font-sans text-base text-muted leading-relaxed mt-10">
-        Das Kit finden Sie unter <a href={GITHUB} class="text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">github.com/starburst1977/apply-kit</a>. Die Datei LAYOUT-PACK-1.md in der Zip beschreibt jedes Layout.
+        Das Kit finden Sie unter <a href={GITHUB} class="text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">github.com/starburst1977/apply-kit</a>. Die Datei LAYOUT-PACK.md in der Zip beschreibt jedes Layout.
       </p>
     </section>
     <section class="border-t border-hairline mt-16 pt-12">

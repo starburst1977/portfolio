@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-// Polar redirects here after a completed purchase of Layout Pack 1, so a pageview here is a
+// Polar redirects here after a completed purchase of the Layout Pack, so a pageview here is a
 // sale. Kept out of search results and out of the sitemap. No buy button on purpose.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const GITHUB = 'https://github.com/starburst1977/apply-kit';
@@ -13,13 +13,13 @@ const steps = [
 ---
 <Layout
   lang="en"
-  title="Thank you: Layout Pack 1 for Apply Kit"
+  title="Thank you: Layout Pack for Apply Kit"
   description="Your Layout Pack is on its way."
   noindex
   altLang={{ lang: 'de', href: `${base}/apply-kit/de/thanks` }}
 >
   <article class="mx-auto max-w-3xl px-6 md:px-10 pt-32 md:pt-40 pb-32">
-    <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Apply Kit · Layout Pack 1</p>
+    <p class="font-sans text-xs uppercase tracking-[0.2em] text-accent mb-6">Apply Kit · Layout Pack</p>
     <h1 class="font-display text-5xl md:text-6xl leading-[1.05] tracking-tight">
       Thank you. <strong>Your eight layouts are on their way.</strong>
     </h1>
@@ -40,7 +40,7 @@ const steps = [
         ))}
       </ol>
       <p class="font-sans text-base text-muted leading-relaxed mt-10">
-        The kit is at <a href={GITHUB} class="text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">github.com/starburst1977/apply-kit</a>. LAYOUT-PACK-1.md inside the zip describes every layout.
+        The kit is at <a href={GITHUB} class="text-ink underline decoration-hairline underline-offset-4 hover:decoration-accent">github.com/starburst1977/apply-kit</a>. LAYOUT-PACK.md inside the zip describes every layout.
       </p>
     </section>
     <section class="border-t border-hairline mt-16 pt-12">
