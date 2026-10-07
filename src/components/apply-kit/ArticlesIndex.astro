@@ -1,0 +1,58 @@
+---
+// The articles overview: a featured article, then the rest. Filters by category.
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import ArticleCard from './ArticleCard.astro';
+import { routes, getArticles, type Lang } from '../../lib/apply-kit';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const other: Lang = lang === 'en' ? 'de' : 'en';
+const C = {
+  en: { title: 'Articles · Apply Kit', description: 'Notes from a real job search: CV craft, German applications and how Apply Kit is built.', eyebrow: 'Articles', h1: 'Notes from a real job search', sub: 'CV craft, German applications and how Apply Kit is built.', all: 'All', empty: 'The first articles are on their way.' },
+  de: { title: 'Artikel · Apply Kit', description: 'Notizen aus einer echten Jobsuche: Lebenslauf, deutsche Bewerbungen und wie Apply Kit gebaut ist.', eyebrow: 'Artikel', h1: 'Notizen aus einer echten Jobsuche', sub: 'Lebenslauf, deutsche Bewerbungen und wie Apply Kit gebaut ist.', all: 'Alle', empty: 'Die ersten Artikel sind unterwegs.' },
+}[lang];
+const articles = getArticles(lang);
+const cats = [...new Set(articles.map((a) => a.category))];
+const [first, ...rest] = articles;
+---
+
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} altHref={routes.articles[other]} active="articles" noindex={articles.length === 0}>
+  <section class="mx-auto max-w-[76rem] px-5 pb-20 pt-10 md:px-8 md:pb-28 md:pt-[4.5rem]">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="ak-eyebrow">{C.eyebrow}</p>
+      <h1 class="mt-3 text-[2.1rem] font-semibold leading-[1.06] tracking-[-0.04em] md:text-[3.5rem]">{C.h1}</h1>
+      <p class="mt-4 text-base leading-relaxed text-muted md:text-lg">{C.sub}</p>
+    </div>
+    {articles.length === 0 ? (
+      <p class="mt-14 text-center text-muted">{C.empty}</p>
+    ) : (
+      <>
+        {cats.length > 1 && (
+          <div class="mt-8 flex justify-center overflow-x-auto" data-cat-filter>
+            <div class="inline-flex gap-1 rounded-[10px] bg-chip p-1">
+              {[['*', C.all], ...cats.map((c) => [c, c])].map(([k, l], i) => (
+                <button type="button" data-cat={k} aria-pressed={i === 0 ? 'true' : 'false'} class="whitespace-nowrap rounded-[7px] px-3.5 py-2 text-[13px] font-medium text-muted aria-pressed:bg-white aria-pressed:text-ink aria-pressed:shadow-[0_1px_3px_rgb(0_0_0/0.1)]">{l}</button>
+              ))}
+            </div>
+          </div>
+        )}
+        <div class="mt-10 grid gap-5 md:grid-cols-3 md:gap-6" data-cat-list>
+          <div class="md:col-span-3" data-c={first.category}><ArticleCard a={first} variant="feature" /></div>
+          {rest.map((a, i) => <div data-c={a.category}><ArticleCard a={a} tint={i + 1} /></div>)}
+        </div>
+      </>
+    )}
+  </section>
+</ApplyKitLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-cat-filter]').forEach((bar) => {
+    const list = document.querySelector<HTMLElement>('[data-cat-list]')!;
+    bar.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-cat]');
+      if (!btn) return;
+      bar.querySelectorAll('[data-cat]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      list.querySelectorAll<HTMLElement>('[data-c]').forEach((el) => { el.hidden = btn.dataset.cat !== '*' && el.dataset.c !== btn.dataset.cat; });
+    });
+  });
+</script>

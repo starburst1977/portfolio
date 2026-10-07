@@ -1,0 +1,18 @@
+---
+import { ICONS, GITHUB_MARK } from './icons';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  /** Stroke width for Lucide icons (default 2). */
+  stroke?: number;
+}
+const { name, size = 18, class: cls = '', stroke = 2 } = Astro.props;
+if (name !== 'github' && !ICONS[name]) throw new Error(`Icon "${name}" is not in icons.ts`);
+---
+{name === 'github' ? (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class={cls}><path d={GITHUB_MARK} /></svg>
+) : (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={stroke} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class={cls} set:html={ICONS[name]} />
+)}

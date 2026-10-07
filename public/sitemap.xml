@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.svenread.com/</loc><lastmod>2026-09-22</lastmod><priority>1.0</priority></url>
-  <url><loc>https://www.svenread.com/apply-kit/</loc><lastmod>2026-09-22</lastmod><priority>0.9</priority></url>
-  <url><loc>https://www.svenread.com/apply-kit/de/</loc><lastmod>2026-09-22</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/ats-check/</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/de/ats-check/</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/layout-pack/</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/de/layout-pack/</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/articles/</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/articles/what-an-ats-reads-in-your-pdf/</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.svenread.com/apply-kit/de/</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
   <url><loc>https://www.svenread.com/landing-kit/</loc><lastmod>2026-09-27</lastmod><priority>0.9</priority></url>
   <url><loc>https://www.svenread.com/leistungen/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://www.svenread.com/about/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>

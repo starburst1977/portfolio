@@ -1,0 +1,8 @@
+---
+// A tip box for articles. Usable in MDX as <Callout>…</Callout>.
+import Icon from './Icon.astro';
+---
+<aside class="my-8 flex gap-3.5 rounded-xl border border-accent-line bg-accent-soft px-5 py-4 text-[16px] leading-relaxed text-[#312E81] [&_p]:m-0">
+  <Icon name="lightbulb" size={20} class="mt-0.5 shrink-0 text-accent" />
+  <div><slot /></div>
+</aside>

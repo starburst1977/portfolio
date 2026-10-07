@@ -1,0 +1,287 @@
+---
+// The free ATS check, English and German. Analysis: src/lib/ats-analyse.js; rendering and
+// wording of results: src/lib/ats-ui.ts. Runs in the browser with the site's own copy of
+// pdf.js (public/vendor/pdfjs); the CV is never uploaded.
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import Icon from './Icon.astro';
+import Faq from './Faq.astro';
+import { routes, type Lang } from '../../lib/apply-kit';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const other: Lang = lang === 'en' ? 'de' : 'en';
+const kitUrl = (content: string) => `${routes.home[lang]}?utm_source=ats-check&utm_content=${content}`;
+
+const C = {
+  en: {
+    title: 'Free ATS CV & Resume Check: See What a Parser Reads in Your PDF',
+    description: 'Drop in your CV and see the text an applicant tracking system extracts: reading order, contact details, headings, problem characters. Runs in your browser; nothing is uploaded.',
+    ogTitle: 'Can an applicant tracking system read your CV?',
+    ogDescription: 'A free check that shows what a parser gets out of your CV PDF. Runs in your browser; your CV is never uploaded.',
+    image: '/apply-kit/og-numbers.png',
+    crumb: 'ATS check',
+    h1: 'Can an applicant tracking system read your CV?',
+    sub: 'Drop in any CV PDF and see what an applicant tracking system gets out of it: the text, the order, the contact details, the headings.',
+    promises: [
+      ['shield-check', 'Nothing is uploaded', 'Your PDF is read right here in your browser. It never leaves your computer.'],
+      ['zap', 'Result in seconds', 'No queue, no email to wait for. The report appears as soon as the file is read.'],
+      ['badge-check', 'Free, no sign-up', 'No account, no email address. Check as many CVs as you like.'],
+    ],
+    drop: 'Drop your CV PDF here', browse: 'or click to choose a file · up to 20 MB', privacy: 'Read in your browser · never uploaded',
+    remove: 'Remove file',
+    offlineTitle: 'Don’t take our word for it',
+    offline: 'Once this page has loaded, switch off your internet connection. The check still works, because your CV never goes anywhere.',
+    waiting: 'Waiting for a PDF', emptyTitle: 'Your report appears here.',
+    emptySub: 'Drop a CV on the left. In a few seconds you get a score from 0 to 100 and eight checks, each with the points it cost.',
+    listHead: 'What gets checked', listPts: 'Points it can cost',
+    checks: [
+      ['file-text', 'Real text', 'Is the text real text, or an image a parser sees as an empty page?', 'up to −100'],
+      ['list-ordered', 'Reading order', 'Is the text stored in the order you read it, or do lines jump between sections?', '−10 to −35'],
+      ['at-sign', 'Contact details', 'Are an email address and a phone number there as text, not in an image or icon?', '−7 to −30'],
+      ['heading', 'Section headings', 'Are headings like Experience, Education and Skills found?', '−10'],
+      ['space', 'Letter spacing', 'Do wide-tracked headings break into single letters?', '−8'],
+      ['type', 'Problem characters', 'Are there ligatures like “ﬁ” that break keyword search?', '−8'],
+      ['file-stack', 'Length', 'How many pages and words? More than three pages is long.', '−5'],
+      ['tag', 'Document title', 'Is the PDF’s title your name, or a file name like “CV_final_v3”?', 'Info'],
+    ],
+    scaleHead: 'How the score reads',
+    bands: [['90 – 100', 'Reads cleanly'], ['70 – 89', 'Readable, with things to check'], ['0 – 69', 'A parser will likely get this wrong']],
+    scoreNote: 'The score starts at 100; each finding takes off the points shown next to it. A PDF without real text scores 0.',
+    reading: 'Reading your CV…', readingSub: 'On your computer, with pdf.js. Nothing is sent anywhere.',
+    tabs: ['Findings', 'What the parser reads'],
+    parsedNote: 'The text exactly as the PDF stores it, in that order.',
+    upsellTitle: 'Want CVs that pass, tailored to every job?',
+    upsell: 'Apply Kit writes them from facts you confirmed. Free.',
+    upsellCta: 'See Apply Kit',
+    lookEyebrow: 'Background', lookTitle: 'What this check looks at',
+    look: [
+      ['Is there real text?', 'A CV exported as an image, or scanned, looks fine to you and empty to a parser. Everything starts with a real text layer.'],
+      ['Reading order', 'PDFs store text in an order that can differ from what you see. I found this in my own CVs: they looked perfect, but every job title was stored first and every bullet point afterwards. A parser reading in stored order would have put my achievements under the wrong employer. The check flags text that jumps back up the page within a column.'],
+      ['Contact details and headings', 'Parsers look for an email address, a phone number and section headings like Experience, Education and Skills (or Berufserfahrung, Ausbildung, Kenntnisse). Contact details in an image or an icon font are invisible to them.'],
+      ['Letter-spaced headings and odd characters', 'Headings set with wide letter spacing can come out as “E X P E R I E N C E”, which a search for “Experience” misses. Ligatures such as “ﬁ” are a single character, so “ﬁnance” no longer matches “finance”.'],
+    ],
+    madeBy: `Made by Sven Read, who also built <a href="${kitUrl('hero')}" class="plausible-event-name=ATS+Check+to+Kit">Apply Kit</a>, a free kit for Claude Code that writes a tailored CV and cover letter for every job.`,
+    faqEyebrow: 'Questions', faqTitle: 'How the check works',
+    faq: [
+      { q: 'Is my CV uploaded anywhere?', a: 'No. The check runs in your browser. Your PDF is read on your own computer and never sent to a server, including ours. You can switch off your internet connection after the page has loaded and it still works.' },
+      { q: 'Which applicant tracking systems does this simulate?', a: 'None in particular, and no tool honestly can: every system has its own parser and they don’t publish how they work. This check shows what a parser gets when it reads the text the way a PDF stores it, which is how many text extractors work. If your CV reads cleanly here, you have removed the most common technical reasons a parser gets it wrong.' },
+      { q: 'What does “reading order” mean?', a: 'A PDF stores its text in some order, which isn’t always the order you see on the page. If the order jumps, for example all job titles first and all bullet points afterwards, a parser that reads in stored order can put your achievements under the wrong job. You can’t see this by looking at the PDF.' },
+      { q: 'My CV passed. Does that mean every system will read it correctly?', a: 'It means the text is there, in order, with findable contact details and headings. That covers the technical basics. Whether a recruiter or a ranking system likes the content is a different question.' },
+      { q: 'Should I send a PDF or a Word file?', a: 'Send what the job ad asks for. A PDF with real text, like one that passes this check, is read well by most systems and looks the same everywhere.' },
+    ],
+    appName: 'ATS CV Check', os: 'Any (runs in the browser)',
+  },
+  de: {
+    title: 'Kostenloser ATS-Check für Lebensläufe: Was liest ein Parser aus Ihrem PDF?',
+    description: 'Lebenslauf-PDF hineinziehen und sehen, welchen Text ein Bewerbermanagementsystem herausliest: Reihenfolge, Kontaktdaten, Überschriften, Problemzeichen. Läuft im Browser, ohne Upload.',
+    ogTitle: 'Kann ein Bewerbermanagementsystem Ihren Lebenslauf lesen?',
+    ogDescription: 'Ein kostenloser Check, der zeigt, was ein Parser aus Ihrem Lebenslauf-PDF herausliest. Läuft im Browser, Ihr Lebenslauf wird nicht hochgeladen.',
+    image: '/apply-kit/og-numbers-de.png',
+    crumb: 'ATS-Check',
+    h1: 'Kann ein Bewerbermanagementsystem Ihren Lebenslauf lesen?',
+    sub: 'Ziehen Sie ein beliebiges Lebenslauf-PDF hinein und sehen Sie, was ein Bewerbermanagementsystem herausliest: den Text, die Reihenfolge, die Kontaktdaten, die Überschriften.',
+    promises: [
+      ['shield-check', 'Nichts wird hochgeladen', 'Ihr PDF wird hier in Ihrem Browser gelesen. Es verlässt Ihren Rechner nie.'],
+      ['zap', 'Ergebnis in Sekunden', 'Keine Warteschlange, keine E-Mail. Der Bericht erscheint, sobald die Datei gelesen ist.'],
+      ['badge-check', 'Kostenlos, ohne Anmeldung', 'Kein Konto, keine E-Mail-Adresse. Prüfen Sie so viele Lebensläufe, wie Sie möchten.'],
+    ],
+    drop: 'Lebenslauf-PDF hierher ziehen', browse: 'oder klicken und Datei wählen · bis 20 MB', privacy: 'Im Browser gelesen · nie hochgeladen',
+    remove: 'Datei entfernen',
+    offlineTitle: 'Glauben Sie uns nicht einfach',
+    offline: 'Schalten Sie nach dem Laden der Seite das Internet ab. Der Check funktioniert trotzdem, weil Ihr Lebenslauf nirgendwohin geht.',
+    waiting: 'Wartet auf ein PDF', emptyTitle: 'Hier erscheint Ihr Bericht.',
+    emptySub: 'Ziehen Sie links einen Lebenslauf hinein. In wenigen Sekunden bekommen Sie eine Wertung von 0 bis 100 und acht Prüfungen, jede mit den Punkten, die sie gekostet hat.',
+    listHead: 'Was geprüft wird', listPts: 'Mögliche Abzüge',
+    checks: [
+      ['file-text', 'Echter Text', 'Ist der Text echter Text oder ein Bild, das ein Parser als leere Seite sieht?', 'bis −100'],
+      ['list-ordered', 'Lesereihenfolge', 'Ist der Text so gespeichert, wie Sie ihn lesen, oder springen Zeilen zwischen Abschnitten?', '−10 bis −35'],
+      ['at-sign', 'Kontaktdaten', 'Stehen E-Mail-Adresse und Telefonnummer als Text da, nicht in einem Bild oder Icon?', '−7 bis −30'],
+      ['heading', 'Abschnittsüberschriften', 'Werden Überschriften wie Berufserfahrung, Ausbildung und Kenntnisse gefunden?', '−10'],
+      ['space', 'Sperrschrift', 'Zerfallen gesperrte Überschriften in einzelne Buchstaben?', '−8'],
+      ['type', 'Problemzeichen', 'Gibt es Ligaturen wie „ﬁ“, die die Stichwortsuche stören?', '−8'],
+      ['file-stack', 'Umfang', 'Wie viele Seiten und Wörter? Mehr als drei Seiten ist lang.', '−5'],
+      ['tag', 'Dokumenttitel', 'Ist der Titel des PDFs Ihr Name oder ein Dateiname wie „CV_final_v3“?', 'Info'],
+    ],
+    scaleHead: 'So lesen Sie die Wertung',
+    bands: [['90 – 100', 'Wird sauber gelesen'], ['70 – 89', 'Lesbar, mit Punkten zum Prüfen'], ['0 – 69', 'Ein Parser liest das wahrscheinlich falsch']],
+    scoreNote: 'Die Wertung startet bei 100; jeder Befund zieht die daneben stehenden Punkte ab. Ein PDF ohne echten Text bekommt 0.',
+    reading: 'Ihr Lebenslauf wird gelesen…', readingSub: 'Auf Ihrem Rechner, mit pdf.js. Nichts wird verschickt.',
+    tabs: ['Befunde', 'Was der Parser liest'],
+    parsedNote: 'Der Text genau so, wie das PDF ihn speichert, in dieser Reihenfolge.',
+    upsellTitle: 'Lebensläufe, die bestehen, passend für jede Stelle?',
+    upsell: 'Apply Kit schreibt sie aus Fakten, die Sie bestätigt haben. Kostenlos.',
+    upsellCta: 'Apply Kit ansehen',
+    lookEyebrow: 'Hintergrund', lookTitle: 'Was der Check prüft',
+    look: [
+      ['Gibt es echten Text?', 'Ein Lebenslauf, der als Bild exportiert oder eingescannt wurde, sieht für Sie gut aus und für einen Parser leer. Alles beginnt mit einer echten Textebene.'],
+      ['Lesereihenfolge', 'PDFs speichern Text in einer Reihenfolge, die von dem abweichen kann, was Sie sehen. Ich habe das in meinen eigenen Lebensläufen gefunden: Sie sahen perfekt aus, aber gespeichert waren erst alle Stellentitel und danach alle Aufzählungspunkte. Ein Parser, der in gespeicherter Reihenfolge liest, hätte meine Erfolge dem falschen Arbeitgeber zugeordnet. Der Check meldet Text, der innerhalb einer Spalte zurück nach oben springt.'],
+      ['Kontaktdaten und Überschriften', 'Parser suchen eine E-Mail-Adresse, eine Telefonnummer und Abschnittsüberschriften wie Berufserfahrung, Ausbildung und Kenntnisse (oder Experience, Education, Skills). Kontaktdaten in einem Bild oder Icon-Font sind für sie unsichtbar.'],
+      ['Gesperrte Überschriften und seltsame Zeichen', 'Überschriften mit weitem Buchstabenabstand kommen oft als „B E R U F S E R F A H R U N G“ heraus, und eine Suche nach „Berufserfahrung“ findet das nicht. Ligaturen wie „ﬁ“ sind ein einzelnes Zeichen, „Zertiﬁkat“ passt dann nicht mehr zu „Zertifikat“.'],
+    ],
+    madeBy: `Von Sven Read, der auch <a href="${kitUrl('hero')}" class="plausible-event-name=ATS+Check+to+Kit">Apply Kit</a> gebaut hat, ein kostenloses Kit für Claude Code, das für jede Stelle einen passenden Lebenslauf und ein Anschreiben schreibt.`,
+    faqEyebrow: 'Fragen', faqTitle: 'So funktioniert der Check',
+    faq: [
+      { q: 'Wird mein Lebenslauf irgendwo hochgeladen?', a: 'Nein. Der Check läuft in Ihrem Browser. Ihr PDF wird auf Ihrem eigenen Rechner gelesen und an keinen Server geschickt, auch nicht an meinen. Sie können nach dem Laden der Seite sogar das Internet abschalten, es funktioniert trotzdem.' },
+      { q: 'Welches Bewerbermanagementsystem wird hier simuliert?', a: 'Keines im Besonderen, und das kann ehrlicherweise auch kein Werkzeug: Jedes System hat einen eigenen Parser, und die Anbieter legen nicht offen, wie er arbeitet. Der Check zeigt, was ein Parser bekommt, der den Text so liest, wie das PDF ihn gespeichert hat. So arbeiten viele Textextraktoren. Wird Ihr Lebenslauf hier sauber gelesen, haben Sie die häufigsten technischen Gründe ausgeräumt, aus denen ein Parser ihn falsch liest.' },
+      { q: 'Was bedeutet „Lesereihenfolge“?', a: 'Ein PDF speichert seinen Text in einer bestimmten Reihenfolge, und die entspricht nicht immer dem, was Sie auf der Seite sehen. Springt sie, etwa erst alle Stellentitel und danach alle Aufzählungspunkte, kann ein Parser, der in gespeicherter Reihenfolge liest, Ihre Erfolge der falschen Stelle zuordnen. Mit bloßem Auge sieht man das dem PDF nicht an.' },
+      { q: 'Mein Lebenslauf hat bestanden. Liest ihn damit jedes System richtig?', a: 'Es heißt, dass der Text da ist, in der richtigen Reihenfolge, mit auffindbaren Kontaktdaten und Überschriften. Das sind die technischen Grundlagen. Ob der Inhalt einem Personaler oder einem Ranking-System gefällt, ist eine andere Frage.' },
+      { q: 'Soll ich ein PDF oder eine Word-Datei schicken?', a: 'Schicken Sie, was die Stellenanzeige verlangt. Ein PDF mit echtem Text, wie eines, das diesen Check besteht, wird von den meisten Systemen gut gelesen und sieht überall gleich aus.' },
+    ],
+    appName: 'ATS-Check für Lebensläufe', os: 'Beliebig (läuft im Browser)',
+  },
+}[lang];
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: C.appName,
+    url: `https://www.svenread.com${routes.ats[lang]}`,
+    inLanguage: lang,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: C.os,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    description: C.description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: lang,
+    mainEntity: C.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+const bandTone = ['bg-[#F0FDF4] text-[#15803D]', 'bg-[#FFFBEB] text-[#B45309]', 'bg-[#FEF2F2] text-[#B91C1C]'];
+---
+
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} ogTitle={C.ogTitle} ogDescription={C.ogDescription} image={C.image} altHref={routes.ats[other]} active="ats" jsonLd={ld}>
+  <!-- Header and the three promises -->
+  <section class="bg-linear-to-b from-white to-[#F5F6FF]">
+    <div class="mx-auto max-w-[76rem] px-5 pb-10 pt-8 md:px-8 md:pb-12 md:pt-16">
+      <p class="flex items-center gap-1.5 text-[13px] text-muted"><a href={routes.home[lang]} class="hover:text-ink">Apply Kit</a><Icon name="chevron-right" size={13} /><span class="font-medium text-ink">{C.crumb}</span></p>
+      <h1 class="mt-4 max-w-4xl text-[2rem] font-semibold leading-[1.06] tracking-[-0.04em] md:text-[3.5rem]">{C.h1}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted md:text-lg">{C.sub}</p>
+      <ul class="mt-7 grid gap-2.5 md:mt-8 md:grid-cols-3 md:gap-4">
+        {C.promises.map(([i, t, d], k) => (
+          <li class:list={['flex gap-3.5 rounded-xl p-3.5 md:gap-4 md:rounded-[14px] md:px-[22px] md:py-5', k === 0 ? 'bg-accent text-white shadow-[0_12px_30px_rgb(79_70_229/0.25)]' : 'border border-line bg-white']}>
+            <span class:list={['grid h-9 w-9 shrink-0 place-items-center rounded-[9px] md:h-11 md:w-11 md:rounded-[11px]', k === 0 ? 'bg-white/15' : 'bg-accent-soft text-accent']}><Icon name={i} size={20} /></span>
+            <span>
+              <span class="block text-[15px] font-semibold md:text-[17px]">{t}</span>
+              <span class:list={['mt-0.5 block text-[13px] leading-snug md:text-sm md:leading-normal', k === 0 ? 'text-[#E0E7FF]' : 'text-muted']}>{d}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Workspace -->
+  <section class="mx-auto grid max-w-[76rem] items-start gap-6 px-5 pb-16 pt-6 md:px-8 md:pb-24 lg:grid-cols-[26rem_1fr]">
+    <div class="space-y-4 lg:sticky lg:top-24">
+      <label id="drop" for="file" class="group flex cursor-pointer flex-col items-center gap-3 rounded-2xl border-[1.5px] border-dashed border-[#A5B4FC] bg-[#F5F6FF] px-6 py-10 text-center transition-colors hover:border-accent data-[over]:border-accent data-[over]:bg-accent-soft md:py-16">
+        <span class="grid h-[52px] w-[52px] place-items-center rounded-xl border border-line bg-white text-accent"><Icon name="upload" size={22} /></span>
+        <span class="text-lg font-semibold">{C.drop}</span>
+        <span class="text-sm text-muted">{C.browse}</span>
+        <span class="mt-1 inline-flex items-center gap-1.5 rounded-full border border-accent-line bg-white px-3 py-1.5 text-[13px] font-medium"><Icon name="shield-check" size={14} class="text-accent" />{C.privacy}</span>
+        <input id="file" type="file" accept="application/pdf,.pdf" class="sr-only" />
+      </label>
+      <p id="status" hidden class="rounded-xl border border-[#FECACA] bg-[#FEF2F2] px-4 py-3 text-sm text-[#991B1B]" role="alert"></p>
+      <div id="file-row" hidden class="flex items-center gap-3 rounded-xl border border-line p-3.5">
+        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#FEE2E2] text-[#DC2626]"><Icon name="file-text" size={17} /></span>
+        <span class="min-w-0 flex-1"><span id="file-name" class="block truncate text-sm font-medium"></span><span id="file-meta" class="block text-xs text-muted"></span></span>
+        <button id="file-clear" type="button" class="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-chip hover:text-ink" aria-label={C.remove}><Icon name="x" size={16} /></button>
+      </div>
+      <div class="flex gap-3.5 rounded-2xl bg-night p-5">
+        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-[9px] bg-white/[0.08] text-[#A5B4FC]"><Icon name="wifi-off" size={18} /></span>
+        <span><span class="block text-[15px] font-semibold text-white">{C.offlineTitle}</span><span class="mt-1 block text-[13px] leading-relaxed text-[#A1A1AA]">{C.offline}</span></span>
+      </div>
+      <p class="px-1 text-[13px] leading-relaxed text-muted [&_a]:text-accent [&_a]:underline [&_a]:decoration-accent-line [&_a]:underline-offset-4" set:html={C.madeBy} />
+    </div>
+
+    <div class="overflow-hidden rounded-2xl border border-line shadow-[0_12px_40px_rgb(30_27_75/0.08)]">
+      <!-- Empty: what will be checked -->
+      <div id="report-empty">
+        <div class="flex items-center gap-5 p-5 md:gap-6 md:p-7">
+          <svg class="h-20 w-20 shrink-0 md:h-24 md:w-24" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#F4F4F5" stroke-width="8" /><text x="50" y="54" text-anchor="middle" font-size="26" font-weight="600" fill="#D4D4D8">–</text><text x="50" y="72" text-anchor="middle" font-size="10" fill="#6B6B6B">/ 100</text></svg>
+          <div>
+            <p class="inline-flex items-center gap-1.5 rounded-full bg-chip px-2.5 py-0.5 text-xs font-medium text-muted"><span class="h-1.5 w-1.5 rounded-full bg-[#A1A1AA]"></span>{C.waiting}</p>
+            <p class="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-2xl">{C.emptyTitle}</p>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">{C.emptySub}</p>
+          </div>
+        </div>
+        <div class="flex justify-between border-y border-line bg-card px-5 py-3 text-[13px] md:px-7"><span class="font-semibold">{C.listHead}</span><span class="text-muted">{C.listPts}</span></div>
+        <ul class="px-5 md:px-7">
+          {C.checks.map(([i, k, d, p]) => (
+            <li class="flex items-center gap-3.5 border-t border-line py-3 first:border-t-0">
+              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-chip text-muted"><Icon name={i} size={16} /></span>
+              <span class="min-w-0 flex-1"><span class="block text-sm font-semibold">{k}</span><span class="hidden text-[13px] leading-snug text-muted sm:block">{d}</span></span>
+              <span class="shrink-0 text-right font-mono text-xs text-muted">{p}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="border-t border-line bg-card px-5 py-5 md:px-7 md:pb-6">
+          <p class="text-[13px] font-semibold">{C.scaleHead}</p>
+          <div class="mt-3 grid gap-2.5 sm:grid-cols-3">
+            {C.bands.map(([r, l], i) => <p class:list={['rounded-[10px] px-3.5 py-3', bandTone[i]]}><span class="block font-mono text-xs font-semibold">{r}</span><span class="mt-1 block text-[13px] font-medium leading-snug text-ink">{l}</span></p>)}
+          </div>
+          <p class="mt-3 text-xs leading-relaxed text-muted">{C.scoreNote}</p>
+        </div>
+      </div>
+
+      <!-- Reading -->
+      <div id="report-reading" hidden class="flex flex-col items-center gap-3 px-6 py-24 text-center" aria-live="polite">
+        <Icon name="loader-circle" size={28} class="animate-spin text-accent" />
+        <p class="text-lg font-semibold">{C.reading}</p>
+        <p class="text-sm text-muted">{C.readingSub}</p>
+      </div>
+
+      <!-- Result -->
+      <div id="report" hidden class="scroll-mt-24">
+        <div class="flex items-center gap-5 p-5 md:gap-7 md:p-7">
+          <div class="relative h-20 w-20 shrink-0 md:h-24 md:w-24">
+            <svg class="h-full w-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#EEF2FF" stroke-width="8" /><circle id="score-arc" cx="50" cy="50" r="42" fill="none" stroke="#4F46E5" stroke-width="8" stroke-linecap="round" stroke-dasharray="263.894" stroke-dashoffset="263.894" style="transition: stroke-dashoffset .8s ease" /></svg>
+            <p class="absolute inset-0 flex flex-col items-center justify-center"><span id="score" class="text-[1.75rem] font-semibold leading-none tracking-[-0.03em] md:text-[2rem]"></span><span class="mt-0.5 text-[10px] text-muted">/ 100</span></p>
+          </div>
+          <div class="min-w-0">
+            <p id="verdict-pill"></p>
+            <p id="verdict-text" class="mt-2 text-sm leading-relaxed text-muted md:text-[15px]"></p>
+          </div>
+        </div>
+        <div class="flex gap-6 border-b border-line px-5 md:px-7" role="tablist">
+          <button type="button" role="tab" data-tab="findings" aria-selected="true" class="-mb-px border-b-2 border-transparent pb-3 text-sm font-medium text-muted aria-selected:border-ink aria-selected:text-ink">{C.tabs[0]}</button>
+          <button type="button" role="tab" data-tab="parsed" aria-selected="false" class="-mb-px border-b-2 border-transparent pb-3 text-sm font-medium text-muted aria-selected:border-ink aria-selected:text-ink">{C.tabs[1]}</button>
+        </div>
+        <div id="panel-findings" role="tabpanel"><ul id="findings"></ul></div>
+        <div id="panel-parsed" role="tabpanel" hidden class="p-5 md:p-7">
+          <p class="text-[13px] text-muted">{C.parsedNote}</p>
+          <pre id="parsed" class="mt-3 max-h-[36rem] overflow-auto whitespace-pre-wrap rounded-xl bg-night p-5 font-mono text-[12px] leading-relaxed text-[#D4D4DC]"></pre>
+        </div>
+        <div class="flex flex-col items-start gap-4 border-t border-line bg-[#F5F6FF] px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-7">
+          <div><p class="text-[15px] font-semibold">{C.upsellTitle}</p><p class="text-sm text-muted">{C.upsell}</p></div>
+          <a href={kitUrl('results')} class="ak-btn ak-btn-dark !py-2.5 !text-sm plausible-event-name=ATS+Check+to+Kit">{C.upsellCta}<Icon name="arrow-right" size={15} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Background -->
+  <section class="border-t border-line bg-card">
+    <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24">
+      <p class="ak-eyebrow">{C.lookEyebrow}</p>
+      <h2 class="ak-h2 mt-3">{C.lookTitle}</h2>
+      <div class="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2">
+        {C.look.map(([h, p]) => <div><h3 class="text-lg font-semibold">{h}</h3><p class="mt-2 text-[15px] leading-relaxed text-muted">{p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line">
+    <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24">
+      <Faq items={C.faq} eyebrow={C.faqEyebrow} title={C.faqTitle} />
+    </div>
+  </section>
+</ApplyKitLayout>
+
+<script>
+  import { initAtsCheck } from '../../lib/ats-ui';
+  initAtsCheck(document.documentElement.lang === 'de' ? 'de' : 'en', import.meta.env.BASE_URL.replace(/\/$/, ''));
+</script>

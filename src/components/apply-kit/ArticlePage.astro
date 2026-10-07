@@ -1,0 +1,84 @@
+---
+// One article: header, cover, contents, text, author, more articles.
+import { Image } from 'astro:assets';
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import Icon from './Icon.astro';
+import ArticleCard from './ArticleCard.astro';
+import AtsCta from './AtsCta.astro';
+import Callout from './Callout.astro';
+import { coverImage } from './images';
+import { routes, formatDate, getArticles, type Article } from '../../lib/apply-kit';
+import portrait from '../../assets/portrait-about.jpeg';
+
+interface Props { a: Article }
+const { a } = Astro.props;
+const lang = a.lang;
+const C = {
+  en: { articles: 'Articles', read: 'min read', toc: 'On this page', by: 'Written by Sven Read', bio: 'Product designer near Munich. Built Apply Kit during his own job search: 89 applications, 42 rejections, 7 interviews.', more: 'Keep reading', all: 'All articles', other: 'Auch auf Deutsch' },
+  de: { articles: 'Artikel', read: 'Min. Lesezeit', toc: 'Auf dieser Seite', by: 'Geschrieben von Sven Read', bio: 'Produktdesigner bei München. Hat Apply Kit während seiner eigenen Jobsuche gebaut: 89 Bewerbungen, 42 Absagen, 7 Gespräche.', more: 'Weiterlesen', all: 'Alle Artikel', other: 'Also in English' },
+}[lang];
+const toc = a.headings.filter((h) => h.depth === 2);
+const more = getArticles(lang).filter((x) => x.slug !== a.slug).slice(0, 3);
+const translation = a.translation ? getArticles(lang === 'en' ? 'de' : 'en').find((x) => x.slug === a.translation) : undefined;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: a.title,
+  description: a.description,
+  datePublished: a.date,
+  inLanguage: lang,
+  author: { '@type': 'Person', name: 'Sven Read', url: 'https://www.svenread.com/about/' },
+  mainEntityOfPage: `https://www.svenread.com${a.url}`,
+};
+const Content = a.Content;
+---
+
+<ApplyKitLayout lang={lang} title={`${a.title} · Apply Kit`} description={a.description} altHref={translation?.url} active="articles" jsonLd={ld} noindex={a.draft}>
+  <article>
+    <header class="mx-auto max-w-[59rem] px-5 pt-8 md:px-8 md:pt-16">
+      <p class="flex items-center gap-1.5 text-sm text-muted"><a href={routes.articles[lang]} class="hover:text-ink">{C.articles}</a><Icon name="chevron-right" size={14} /><span class="font-medium text-accent">{a.category}</span></p>
+      {a.draft && <p class="mt-4 inline-block rounded-md bg-[#FFFBEB] px-2 py-1 text-xs font-semibold text-[#B45309]">Draft · only visible in astro dev</p>}
+      <h1 class="mt-5 max-w-[54rem] text-[2rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3.25rem]">{a.title}</h1>
+      <p class="mt-5 max-w-[47rem] text-[17px] leading-relaxed text-muted md:text-xl">{a.description}</p>
+      <div class="mt-6 flex items-center gap-3">
+        <Image src={portrait} alt="" widths={[80]} class="h-10 w-10 rounded-full object-cover" />
+        <p class="text-[13px] leading-snug"><span class="block font-semibold">Sven Read</span><span class="text-muted">{a.minutes} {C.read} · {formatDate(a.date, lang)}{translation && <> · <a href={translation.url} hreflang={translation.lang} class="text-accent hover:underline">{C.other}</a></>}</span></p>
+      </div>
+    </header>
+
+    <div class="mx-auto mt-10 max-w-[59rem] px-5 md:mt-12 md:px-8">
+      <div class="relative h-56 overflow-hidden rounded-2xl border border-line bg-linear-to-b from-accent-soft to-[#F5F3FF] md:h-[26rem]">
+        <div class="ak-page absolute left-1/2 top-10 w-[46%] max-w-[260px] -translate-x-1/2 rotate-3 md:top-16"><Image src={coverImage(a.cover)} alt="" widths={[300, 520]} sizes="260px" loading="eager" /></div>
+      </div>
+    </div>
+
+    <div class="mx-auto grid max-w-[59rem] gap-10 px-5 pb-12 pt-10 md:px-8 md:pt-16 lg:grid-cols-[12.5rem_1fr] lg:gap-16">
+      {toc.length > 1 ? (
+        <nav class="lg:sticky lg:top-24 lg:self-start" aria-label={C.toc}>
+          <details class="group rounded-[10px] border border-line lg:border-0" open>
+            <summary class="flex items-center justify-between px-3.5 py-3 text-sm font-semibold lg:pointer-events-none lg:p-0 lg:pb-3 lg:text-[13px]"><span class="flex items-center gap-2"><Icon name="list" size={15} class="text-muted lg:hidden" />{C.toc}</span><Icon name="chevron-down" size={16} class="text-muted transition-transform group-open:rotate-180 lg:hidden" /></summary>
+            <ul class="space-y-2.5 px-3.5 pb-3.5 lg:p-0">
+              {toc.map((h) => <li class="border-l border-line pl-3 text-[13px] leading-snug text-muted"><a href={`#${h.slug}`} class="hover:text-ink">{h.text}</a></li>)}
+            </ul>
+          </details>
+        </nav>
+      ) : <div class="hidden lg:block" />}
+      <div class="min-w-0 max-w-[42.5rem]">
+        <div class="ak-prose"><Content components={{ AtsCta, Callout }} /></div>
+        <div class="mt-12 flex items-start gap-4 border-t border-line pt-7">
+          <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 shrink-0 rounded-full object-cover" />
+          <p class="text-sm leading-relaxed"><span class="block text-[15px] font-semibold">{C.by}</span><span class="text-muted">{C.bio}</span></p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {more.length > 0 && (
+    <section class="border-t border-line bg-card">
+      <div class="mx-auto max-w-[76rem] px-5 py-14 md:px-8 md:py-20">
+        <div class="flex items-center justify-between"><h2 class="text-2xl font-semibold tracking-[-0.02em] md:text-[28px]">{C.more}</h2><a href={routes.articles[lang]} class="inline-flex items-center gap-1.5 text-sm font-medium hover:text-accent">{C.all}<Icon name="arrow-right" size={15} /></a></div>
+        <div class="mt-8 grid gap-5 md:grid-cols-3">{more.map((x, i) => <ArticleCard a={x} tint={i + 1} />)}</div>
+      </div>
+    </section>
+  )}
+</ApplyKitLayout>

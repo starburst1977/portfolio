@@ -1,0 +1,419 @@
+---
+// The Apply Kit landing page, English and German. src/pages/apply-kit.astro and
+// src/pages/apply-kit/de.astro only pick the language.
+import { Image } from 'astro:assets';
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import Icon from './Icon.astro';
+import Terminal from './Terminal.astro';
+import AtsBand from './AtsBand.astro';
+import Faq from './Faq.astro';
+import CtaBanner from './CtaBanner.astro';
+import ArticleCard from './ArticleCard.astro';
+import { CV } from './images';
+import { GITHUB, PACK_PRICE, KIT_MIN, LAYOUTS, routes, pdf, getArticles, type Lang } from '../../lib/apply-kit';
+import cvEn from '../../assets/apply-kit/cv-en.png';
+import cvDe from '../../assets/apply-kit/cv-de.png';
+import letterEn from '../../assets/apply-kit/letter-en.png';
+import letterDe from '../../assets/apply-kit/letter-de.png';
+import portrait from '../../assets/portrait-about.jpeg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const other: Lang = lang === 'en' ? 'de' : 'en';
+
+const C = {
+  en: {
+    title: 'Apply Kit for Claude: tailored CVs and cover letters, nothing invented',
+    description: 'Paste a job ad, get a tailored CV and cover letter as print-ready PDFs. Written from your confirmed experience, in English or German. Runs in Claude Code.',
+    ogTitle: 'Tailored CVs and cover letters, nothing invented',
+    ogDescription: 'The process I used for 89 applications, packaged for Claude Code. An honest fit check first, then a CV and letter from facts you have confirmed. English or German.',
+    image: '/apply-kit/og-numbers.png',
+    pillNew: 'New', pill: 'A free ATS check for any CV', pillCta: 'Try it',
+    h1a: 'A tailored CV for every job.', h1b: 'Nothing invented.',
+    sub: 'Apply Kit turns Claude Code into a careful application writer. It checks every job ad honestly and writes your CV and cover letter from facts you confirmed, as print-ready PDFs.',
+    ctaGithub: 'Get it free on GitHub', ctaAts: 'Run the ATS check',
+    meta: 'Free and open source (MIT) · Runs on your computer · English and German',
+    phone: 'On your phone? Apply Kit needs a computer. Send yourself the link and look at it later at your desk.',
+    phoneCta: 'Email me the link',
+    mailLater: 'mailto:?subject=Apply%20Kit%20for%20Claude&body=To%20look%20at%20on%20my%20computer%3A%20https%3A//www.svenread.com/apply-kit/%3Futm_source%3Demail-later',
+    term: [
+      { t: '> I want to apply to Kestrel Logistics. Here is the ad.', tone: 'cmd' },
+      { t: '' },
+      { t: 'Fit check · Senior Product Manager, Carrier Platform', tone: 'head' },
+      { t: '  Skills  strong fit   ·   Role  matches your target' },
+      { t: '  ✓ “User interviews yourself” → weekly dispatcher interviews', tone: 'ok' },
+      { t: '  ✓ “SQL and product analytics” → SQL and Looker', tone: 'ok' },
+      { t: '  ! Hybrid, two office days a week in Munich', tone: 'warn' },
+      { t: '' },
+      { t: 'Numbers check · CV_Kestrel.md', tone: 'head' },
+      { t: '  ✓ all 5 numbers confirmed in your profile', tone: 'ok' },
+      { t: '' },
+      { t: 'Rendered  Lena_Hoffmann_CV_Kestrel.pdf  (2 pages)', tone: 'dim' },
+    ],
+    stats: [['89', 'applications · Feb to Jun 2026'], ['65', 'tailored CVs'], ['42', 'rejections'], ['7', 'interviews landed']],
+    howEyebrow: 'How it works', howTitle: 'One profile. A fresh application for every job.',
+    howSub: 'Set up once in about 15 minutes. Then paste an ad: Claude checks the fit, writes the documents and renders the PDFs.',
+    f1: ['Your career, once, as one timeline', 'Claude reads your old CV and LinkedIn PDF, lays everything out and asks about every date that doesn’t add up.'],
+    timeline: [['2021–now', 'Senior PM · Frachtwerk'], ['2017–2021', 'Product Owner · Stadtwerke'], ['2013–2016', 'Business Analyst · Kerner']],
+    f2: ['An honest fit check first', 'Skills and role judged separately, so a job you could do but shouldn’t want gets called out.'],
+    fit: [['Skills', 'Strong fit', 'ok'], ['Role', 'Below your target', 'warn']],
+    f3: ['Every number checked', 'Before any PDF is made, each number is matched against your profile.'],
+    nums: [['✓ CV_Kestrel.md · 5 of 5 confirmed', 'ok'], ['! CoverLetter_Kestrel.md · “25%” not in profile', 'warn']],
+    f4: ['Real PDFs, in English or German', 'Selectable text in reading order, the right conventions for an Anschreiben, letters fitted to one page.'],
+    f5: ['Free and open source', 'MIT licensed, on GitHub. Read every line, change what you like.'],
+    storyEyebrow: 'Why it exists',
+    story1: 'I built Apply Kit for my own job search. Those numbers are the real ones, counted from my own applications tracker, rejections included.',
+    story2: 'Somewhere in there my CVs started contradicting each other: a date in one version, a different one in the next, a result that was 35% here and 40% there. So I rebuilt the whole process around one rule: nothing goes into an application unless I’ve confirmed it. The first time I ran the finished kit on myself, it found errors in my own CV.',
+    role: 'Product designer near Munich',
+    layEyebrow: 'Layouts', layTitle: 'Nine layouts. One is free.',
+    laySub: `Classic comes with the kit. The Layout Pack adds eight more for ${PACK_PRICE}, from a tabular DIN 5008 CV to two-column pages with a photo.`,
+    filters: [['all', 'All nine'], ['free', 'Free'], ['flow', 'One column'], ['onepage', 'Two columns']],
+    free: 'Free', photo: 'Photo',
+    packCta: `See the Layout Pack · ${PACK_PRICE}`, packNote: `One-time purchase · Needs the free kit ${KIT_MIN} or newer`,
+    exEyebrow: 'Real examples', exTitle: 'Open the PDFs',
+    exSub: 'Made with the kit for Lena Hoffmann, a fictional product manager in logistics. Every number traces back to her profile. The text is real and selectable, exactly as a recruiter receives it.',
+    examples: [[cvEn, 'CV', 'English, 2 pages', 'CV_Kestrel'], [letterEn, 'Cover letter', 'English, opens with the ad’s own words', 'CoverLetter_Kestrel'], [cvDe, 'Lebenslauf', 'German, 2 pages', 'CV_Nordlicht'], [letterDe, 'Anschreiben', 'German, with recipient, date and subject', 'Anschreiben_Nordlicht']],
+    openPdf: 'Open PDF',
+    artEyebrow: 'Articles', artTitle: 'Notes from 89 applications', allArticles: 'All articles',
+    needTitle: 'What you need',
+    needs: [
+      'The <a href="https://claude.ai/download" target="_blank" rel="noopener">Claude desktop app</a>, with a Claude plan that includes Claude Code',
+      '<a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>, free, installed in a few minutes. The kit’s README walks you through it',
+      'Your current CV as a PDF. A LinkedIn profile saved as PDF helps too',
+    ],
+    dataTitle: 'Your data',
+    data: 'Everything stays in one folder on your computer. The kit has no account, no server and no cloud storage. The only place your information goes is to Claude, during your conversation, under your own Claude plan.',
+    faqEyebrow: 'FAQ', faqTitle: 'Questions',
+    faq: [
+      { q: 'Does it work in the normal Claude chat?', a: 'No. It needs Claude Code, which comes with the Claude desktop app, because it makes the PDFs on your computer. You need a Claude plan that includes Claude Code.' },
+      { q: 'Is it really free?', a: 'Yes. The kit is MIT licensed and on GitHub. It runs on your own Claude plan, so the only cost is the Claude plan you already have.' },
+      { q: 'What’s in the Layout Pack, and do I need it?', a: `Eight more layouts for ${PACK_PRICE}, from a tabular DIN 5008 CV to two-column one-page designs. You don’t need it: Classic does the job. The pack is for a different look, a photo, or a formal German letter. <a href="${routes.pack.en}">See every layout</a>.` },
+      { q: 'Can I add a photo?', a: 'Yes, in Statement, Mono, Sidebar and Poster. It is off by default: most CVs go without one today, in Germany too, and in the UK or US a photo can count against you.' },
+      { q: 'What if it doesn’t work for me?', a: 'Open an issue on GitHub or email me@svenread.com and tell me where it stopped. A screenshot helps.' },
+      { q: 'I’m not a designer. Is it for me?', a: 'Yes. The examples come from a product manager in logistics. It works for any role where a CV and a cover letter matter.' },
+      { q: 'Will recruiters know Claude wrote it?', a: 'It writes from your own facts, in your own voice, and you read and approve everything before it goes out. It’s your application; Claude does the drafting.' },
+      { q: 'Can I use it for German applications?', a: 'Yes, in both directions. It picks the language from the job ad and follows German conventions for the Anschreiben.' },
+      { q: 'Does it run on Windows?', a: 'Claude Code and Node.js both run on Windows, so it should. It has been tested on macOS so far.' },
+    ],
+    ctaTitle: 'Your next application, written from what you’ve actually done.',
+    ctaSub: 'Free, open source, runs on your computer.',
+  },
+  de: {
+    title: 'Apply Kit for Claude: Lebenslauf und Anschreiben für jede Stelle, nichts erfunden',
+    description: 'Stellenanzeige einfügen, maßgeschneiderten Lebenslauf und Anschreiben als druckfertige PDFs bekommen. Aus Ihren bestätigten Erfahrungen, auf Deutsch oder Englisch. Läuft in Claude Code.',
+    ogTitle: 'Lebenslauf und Anschreiben für jede Stelle, nichts erfunden',
+    ogDescription: 'Der Prozess aus meinen 89 Bewerbungen, als Kit für Claude Code. Erst eine ehrliche Einschätzung, dann Lebenslauf und Anschreiben aus Fakten, die Sie bestätigt haben. Deutsch oder Englisch.',
+    image: '/apply-kit/og-numbers-de.png',
+    pillNew: 'Neu', pill: 'Kostenloser ATS-Check für jeden Lebenslauf', pillCta: 'Ausprobieren',
+    h1a: 'Lebenslauf und Anschreiben für jede Stelle.', h1b: 'Nichts erfunden.',
+    sub: 'Apply Kit macht Claude Code zum sorgfältigen Bewerbungsschreiber. Es prüft jede Stellenanzeige ehrlich und schreibt Lebenslauf und Anschreiben aus Fakten, die Sie bestätigt haben, als druckfertige PDFs.',
+    ctaGithub: 'Kostenlos auf GitHub', ctaAts: 'Zum ATS-Check',
+    meta: 'Kostenlos und Open Source (MIT) · Läuft auf Ihrem Rechner · Deutsch und Englisch',
+    phone: 'Gerade am Handy? Apply Kit braucht einen Rechner. Schicken Sie sich den Link und schauen Sie ihn später in Ruhe am Schreibtisch an.',
+    phoneCta: 'Link per E-Mail schicken',
+    mailLater: 'mailto:?subject=Apply%20Kit%20for%20Claude&body=Sp%C3%A4ter%20am%20Rechner%20anschauen%3A%20https%3A//www.svenread.com/apply-kit/de/%3Futm_source%3Demail-later',
+    term: [
+      { t: '> Ich bewerbe mich bei Nordlicht Health. Hier ist die Anzeige.', tone: 'cmd' },
+      { t: '' },
+      { t: 'Einschätzung · Senior Product Managerin, Terminplattform', tone: 'head' },
+      { t: '  Fähigkeiten  passt gut   ·   Rolle  entspricht Ihrem Ziel' },
+      { t: '  ✓ „Statuskommunikation“ → proaktive Verspätungshinweise bei Frachtwerk', tone: 'ok' },
+      { t: '  ✓ „Kundenportale“ → Kundenportal der Stadtwerke Talheim', tone: 'ok' },
+      { t: '  ! Gefordert: Gehaltsvorstellung und Eintrittstermin', tone: 'warn' },
+      { t: '' },
+      { t: 'Zahlenprüfung · CV_Nordlicht.md', tone: 'head' },
+      { t: '  ✓ alle Zahlen im Profil bestätigt', tone: 'ok' },
+      { t: '' },
+      { t: 'Erstellt  Lena_Hoffmann_CV_Nordlicht.pdf  (2 Seiten)', tone: 'dim' },
+    ],
+    stats: [['89', 'Bewerbungen · Feb. bis Juni 2026'], ['65', 'maßgeschneiderte Lebensläufe'], ['42', 'Absagen'], ['7', 'Einladungen zum Gespräch']],
+    howEyebrow: 'So funktioniert’s', howTitle: 'Ein Profil. Für jede Stelle eine eigene Bewerbung.',
+    howSub: 'Einmal einrichten, in etwa 15 Minuten. Dann eine Anzeige einfügen: Claude prüft die Passung, schreibt die Unterlagen und erstellt die PDFs.',
+    f1: ['Ihr Werdegang, einmal, als eine Zeitleiste', 'Claude liest Ihren alten Lebenslauf und Ihr LinkedIn-PDF, legt alles an und fragt bei jedem Datum nach, das nicht zusammenpasst.'],
+    timeline: [['2021–heute', 'Senior PM · Frachtwerk'], ['2017–2021', 'Product Owner · Stadtwerke'], ['2013–2016', 'Business Analyst · Kerner']],
+    f2: ['Zuerst eine ehrliche Einschätzung', 'Fähigkeiten und Rolle werden getrennt bewertet. So fällt auf, wenn eine Stelle zwar machbar ist, aber ein Rückschritt wäre.'],
+    fit: [['Fähigkeiten', 'Passt gut', 'ok'], ['Rolle', 'Unter Ihrem Ziel', 'warn']],
+    f3: ['Jede Zahl geprüft', 'Bevor ein PDF entsteht, wird jede Zahl mit Ihrem Profil abgeglichen.'],
+    nums: [['✓ CV_Nordlicht.md · alle Zahlen bestätigt', 'ok'], ['! CoverLetter_Kestrel.md · „25 %“ nicht im Profil', 'warn']],
+    f4: ['Echte PDFs, auf Deutsch oder Englisch', 'Markierbarer Text in Lesereihenfolge, die Konventionen des deutschen Anschreibens, Briefe auf eine Seite gebracht.'],
+    f5: ['Kostenlos und Open Source', 'MIT-Lizenz, auf GitHub. Lesen Sie jede Zeile, ändern Sie, was Sie möchten.'],
+    storyEyebrow: 'Warum es das gibt',
+    story1: 'Ich habe Apply Kit für meine eigene Jobsuche gebaut. Die Zahlen sind echt, gezählt aus meinem eigenen Bewerbungstracker, Absagen inklusive.',
+    story2: 'Irgendwann widersprachen sich meine Lebensläufe: ein Datum in der einen Version, ein anderes in der nächsten, ein Ergebnis mit 35 % hier und 40 % dort. Also habe ich den ganzen Prozess um eine Regel herum neu gebaut: Nichts kommt in eine Bewerbung, was ich nicht bestätigt habe. Beim ersten Lauf des fertigen Kits auf mich selbst fand es Fehler in meinem eigenen Lebenslauf.',
+    role: 'Produktdesigner bei München',
+    layEyebrow: 'Layouts', layTitle: 'Neun Layouts. Eines ist kostenlos.',
+    laySub: `Classic ist im Kit enthalten. Das Layout Pack bringt acht weitere für ${PACK_PRICE}, vom tabellarischen Lebenslauf nach DIN 5008 bis zu zweispaltigen Seiten mit Foto.`,
+    filters: [['all', 'Alle neun'], ['free', 'Kostenlos'], ['flow', 'Einspaltig'], ['onepage', 'Zweispaltig']],
+    free: 'Kostenlos', photo: 'Foto',
+    packCta: `Zum Layout Pack · ${PACK_PRICE}`, packNote: `Einmalkauf · Braucht das kostenlose Kit ab Version ${KIT_MIN}`,
+    exEyebrow: 'Echte Beispiele', exTitle: 'Öffnen Sie die PDFs',
+    exSub: 'Mit dem Kit erstellt für Lena Hoffmann, eine erfundene Produktmanagerin aus der Logistik. Jede Zahl lässt sich auf ihr Profil zurückführen. Der Text ist echt und markierbar, genau so, wie ihn ein Personaler bekommt.',
+    examples: [[cvDe, 'Lebenslauf', 'Deutsch, 2 Seiten', 'CV_Nordlicht'], [letterDe, 'Anschreiben', 'Deutsch, mit Empfänger, Datum und Betreff', 'Anschreiben_Nordlicht'], [cvEn, 'CV', 'Englisch, 2 Seiten', 'CV_Kestrel'], [letterEn, 'Cover letter', 'Englisch, beginnt mit den Worten der Anzeige', 'CoverLetter_Kestrel']],
+    openPdf: 'PDF öffnen',
+    artEyebrow: 'Artikel', artTitle: 'Notizen aus 89 Bewerbungen', allArticles: 'Alle Artikel',
+    needTitle: 'Was Sie brauchen',
+    needs: [
+      'Die <a href="https://claude.ai/download" target="_blank" rel="noopener">Claude-Desktop-App</a>, mit einem Claude-Tarif, der Claude Code enthält',
+      '<a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>, kostenlos, in wenigen Minuten installiert. Die README im Kit führt Sie durch',
+      'Ihren aktuellen Lebenslauf als PDF. Ein als PDF gespeichertes LinkedIn-Profil hilft zusätzlich',
+    ],
+    dataTitle: 'Ihre Daten',
+    data: 'Alles bleibt in einem Ordner auf Ihrem Rechner. Das Kit hat kein Konto, keinen Server und keinen Cloud-Speicher. Ihre Angaben gehen ausschließlich an Claude, während Ihres Gesprächs, über Ihren eigenen Claude-Tarif.',
+    faqEyebrow: 'FAQ', faqTitle: 'Fragen',
+    faq: [
+      { q: 'Funktioniert das im normalen Claude-Chat?', a: 'Nein. Es braucht Claude Code, das in der Claude-Desktop-App enthalten ist, weil die PDFs auf Ihrem Rechner entstehen. Sie brauchen einen Claude-Tarif, der Claude Code enthält.' },
+      { q: 'Ist das wirklich kostenlos?', a: 'Ja. Das Kit steht unter MIT-Lizenz auf GitHub. Es läuft über Ihren eigenen Claude-Tarif, Kosten entstehen also nur für den Tarif, den Sie ohnehin haben.' },
+      { q: 'Was steckt im Layout Pack, und brauche ich es?', a: `Acht weitere Layouts für ${PACK_PRICE}, vom tabellarischen Lebenslauf nach DIN 5008 bis zu zweispaltigen Layouts auf einer Seite. Nötig ist es nicht: Classic reicht völlig. Das Paket ist für einen anderen Look, ein Foto oder ein formelles Anschreiben nach DIN 5008. <a href="${routes.pack.de}">Alle Layouts ansehen</a>.` },
+      { q: 'Kann ich ein Foto einfügen?', a: 'Ja, in Statement, Mono, Sidebar und Poster. Standardmäßig ist es aus: Die meisten Lebensläufe kommen heute ohne Foto aus, auch in Deutschland, und in Großbritannien oder den USA kann ein Foto sogar schaden.' },
+      { q: 'Und wenn es bei mir nicht funktioniert?', a: 'Eröffnen Sie ein Issue auf GitHub oder schreiben Sie an me@svenread.com und sagen Sie mir, wo es nicht weiterging. Ein Screenshot hilft.' },
+      { q: 'Ich bin kein Designer. Ist das trotzdem etwas für mich?', a: 'Ja. Die Beispiele stammen von einer Produktmanagerin aus der Logistik. Es passt für jede Rolle, bei der Lebenslauf und Anschreiben zählen.' },
+      { q: 'Merken Personaler, dass Claude geschrieben hat?', a: 'Es schreibt aus Ihren eigenen Fakten, in Ihrer Sprache, und Sie lesen und bestätigen alles, bevor es rausgeht. Es bleibt Ihre Bewerbung, Claude übernimmt den Entwurf.' },
+      { q: 'Kann ich es für deutsche Bewerbungen nutzen?', a: 'Ja, in beide Richtungen. Die Sprache kommt aus der Stellenanzeige, und für das Anschreiben gelten die deutschen Konventionen.' },
+      { q: 'Läuft es unter Windows?', a: 'Claude Code und Node.js laufen beide unter Windows, es sollte also funktionieren. Getestet ist es bisher unter macOS.' },
+    ],
+    ctaTitle: 'Ihre nächste Bewerbung, geschrieben aus dem, was Sie wirklich gemacht haben.',
+    ctaSub: 'Kostenlos, Open Source, läuft auf Ihrem Rechner.',
+  },
+}[lang];
+
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Apply Kit for Claude',
+  description: C.description,
+  image: 'https://www.svenread.com/apply-kit/og.png',
+  url: `https://www.svenread.com${routes.home[lang]}`,
+  brand: { '@type': 'Brand', name: 'Sven Read' },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: GITHUB },
+};
+const articles = getArticles(lang).slice(0, 3);
+const heroPage = lang === 'de' ? cvDe : cvEn;
+---
+
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} ogTitle={C.ogTitle} ogDescription={C.ogDescription} image={C.image} altHref={routes.home[other]} jsonLd={productLd}>
+  <!-- Hero -->
+  <section class="bg-linear-to-b from-white to-[#F5F5FF]">
+    <div class="mx-auto max-w-[76rem] px-5 pb-16 pt-10 text-center md:px-8 md:pb-24 md:pt-20">
+      <a href={routes.ats[lang]} class="inline-flex items-center gap-2 rounded-full border border-line bg-white py-1 pl-1.5 pr-3 text-[13px] hover:border-[#A3A3A3] plausible-event-name=ATS+Pill+Click">
+        <span class="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-white">{C.pillNew}</span>
+        <span>{C.pill}</span><span class="hidden font-medium text-accent sm:inline">{C.pillCta}</span><Icon name="arrow-right" size={13} class="text-muted" />
+      </a>
+      <h1 class="mx-auto mt-6 max-w-4xl text-[2.5rem] font-semibold leading-[1.04] tracking-[-0.045em] md:text-[4.25rem]">{C.h1a}<br class="hidden md:block" /> {C.h1b}</h1>
+      <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted md:text-lg">{C.sub}</p>
+      <div class="mx-auto mt-8 flex max-w-sm flex-col gap-2.5 sm:max-w-none sm:flex-row sm:justify-center sm:gap-3">
+        <a href={GITHUB} class="ak-btn ak-btn-dark plausible-event-name=GitHub+Click"><Icon name="github" size={17} />{C.ctaGithub}</a>
+        <a href={routes.ats[lang]} class="ak-btn ak-btn-outline plausible-event-name=ATS+Hero+Click"><Icon name="scan-text" size={17} />{C.ctaAts}</a>
+      </div>
+      <p class="mt-5 text-xs text-muted md:text-[13px]">{C.meta}</p>
+      <div class="mx-auto mt-6 max-w-md rounded-2xl border border-line bg-white p-5 text-left lg:hidden">
+        <p class="text-sm leading-relaxed">{C.phone}</p>
+        <a href={C.mailLater} class="ak-btn ak-btn-outline mt-3 !px-4 !py-2.5 !text-sm plausible-event-name=Email+Later"><Icon name="mail" size={15} />{C.phoneCta}</a>
+      </div>
+
+      <div class="relative mx-auto mt-12 max-w-5xl text-left md:mt-16">
+        <div class="ak-page absolute right-0 top-0 hidden w-[34%] rotate-[2.5deg] md:block">
+          <Image src={heroPage} alt="" widths={[400, 700]} sizes="340px" loading="eager" />
+        </div>
+        <div class="ak-page mx-auto mb-[-12rem] w-[62%] rotate-2 md:hidden">
+          <Image src={heroPage} alt="" widths={[300, 500]} sizes="62vw" loading="eager" />
+        </div>
+        <Terminal lines={C.term as any} class="relative md:mr-[24%] md:mt-12" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <section class="border-y border-line">
+    <dl class="mx-auto grid max-w-[76rem] grid-cols-2 px-5 md:grid-cols-4 md:px-8">
+      {C.stats.map(([n, l], i) => (
+        <div class:list={['py-6 md:py-10', i % 2 === 1 && 'border-l border-line pl-5 md:pl-8', i >= 2 && 'border-t border-line md:border-t-0', i === 2 && 'md:border-l md:pl-8']}>
+          <dt class="text-[2.1rem] font-semibold leading-none tracking-[-0.04em] md:text-[2.75rem]">{n}</dt>
+          <dd class="mt-2 text-[13px] text-muted md:text-sm">{l}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="mx-auto max-w-[76rem] scroll-mt-20 px-5 py-16 md:px-8 md:py-24">
+    <p class="ak-eyebrow">{C.howEyebrow}</p>
+    <h2 class="ak-h2 mt-3 max-w-2xl">{C.howTitle}</h2>
+    <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted md:text-lg">{C.howSub}</p>
+    <div class="mt-10 grid gap-4 md:mt-12 md:grid-cols-6 md:gap-5">
+      <div class="rounded-2xl border border-line p-6 md:col-span-4 md:p-8">
+        <h3 class="text-lg font-semibold">{C.f1[0]}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-muted">{C.f1[1]}</p>
+        <ul class="mt-6 space-y-2.5">
+          {C.timeline.map(([d, r]) => (
+            <li class="flex items-center gap-4 rounded-[10px] border border-line px-4 py-3 text-sm">
+              <span class="h-6 w-0.5 rounded bg-accent"></span><span class="w-24 shrink-0 font-mono text-xs text-muted">{d}</span><span class="font-medium">{r}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-2xl border border-line bg-card p-6 md:col-span-2 md:p-8">
+        <h3 class="text-lg font-semibold">{C.f2[0]}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-muted">{C.f2[1]}</p>
+        <ul class="mt-6 space-y-2.5">
+          {C.fit.map(([k, v, s]) => (
+            <li class="flex items-center justify-between rounded-[10px] border border-line bg-white px-4 py-3 text-sm">
+              <span>{k}</span><span class:list={['rounded-md px-2 py-0.5 text-xs font-semibold', s === 'ok' ? 'bg-accent-soft text-accent' : 'bg-[#FFFBEB] text-[#B45309]']}>{v}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-night p-6 text-white md:col-span-2 md:p-8">
+        <h3 class="text-lg font-semibold">{C.f3[0]}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-[#A1A1AA]">{C.f3[1]}</p>
+        <ul class="mt-6 space-y-2 font-mono text-[12px] leading-relaxed">
+          {C.nums.map(([x, s]) => <li class={s === 'ok' ? 'text-[#86EFAC]' : 'text-[#FCD34D]'}>{x}</li>)}
+        </ul>
+      </div>
+      <div class="overflow-hidden rounded-2xl border border-line p-6 md:col-span-2 md:p-8">
+        <h3 class="text-lg font-semibold">{C.f4[0]}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-muted">{C.f4[1]}</p>
+        <div class="relative mt-6 h-36" aria-hidden="true">
+          <div class="ak-page absolute left-[6%] top-4 w-[34%] -rotate-6"><Image src={cvEn} alt="" widths={[200, 320]} sizes="140px" /></div>
+          <div class="ak-page absolute left-[33%] top-0 z-10 w-[34%]"><Image src={letterDe} alt="" widths={[200, 320]} sizes="140px" /></div>
+          <div class="ak-page absolute left-[60%] top-4 w-[34%] rotate-6"><Image src={letterEn} alt="" widths={[200, 320]} sizes="140px" /></div>
+        </div>
+      </div>
+      <div class="flex flex-col rounded-2xl border border-line p-6 md:col-span-2 md:p-8">
+        <h3 class="text-lg font-semibold">{C.f5[0]}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-muted">{C.f5[1]}</p>
+        <a href={GITHUB} class="mt-6 flex items-center gap-2.5 rounded-[10px] border border-line bg-card px-4 py-3 font-mono text-[13px] hover:border-[#A3A3A3] md:mt-auto plausible-event-name=GitHub+Click"><Icon name="github" size={17} />starburst1977/apply-kit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why it exists -->
+  <section class="border-t border-line bg-card">
+    <div class="mx-auto grid max-w-[76rem] gap-8 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div>
+        <p class="ak-eyebrow">{C.storyEyebrow}</p>
+        <p class="mt-4 text-[1.6rem] font-semibold leading-[1.25] tracking-[-0.03em] md:text-[2.1rem]">{C.story1}</p>
+      </div>
+      <div class="lg:pt-9">
+        <p class="text-base leading-relaxed text-muted md:text-lg">{C.story2}</p>
+        <div class="mt-8 flex items-center gap-4">
+          <Image src={portrait} alt="Sven Read" widths={[128]} class="h-16 w-16 rounded-2xl object-cover" />
+          <div>
+            <p class="font-semibold"><a href="/about" class="hover:text-accent">Sven Read</a></p>
+            <p class="text-sm text-muted">{C.role}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <AtsBand lang={lang} />
+
+  <!-- Layouts -->
+  <section id="layouts" class="mx-auto max-w-[76rem] scroll-mt-20 py-16 md:py-24">
+    <div class="flex flex-col justify-between gap-6 px-5 md:px-8 lg:flex-row lg:items-end">
+      <div class="max-w-2xl">
+        <p class="ak-eyebrow">{C.layEyebrow}</p>
+        <h2 class="ak-h2 mt-3">{C.layTitle}</h2>
+        <p class="mt-4 text-base leading-relaxed text-muted md:text-lg">{C.laySub}</p>
+      </div>
+      <div class="-mx-5 overflow-x-auto px-5 md:mx-0 md:px-0" data-layout-filter>
+        <div class="inline-flex gap-1 rounded-[10px] bg-chip p-1">
+          {C.filters.map(([k, l], i) => (
+            <button type="button" data-filter={k} aria-pressed={i === 0 ? 'true' : 'false'} class="whitespace-nowrap rounded-[7px] px-3.5 py-2 text-[13px] font-medium text-muted aria-pressed:bg-white aria-pressed:text-ink aria-pressed:shadow-[0_1px_3px_rgb(0_0_0/0.1)]">{l}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+    <ul class="mt-10 flex snap-x gap-3.5 overflow-x-auto px-5 pb-4 md:grid md:grid-cols-5 md:gap-4 md:overflow-visible md:px-8 lg:grid-cols-9" data-layout-list>
+      {LAYOUTS.map((l) => (
+        <li data-tags={[l.free ? 'free' : 'pack', l.group].join(' ')} class="w-[42%] shrink-0 snap-start md:w-auto">
+          <a href={l.free ? `${routes.home[lang]}#examples` : `${routes.pack[lang]}#${l.key}`} class="group block">
+            <div class:list={['rounded-xl border bg-card p-3 transition-colors group-hover:border-[#A3A3A3]', l.free ? 'border-accent ring-1 ring-accent' : 'border-line']}>
+              <div class="ak-page"><Image src={CV[l.key]} alt={`${l.name}, CV page 1`} widths={[200, 320]} sizes="(max-width: 768px) 40vw, 130px" /></div>
+            </div>
+            <p class="mt-2.5 flex items-center gap-1.5 text-sm font-semibold">{l.name}
+              {l.free && <span class="rounded-md bg-[#F0FDF4] px-1.5 py-0.5 text-[11px] font-medium text-[#15803D]">{C.free}</span>}
+              {l.photo && <span class="rounded-md bg-chip px-1.5 py-0.5 text-[11px] font-medium text-muted">{C.photo}</span>}
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-8 flex flex-col items-start gap-3 px-5 sm:flex-row sm:items-center sm:gap-5 md:px-8">
+      <a href={routes.pack[lang]} class="ak-btn ak-btn-dark w-full sm:w-auto plausible-event-name=Pack+Page+Click">{C.packCta}<Icon name="arrow-right" size={16} /></a>
+      <p class="text-sm text-muted">{C.packNote}</p>
+    </div>
+  </section>
+
+  <!-- Real examples -->
+  <section id="examples" class="scroll-mt-20 border-t border-line">
+    <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24">
+      <p class="ak-eyebrow">{C.exEyebrow}</p>
+      <h2 class="ak-h2 mt-3">{C.exTitle}</h2>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted md:text-lg">{C.exSub}</p>
+      <div class="mt-10 grid grid-cols-2 gap-5 md:gap-8 lg:grid-cols-4">
+        {C.examples.map(([img, t, n, f]) => (
+          <a href={pdf(f as string)} target="_blank" rel="noopener" class="group block plausible-event-name=Example+PDF">
+            <div class="ak-page transition-transform duration-300 group-hover:-translate-y-1"><Image src={img as any} alt={`${t}: ${n}`} widths={[300, 500]} sizes="(max-width: 1024px) 45vw, 260px" /></div>
+            <p class="mt-4 font-semibold group-hover:text-accent">{t}</p>
+            <p class="text-sm text-muted">{n}</p>
+            <p class="mt-2 inline-flex items-center gap-1 text-[13px] font-medium text-accent">{C.openPdf}<Icon name="external-link" size={13} /></p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {articles.length > 0 && (
+    <section class="border-t border-line bg-card">
+      <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24">
+        <div class="flex items-end justify-between gap-6">
+          <div><p class="ak-eyebrow">{C.artEyebrow}</p><h2 class="ak-h2 mt-3">{C.artTitle}</h2></div>
+          <a href={routes.articles[lang]} class="hidden items-center gap-1.5 text-sm font-medium hover:text-accent sm:inline-flex">{C.allArticles}<Icon name="arrow-right" size={15} /></a>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+          {articles.map((a, i) => <ArticleCard a={a} tint={i} />)}
+        </div>
+        <a href={routes.articles[lang]} class="mt-6 inline-flex items-center gap-1.5 text-sm font-medium sm:hidden">{C.allArticles}<Icon name="arrow-right" size={15} /></a>
+      </div>
+    </section>
+  )}
+
+  <!-- What you need, your data -->
+  <section class="border-t border-line">
+    <div class="mx-auto grid max-w-[76rem] gap-4 px-5 py-16 md:grid-cols-2 md:gap-5 md:px-8 md:py-24">
+      <div class="rounded-2xl border border-line p-6 md:p-8">
+        <h2 class="text-xl font-semibold">{C.needTitle}</h2>
+        <ul class="mt-5 space-y-3.5 text-[15px] leading-relaxed [&_a]:text-accent [&_a]:underline [&_a]:decoration-accent-line [&_a]:underline-offset-4">
+          {C.needs.map((n) => <li class="flex gap-3"><Icon name="check" size={17} class="mt-0.5 shrink-0 text-accent" /><span set:html={n} /></li>)}
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-night p-6 text-white md:p-8">
+        <h2 class="flex items-center gap-2.5 text-xl font-semibold"><Icon name="lock" size={19} class="text-[#A5B4FC]" />{C.dataTitle}</h2>
+        <p class="mt-5 text-[15px] leading-relaxed text-[#D4D4DC]">{C.data}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line">
+    <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24">
+      <Faq items={C.faq} eyebrow={C.faqEyebrow} title={C.faqTitle} />
+    </div>
+  </section>
+
+  <CtaBanner title={C.ctaTitle} sub={C.ctaSub} label={C.ctaGithub} href={GITHUB} icon="github" event="GitHub+Click" />
+</ApplyKitLayout>
+
+<script>
+  // Layout filter on the landing page: hides the layouts that don't match the chosen tab.
+  document.querySelectorAll<HTMLElement>('[data-layout-filter]').forEach((bar) => {
+    const list = bar.closest('section')!.querySelector<HTMLElement>('[data-layout-list]')!;
+    bar.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+      if (!btn) return;
+      bar.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      const f = btn.dataset.filter!;
+      list.querySelectorAll<HTMLElement>('[data-tags]').forEach((li) => { li.hidden = f !== 'all' && !li.dataset.tags!.split(' ').includes(f); });
+    });
+  });
+</script>

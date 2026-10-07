@@ -1,0 +1,301 @@
+---
+// The Layout Pack page, English and German: every layout, what's in the zip, how to install it.
+// #install is the one place the install steps live; the thank-you pages link here.
+import { Image } from 'astro:assets';
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import Icon from './Icon.astro';
+import Terminal from './Terminal.astro';
+import Faq from './Faq.astro';
+import CtaBanner from './CtaBanner.astro';
+import { CV, LETTER, PHOTO } from './images';
+import { GITHUB, PACK_URL, PACK_PRICE, KIT_MIN, LAYOUTS, routes, type Lang } from '../../lib/apply-kit';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const other: Lang = lang === 'en' ? 'de' : 'en';
+const buy = PACK_URL[lang];
+
+const C = {
+  en: {
+    title: 'Layout Pack for Apply Kit: eight CV and cover letter layouts, DIN 5008 included',
+    description: `Eight layouts for CVs and cover letters made with Apply Kit: a tabular DIN 5008 CV, two-column one-pagers with an optional photo, and more. English and German. ${PACK_PRICE}, one-time.`,
+    crumb: 'Layout Pack',
+    h1: 'Eight more layouts for your CV and cover letter.',
+    sub: 'From a tabular DIN 5008 CV to two-column one-pagers with an optional photo. Each layout covers both CV and Anschreiben, in English and German, and plugs straight into the free kit.',
+    price: 'one-time · or $19',
+    buy: 'Buy the Layout Pack', install: 'How to install',
+    meta: [['circle-check', `Needs Apply Kit ${KIT_MIN}+`], ['lock', 'Checkout with Polar'], ['languages', 'EN and DE']],
+    badge: 'Every layout passes the ATS check',
+    facts: [['8', 'layouts, each for CV and letter'], ['4', 'with an optional photo'], ['2', 'languages: English and German'], ['1', 'payment, no subscription']],
+    layEyebrow: 'The layouts', layTitle: 'See every page before you buy',
+    laySub: 'The same CV and Anschreiben in each layout. Real pages rendered by the kit, nothing mocked up.',
+    groups: { flow: ['Runs to two pages when needed', 'For long careers and formal applications.'], onepage: ['Two columns on one page, optional photo', 'A strong first page. Claude keeps the CV to one.'] },
+    without: 'Without photo', with: 'With photo', photo: 'Photo', cvAlt: 'CV', letterAlt: 'Cover letter',
+    gkEyebrow: 'Good to know', gkTitle: 'Made for real applications',
+    gk: [
+      ['file', 'One page stays one page', 'A two-column CV has to fit one page. When it runs over, Claude cuts the weakest points, or suggests a layout that runs to two pages.'],
+      ['user-round', 'Photo only if you want one', 'Statement, Mono, Sidebar and Poster have a photo slot. It stays off unless you ask: most CVs today go without, in Germany too.'],
+      ['languages', 'English and German', 'Every layout knows both: CV or Lebenslauf, cover letter or Anschreiben, with the right dates and headings.'],
+      ['scan-text', 'Passes the ATS check', 'Real text in reading order, headings as words. Check any PDF yourself in the free ATS check.'],
+    ],
+    gkLink: 'Open the ATS check',
+    instEyebrow: 'Install', instTitle: 'Running in two minutes',
+    instSub: `You need the free Apply Kit ${KIT_MIN} or newer and Claude Code. No unzipping, no terminal commands.`,
+    steps: [
+      [`Get Apply Kit ${KIT_MIN}`, `The pack runs inside the free kit, version ${KIT_MIN} or newer. New to Apply Kit? <a href="${GITHUB}">Download it from GitHub</a> and follow its README. Already using it? Download the new version and copy your profile and applications folders into it.`],
+      ['Put the zip into the kit folder', 'Move the zip from your Downloads into the apply-kit folder, as it is. No need to unzip it.'],
+      ['Tell Claude “install the layout pack”', 'In Claude Code, with the apply-kit folder open. Claude installs the eight layouts and lists them.'],
+      ['Pick a layout', 'Say which one you like, for example “use the Mono layout”. Claude renders one of your documents in it, so you see it with your own CV.'],
+    ],
+    term: [
+      { t: '> install the layout pack', tone: 'cmd' },
+      { t: 'Found apply-kit-layout-pack-1-1.0.1.zip' },
+      { t: '✓ Installed 8 layouts into themes/', tone: 'ok' },
+      { t: '  Modern · Compact · DIN 5008 · Margin' },
+      { t: '  Statement · Mono · Sidebar · Poster' },
+      { t: '' },
+      { t: '> use the Mono layout', tone: 'cmd' },
+      { t: 'Rendered CV_Kestrel.pdf in Mono (1 page)' },
+      { t: '✓ Fits one page · text checked', tone: 'ok' },
+    ],
+    zipTitle: 'What’s in the zip',
+    zip: [['modern/  compact/  din5008/  margin/', 'layout, fonts, example CV and letter'], ['statement/  mono/  sidebar/  poster/', 'plus an example CV with photo'], ['LAYOUT-PACK.md', 'every layout, install, licence']],
+    perDoc: 'Mix them per application: tell Claude, or add <code>theme: din5008</code> at the top of one letter. Your other documents stay as they are.',
+    faqEyebrow: 'FAQ', faqTitle: 'Questions before you buy',
+    faq: [
+      { q: 'Do I need to code?', a: 'No. You talk to Claude in Claude Code. It installs the pack, switches layouts and renders the PDFs.' },
+      { q: 'Can one application use its own layout?', a: 'Yes. Tell Claude, or add <code>theme: din5008</code> at the top of one letter. Your other documents stay as they are.' },
+      { q: 'Which layout for a German application?', a: 'DIN 5008 for formal ones: the business letter people in German offices expect, with a tabular CV in the same letterhead. Every other layout works in German too.' },
+      { q: 'Does the free Classic layout stay?', a: 'Yes. Classic comes with the kit and stays the default until you pick another one.' },
+      { q: 'Can I share the pack?', a: 'It’s for your own applications. You may change the files for yourself, but please don’t share or resell them. The fonts are free fonts under the SIL Open Font License.' },
+      { q: 'Something doesn’t work?', a: 'Write to <a href="mailto:me@svenread.com">me@svenread.com</a> and tell me where it stopped. A screenshot helps.' },
+    ],
+    ctaTitle: `Eight layouts. One payment. ${PACK_PRICE}.`,
+    ctaSub: 'Checkout with Polar. The download link arrives by email.',
+  },
+  de: {
+    title: 'Layout Pack für Apply Kit: acht Layouts für Lebenslauf und Anschreiben, mit DIN 5008',
+    description: `Acht Layouts für Lebenslauf und Anschreiben aus Apply Kit: tabellarischer Lebenslauf nach DIN 5008, zweispaltige Seiten mit optionalem Foto und mehr. Deutsch und Englisch. ${PACK_PRICE}, einmalig.`,
+    crumb: 'Layout Pack',
+    h1: 'Acht weitere Layouts für Lebenslauf und Anschreiben.',
+    sub: 'Vom tabellarischen Lebenslauf nach DIN 5008 bis zu zweispaltigen Seiten mit optionalem Foto. Jedes Layout gilt für Lebenslauf und Anschreiben, auf Deutsch und Englisch, und passt direkt ins kostenlose Kit.',
+    price: 'einmalig · oder $19',
+    buy: 'Layout Pack kaufen', install: 'So installieren Sie es',
+    meta: [['circle-check', `Braucht Apply Kit ab ${KIT_MIN}`], ['lock', 'Bezahlung über Polar'], ['languages', 'DE und EN']],
+    badge: 'Jedes Layout besteht den ATS-Check',
+    facts: [['8', 'Layouts, je für Lebenslauf und Brief'], ['4', 'mit optionalem Foto'], ['2', 'Sprachen: Deutsch und Englisch'], ['1', 'Zahlung, kein Abo']],
+    layEyebrow: 'Die Layouts', layTitle: 'Jede Seite ansehen, bevor Sie kaufen',
+    laySub: 'Derselbe Lebenslauf und dasselbe Anschreiben in jedem Layout. Echte Seiten aus dem Kit, nichts nachgebaut.',
+    groups: { flow: ['Bei Bedarf zwei Seiten', 'Für lange Laufbahnen und formelle Bewerbungen.'], onepage: ['Zweispaltig auf einer Seite, Foto optional', 'Eine starke erste Seite. Claude hält den Lebenslauf auf einer.'] },
+    without: 'Ohne Foto', with: 'Mit Foto', photo: 'Foto', cvAlt: 'Lebenslauf', letterAlt: 'Anschreiben',
+    gkEyebrow: 'Gut zu wissen', gkTitle: 'Gemacht für echte Bewerbungen',
+    gk: [
+      ['file', 'Eine Seite bleibt eine Seite', 'Ein zweispaltiger Lebenslauf muss auf eine Seite passen. Läuft er über, kürzt Claude die schwächsten Punkte oder schlägt ein Layout vor, das zwei Seiten erlaubt.'],
+      ['user-round', 'Foto nur, wenn Sie wollen', 'Statement, Mono, Sidebar und Poster haben Platz für ein Foto. Es bleibt aus, bis Sie danach fragen: Die meisten Lebensläufe kommen heute ohne aus, auch in Deutschland.'],
+      ['languages', 'Deutsch und Englisch', 'Jedes Layout kann beides: Lebenslauf oder CV, Anschreiben oder Cover Letter, mit passenden Datumsangaben und Überschriften.'],
+      ['scan-text', 'Besteht den ATS-Check', 'Echter Text in Lesereihenfolge, Überschriften als Wörter. Prüfen Sie jedes PDF selbst im kostenlosen ATS-Check.'],
+    ],
+    gkLink: 'Zum ATS-Check',
+    instEyebrow: 'Installieren', instTitle: 'In zwei Minuten startklar',
+    instSub: `Sie brauchen das kostenlose Apply Kit ab Version ${KIT_MIN} und Claude Code. Kein Entpacken, keine Befehle im Terminal.`,
+    steps: [
+      [`Apply Kit ${KIT_MIN} holen`, `Das Paket läuft im kostenlosen Kit, ab Version ${KIT_MIN}. Neu bei Apply Kit? <a href="${GITHUB}">Laden Sie es von GitHub</a> und folgen Sie der README. Nutzen Sie es schon? Laden Sie die neue Version und kopieren Sie Ihre Ordner profile und applications hinein.`],
+      ['Zip in den Kit-Ordner legen', 'Verschieben Sie die Zip-Datei aus Ihren Downloads in den Ordner apply-kit, so wie sie ist. Entpacken ist nicht nötig.'],
+      ['Claude sagen: „Installiere das Layout-Paket“', 'In Claude Code, mit geöffnetem Ordner apply-kit. Claude installiert die acht Layouts und zeigt sie Ihnen.'],
+      ['Layout wählen', 'Sagen Sie, welches Ihnen gefällt, etwa „nimm das Layout Mono“. Claude erstellt eines Ihrer Dokumente darin, so sehen Sie es mit Ihrem eigenen Lebenslauf.'],
+    ],
+    term: [
+      { t: '> Installiere das Layout-Paket', tone: 'cmd' },
+      { t: 'apply-kit-layout-pack-1-1.0.1.zip gefunden' },
+      { t: '✓ 8 Layouts in themes/ installiert', tone: 'ok' },
+      { t: '  Modern · Compact · DIN 5008 · Margin' },
+      { t: '  Statement · Mono · Sidebar · Poster' },
+      { t: '' },
+      { t: '> Nimm das Layout Mono', tone: 'cmd' },
+      { t: 'CV_Nordlicht.pdf in Mono erstellt (1 Seite)' },
+      { t: '✓ Passt auf eine Seite · Text geprüft', tone: 'ok' },
+    ],
+    zipTitle: 'Was in der Zip steckt',
+    zip: [['modern/  compact/  din5008/  margin/', 'Layout, Schriften, Beispiel-Lebenslauf und -Brief'], ['statement/  mono/  sidebar/  poster/', 'dazu ein Beispiel-Lebenslauf mit Foto'], ['LAYOUT-PACK.md', 'jedes Layout, Installation, Lizenz']],
+    perDoc: 'Mischen Sie je Bewerbung: Sagen Sie es Claude, oder schreiben Sie <code>theme: din5008</code> oben in ein einzelnes Anschreiben. Ihre anderen Unterlagen bleiben, wie sie sind.',
+    faqEyebrow: 'FAQ', faqTitle: 'Fragen vor dem Kauf',
+    faq: [
+      { q: 'Muss ich programmieren können?', a: 'Nein. Sie sprechen mit Claude in Claude Code. Claude installiert das Paket, wechselt Layouts und erstellt die PDFs.' },
+      { q: 'Kann eine Bewerbung ein eigenes Layout haben?', a: 'Ja. Sagen Sie es Claude, oder schreiben Sie <code>theme: din5008</code> oben in ein einzelnes Anschreiben. Ihre anderen Unterlagen bleiben, wie sie sind.' },
+      { q: 'Welches Layout für eine deutsche Bewerbung?', a: 'DIN 5008 für formelle Bewerbungen: der Geschäftsbrief, den man in deutschen Büros erwartet, mit tabellarischem Lebenslauf im selben Briefkopf. Alle anderen Layouts funktionieren auf Deutsch genauso.' },
+      { q: 'Bleibt das kostenlose Classic-Layout?', a: 'Ja. Classic gehört zum Kit und bleibt Standard, bis Sie ein anderes wählen.' },
+      { q: 'Darf ich das Paket weitergeben?', a: 'Es ist für Ihre eigenen Bewerbungen. Sie dürfen die Dateien für sich ändern, aber bitte nicht weitergeben oder weiterverkaufen. Die Schriften sind freie Schriften unter der SIL Open Font License.' },
+      { q: 'Etwas funktioniert nicht?', a: 'Schreiben Sie an <a href="mailto:me@svenread.com">me@svenread.com</a> und sagen Sie mir, wo es nicht weiterging. Ein Screenshot hilft.' },
+    ],
+    ctaTitle: `Acht Layouts. Eine Zahlung. ${PACK_PRICE}.`,
+    ctaSub: 'Bezahlung über Polar. Der Download-Link kommt per E-Mail.',
+  },
+}[lang];
+
+const pack = LAYOUTS.filter((l) => !l.free);
+const groups = (['flow', 'onepage'] as const).map((g) => ({ key: g, title: C.groups[g][0], sub: C.groups[g][1], items: pack.filter((l) => l.group === g) }));
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Layout Pack for Apply Kit',
+  description: C.description,
+  url: `https://www.svenread.com${routes.pack[lang]}`,
+  brand: { '@type': 'Brand', name: 'Sven Read' },
+  offers: { '@type': 'Offer', price: '19', priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: buy },
+};
+---
+
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} image={lang === 'de' ? '/apply-kit/og-numbers-de.png' : '/apply-kit/og-numbers.png'} altHref={routes.pack[other]} active="pack" jsonLd={ld}>
+  <!-- Hero -->
+  <section class="overflow-hidden bg-linear-to-b from-white to-[#F5F5FF]">
+    <div class="mx-auto grid max-w-[76rem] items-center gap-10 px-5 pb-16 pt-8 md:px-8 md:pb-20 md:pt-16 lg:grid-cols-[33rem_1fr] lg:gap-16">
+      <div>
+        <p class="flex items-center gap-1.5 text-sm text-muted"><a href={routes.home[lang]} class="hover:text-ink">Apply Kit</a><Icon name="chevron-right" size={14} /><span class="font-medium text-accent">{C.crumb}</span></p>
+        <h1 class="mt-5 text-[2.3rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.5rem]">{C.h1}</h1>
+        <p class="mt-5 text-base leading-relaxed text-muted md:text-lg">{C.sub}</p>
+        <p class="mt-7 flex items-end gap-2.5"><span class="text-[2.5rem] font-semibold leading-none tracking-[-0.03em]">{PACK_PRICE}</span><span class="pb-0.5 text-[15px] text-muted">{C.price}</span></p>
+        <div class="mt-6 flex flex-col gap-2.5 sm:flex-row sm:gap-3">
+          <a href={buy} class="ak-btn ak-btn-accent plausible-event-name=Pack+Click"><Icon name="shopping-bag" size={17} />{C.buy}</a>
+          <a href="#install" class="ak-btn ak-btn-outline"><Icon name="arrow-down" size={17} />{C.install}</a>
+        </div>
+        <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-muted">
+          {C.meta.map(([i, t]) => <li class="flex items-center gap-1.5"><Icon name={i} size={14} />{t}</li>)}
+        </ul>
+      </div>
+      <div class="relative mx-auto h-[19rem] w-full max-w-[38rem] sm:h-[26rem] lg:h-[32rem]" aria-hidden="true">
+        <div class="ak-page absolute left-[2%] top-[22%] w-[38%] rotate-6"><Image src={CV.din5008} alt="" widths={[300, 500]} sizes="250px" /></div>
+        <div class="ak-page absolute left-[22%] top-[10%] w-[40%] rotate-2"><Image src={CV.mono} alt="" widths={[300, 500]} sizes="270px" /></div>
+        <div class="ak-page absolute right-[2%] top-[28%] w-[39%] -rotate-6"><Image src={CV.poster} alt="" widths={[300, 500]} sizes="260px" /></div>
+        <div class="ak-page absolute left-[44%] top-[6%] z-10 w-[43%] -rotate-2"><Image src={PHOTO.statement!} alt="" widths={[320, 540]} sizes="290px" loading="eager" /></div>
+        <p class="absolute bottom-0 left-0 z-20 flex items-center gap-2 rounded-full border border-line bg-white py-2 pl-2.5 pr-3.5 text-[13px] font-medium shadow-[0_8px_24px_rgb(30_27_75/0.12)]"><Icon name="scan-text" size={15} class="text-accent" />{C.badge}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line">
+    <dl class="mx-auto grid max-w-[76rem] grid-cols-2 px-5 md:grid-cols-4 md:px-8">
+      {C.facts.map(([n, l], i) => (
+        <div class:list={['py-6 md:py-9', i % 2 === 1 && 'border-l border-line pl-5 md:pl-8', i >= 2 && 'border-t border-line md:border-t-0', i === 2 && 'md:border-l md:pl-8']}>
+          <dt class="text-[2.1rem] font-semibold leading-none tracking-[-0.04em] md:text-[2.5rem]">{n}</dt>
+          <dd class="mt-2 text-[13px] text-muted md:text-sm">{l}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- The layouts -->
+  <section class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="ak-eyebrow">{C.layEyebrow}</p>
+      <h2 class="ak-h2 mt-3">{C.layTitle}</h2>
+      <p class="mt-4 text-base leading-relaxed text-muted md:text-lg">{C.laySub}</p>
+    </div>
+    {groups.map((g) => (
+      <div class="mt-14">
+        <div class="flex flex-col justify-between gap-1 border-b border-line pb-4 sm:flex-row sm:items-end">
+          <h3 class="text-xl font-semibold tracking-[-0.02em] md:text-[22px]">{g.title}</h3>
+          <p class="text-sm text-muted">{g.sub}</p>
+        </div>
+        <div class="mt-6 grid gap-5 md:grid-cols-2 md:gap-6">
+          {g.items.map((l) => (
+            <article id={l.key} class="scroll-mt-24 overflow-hidden rounded-2xl border border-line" data-photo-card>
+              <div class="flex items-end justify-center gap-3 overflow-hidden border-b border-line bg-card px-4 pt-6 sm:gap-5 sm:pt-8" style="height: clamp(14rem, 9rem + 14vw, 20.5rem)">
+                <div class="ak-page relative w-[42%] max-w-[210px]">
+                  <Image src={CV[l.key]} alt={`${l.name}: ${C.cvAlt}`} widths={[300, 460]} sizes="(max-width: 768px) 40vw, 210px" data-variant="plain" />
+                  {PHOTO[l.key] && <Image src={PHOTO[l.key]!} alt={`${l.name}: ${C.cvAlt}, ${C.photo}`} widths={[300, 460]} sizes="(max-width: 768px) 40vw, 210px" data-variant="photo" class="!hidden" />}
+                </div>
+                <div class="ak-page w-[42%] max-w-[210px]"><Image src={LETTER[l.key]} alt={`${l.name}: ${C.letterAlt}`} widths={[300, 460]} sizes="(max-width: 768px) 40vw, 210px" /></div>
+              </div>
+              <div class="p-5 md:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <h4 class="text-xl font-semibold tracking-[-0.02em]">{l.name}</h4>
+                  {l.photo && (
+                    <div class="inline-flex gap-0.5 rounded-lg bg-chip p-[3px]" role="group">
+                      <button type="button" data-show="plain" aria-pressed="true" class="rounded-md px-2.5 py-1 text-xs font-medium text-muted aria-pressed:bg-white aria-pressed:text-ink aria-pressed:shadow-[0_1px_2px_rgb(0_0_0/0.1)]">{C.without}</button>
+                      <button type="button" data-show="photo" aria-pressed="false" class="rounded-md px-2.5 py-1 text-xs font-medium text-muted aria-pressed:bg-white aria-pressed:text-ink aria-pressed:shadow-[0_1px_2px_rgb(0_0_0/0.1)]">{C.with}</button>
+                    </div>
+                  )}
+                </div>
+                <p class="mt-2.5 text-sm leading-relaxed text-muted">{l.desc[lang]}</p>
+                <p class="mt-4 flex flex-wrap gap-1.5">
+                  {l.tags[lang].map((t) => <span class="rounded-md bg-chip px-2 py-0.5 text-xs font-medium">{t}</span>)}
+                  {l.photo && <span class="rounded-md bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">{C.photo}</span>}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- Good to know -->
+  <section class="border-y border-line bg-card">
+    <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-[5.5rem]">
+      <p class="ak-eyebrow">{C.gkEyebrow}</p>
+      <h2 class="ak-h2 mt-3">{C.gkTitle}</h2>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        {C.gk.map(([i, t, d], k) => (
+          <div class="flex flex-col rounded-2xl border border-line bg-white p-6">
+            <span class="grid h-10 w-10 place-items-center rounded-[10px] bg-accent-soft text-accent"><Icon name={i} size={20} /></span>
+            <h3 class="mt-4 text-[17px] font-semibold">{t}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{d}</p>
+            {k === 3 && <a href={routes.ats[lang]} class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">{C.gkLink}<Icon name="arrow-right" size={14} /></a>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section id="install" class="mx-auto grid max-w-[76rem] scroll-mt-20 items-start gap-12 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[1fr_35rem] lg:gap-[4.5rem]">
+    <div>
+      <p class="ak-eyebrow">{C.instEyebrow}</p>
+      <h2 class="ak-h2 mt-3">{C.instTitle}</h2>
+      <p class="mt-4 text-base leading-relaxed text-muted md:text-lg">{C.instSub}</p>
+      <ol class="mt-9 space-y-6">
+        {C.steps.map(([t, d], i) => (
+          <li class="flex gap-4 md:gap-5">
+            <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-sm font-semibold text-white">{i + 1}</span>
+            <div class="pt-1">
+              <p class="text-[17px] font-semibold leading-snug">{t}</p>
+              <p class="mt-1 text-[15px] leading-relaxed text-muted [&_a]:text-accent [&_a]:underline [&_a]:decoration-accent-line [&_a]:underline-offset-4" set:html={d} />
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="space-y-5">
+      <Terminal lines={C.term as any} title="Claude Code" />
+      <div class="rounded-2xl border border-line p-5 md:p-6">
+        <p class="flex items-center gap-2 text-sm font-semibold"><Icon name="folder-archive" size={16} />{C.zipTitle}</p>
+        <ul class="mt-3">
+          {C.zip.map(([f, d]) => (
+            <li class="flex flex-col gap-0.5 border-t border-line py-2.5 sm:flex-row sm:justify-between sm:gap-4"><span class="font-mono text-xs">{f}</span><span class="text-xs text-muted">{d}</span></li>
+          ))}
+        </ul>
+      </div>
+      <p class="text-sm leading-relaxed text-muted [&_code]:rounded [&_code]:bg-chip [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[12px] [&_code]:text-ink" set:html={C.perDoc} />
+    </div>
+  </section>
+
+  <section class="border-t border-line">
+    <div class="mx-auto max-w-[76rem] px-5 py-16 md:px-8 md:py-24 [&_code]:rounded [&_code]:bg-chip [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] [&_code]:text-ink [&_dd_a]:text-accent [&_p_a]:text-accent [&_p_a]:underline [&_p_a]:underline-offset-4">
+      <Faq items={C.faq} eyebrow={C.faqEyebrow} title={C.faqTitle} />
+    </div>
+  </section>
+
+  <CtaBanner title={C.ctaTitle} sub={C.ctaSub} label={C.buy} href={buy} icon="shopping-bag" event="Pack+Click" />
+</ApplyKitLayout>
+
+<script>
+  // "Without photo / With photo" on the four layouts with a photo slot.
+  document.querySelectorAll<HTMLElement>('[data-photo-card]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-show]');
+      if (!btn) return;
+      card.querySelectorAll('[data-show]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      card.querySelectorAll<HTMLElement>('[data-variant]').forEach((img) => img.classList.toggle('!hidden', img.dataset.variant !== btn.dataset.show));
+    });
+  });
+</script>

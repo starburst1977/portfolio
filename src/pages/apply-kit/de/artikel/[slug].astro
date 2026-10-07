@@ -1,0 +1,10 @@
+---
+// One German article. Drafts are built in `astro dev` only.
+import ArticlePage from '../../../../components/apply-kit/ArticlePage.astro';
+import { getArticles } from '../../../../lib/apply-kit';
+export function getStaticPaths() {
+  return getArticles('de').map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+const { a } = Astro.props;
+---
+<ArticlePage a={a} />

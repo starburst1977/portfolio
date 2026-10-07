@@ -1,0 +1,16 @@
+---
+// Inline box in articles: points to the ATS check. Usable in MDX as <AtsCta lang="en" />.
+import Icon from './Icon.astro';
+import { routes, type Lang } from '../../lib/apply-kit';
+interface Props { lang?: Lang }
+const { lang = 'en' } = Astro.props;
+const c = {
+  en: ['Check your CV in a minute', 'Drop a PDF into the free ATS check. It runs in your browser, nothing is uploaded.', 'Open ATS check'],
+  de: ['Prüfen Sie Ihren Lebenslauf in einer Minute', 'Ziehen Sie ein PDF in den kostenlosen ATS-Check. Er läuft in Ihrem Browser, nichts wird hochgeladen.', 'Zum ATS-Check'],
+}[lang];
+---
+<aside class="not-prose my-8 flex flex-col gap-4 rounded-2xl border border-line bg-card p-5 sm:flex-row sm:items-center sm:p-6">
+  <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-accent text-white"><Icon name="scan-text" size={24} /></span>
+  <span class="flex-1"><span class="block text-[17px] font-semibold text-ink">{c[0]}</span><span class="mt-0.5 block text-sm leading-relaxed text-muted">{c[1]}</span></span>
+  <a href={`${routes.ats[lang]}?utm_source=article`} class="ak-btn ak-btn-dark !py-2.5 !text-sm !no-underline plausible-event-name=Article+to+ATS">{c[2]}<Icon name="arrow-right" size={15} /></a>
+</aside>

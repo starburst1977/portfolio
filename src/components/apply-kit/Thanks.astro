@@ -1,0 +1,80 @@
+---
+// Thank-you page after buying the Layout Pack. Polar redirects here after a completed purchase,
+// so a pageview here is a sale. Kept out of search results and out of the sitemap. No buy button.
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import Icon from './Icon.astro';
+import { GITHUB, KIT_MIN, routes, type Lang } from '../../lib/apply-kit';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const other: Lang = lang === 'en' ? 'de' : 'en';
+const C = {
+  en: {
+    title: 'Thank you: Layout Pack for Apply Kit', description: 'Your Layout Pack is on its way.',
+    eyebrow: 'Apply Kit · Layout Pack', h1a: 'Thank you.', h1b: 'Your eight layouts are on their way.',
+    lead: 'Polar, the shop that handles the payment, has sent you an email with your receipt and the download. If it isn’t there in a few minutes, check your spam folder.',
+    start: 'Getting started',
+    steps: [
+      [`Get Apply Kit ${KIT_MIN}`, `The pack runs inside the free kit, version ${KIT_MIN} or newer. New to Apply Kit? Download it from GitHub and follow its README. Already using it? Download the new version and copy your profile and applications folders into it.`],
+      ['Put the zip into the kit folder', 'Move the zip from your Downloads into the apply-kit folder, as it is. No need to unzip it.'],
+      ['Tell Claude “install the layout pack”', 'In Claude Code, with the apply-kit folder open. Claude installs the eight layouts and lists them.'],
+      ['Pick a layout', 'Say which one you like, for example “use the Mono layout”. Claude renders one of your documents in it, so you see it with your own CV.'],
+    ],
+    kitAt: `The kit is at <a href="${GITHUB}">github.com/starburst1977/apply-kit</a>. LAYOUT-PACK.md inside the zip describes every layout, and <a href="${routes.pack.en}">the Layout Pack page</a> shows them all.`,
+    tipTitle: 'One tip before you start',
+    tip: 'Statement, Mono, Sidebar and Poster put your CV on one page, in two columns. With a long career, Claude cuts it down to the strongest points, or suggests Modern, Compact or Margin for that application. A photo is optional in those four; just ask Claude for it.',
+    stuckTitle: 'Stuck?',
+    stuck: 'Write to <a href="mailto:me@svenread.com">me@svenread.com</a> and tell me where it stopped. A screenshot helps.',
+  },
+  de: {
+    title: 'Danke: Layout Pack für Apply Kit', description: 'Ihr Layout-Paket ist unterwegs.',
+    eyebrow: 'Apply Kit · Layout Pack', h1a: 'Danke.', h1b: 'Ihre acht Layouts sind unterwegs.',
+    lead: 'Polar, der Shop, der die Zahlung abwickelt, hat Ihnen eine E-Mail mit Beleg und Download geschickt. Ist sie in ein paar Minuten nicht da, schauen Sie bitte im Spam-Ordner nach.',
+    start: 'So geht es los',
+    steps: [
+      [`Apply Kit ${KIT_MIN} holen`, `Das Paket läuft im kostenlosen Kit, ab Version ${KIT_MIN}. Neu bei Apply Kit? Laden Sie es von GitHub und folgen Sie der README. Nutzen Sie es schon? Laden Sie die neue Version und kopieren Sie Ihre Ordner profile und applications hinein.`],
+      ['Zip in den Kit-Ordner legen', 'Verschieben Sie die Zip-Datei aus Ihren Downloads in den Ordner apply-kit, so wie sie ist. Entpacken ist nicht nötig.'],
+      ['Claude sagen: „Installiere das Layout-Paket“', 'In Claude Code, mit geöffnetem Ordner apply-kit. Claude installiert die acht Layouts und zeigt sie Ihnen.'],
+      ['Layout wählen', 'Sagen Sie, welches Ihnen gefällt, etwa „nimm das Layout Mono“. Claude erstellt eines Ihrer Dokumente darin, so sehen Sie es mit Ihrem eigenen Lebenslauf.'],
+    ],
+    kitAt: `Das Kit finden Sie unter <a href="${GITHUB}">github.com/starburst1977/apply-kit</a>. Die Datei LAYOUT-PACK.md in der Zip beschreibt jedes Layout, und <a href="${routes.pack.de}">die Seite zum Layout Pack</a> zeigt sie alle.`,
+    tipTitle: 'Ein Tipp vorab',
+    tip: 'Statement, Mono, Sidebar und Poster setzen Ihren Lebenslauf zweispaltig auf eine Seite. Bei einer langen Laufbahn kürzt Claude auf das Stärkste oder schlägt für diese Bewerbung Modern, Compact oder Margin vor. Ein Foto ist in diesen vier möglich, aber kein Muss; fragen Sie Claude einfach danach.',
+    stuckTitle: 'Hängen geblieben?',
+    stuck: 'Schreiben Sie an <a href="mailto:me@svenread.com">me@svenread.com</a> und sagen Sie mir, wo es nicht weiterging. Ein Screenshot hilft.',
+  },
+}[lang];
+const link = '[&_a]:text-accent [&_a]:underline [&_a]:decoration-accent-line [&_a]:underline-offset-4';
+---
+
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} altHref={routes.thanks[other]} noindex>
+  <article class="mx-auto max-w-3xl px-5 pb-24 pt-12 md:px-8 md:pb-32 md:pt-20">
+    <p class="ak-eyebrow">{C.eyebrow}</p>
+    <h1 class="mt-4 text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.5rem]">{C.h1a} <span class="text-accent">{C.h1b}</span></h1>
+    <p class="mt-6 text-lg leading-relaxed text-muted md:text-xl">{C.lead}</p>
+
+    <section class="mt-12 rounded-2xl border border-line p-6 md:p-9">
+      <h2 class="text-2xl font-semibold tracking-[-0.02em]">{C.start}</h2>
+      <ol class="mt-7 space-y-6">
+        {C.steps.map(([t, d], i) => (
+          <li class="flex gap-4 md:gap-5">
+            <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-sm font-semibold text-white">{i + 1}</span>
+            <div class="pt-1"><p class="text-[17px] font-semibold leading-snug">{t}</p><p class="mt-1 text-[15px] leading-relaxed text-muted">{d}</p></div>
+          </li>
+        ))}
+      </ol>
+      <p class:list={['mt-8 border-t border-line pt-6 text-[15px] leading-relaxed text-muted', link]} set:html={C.kitAt} />
+    </section>
+
+    <section class="mt-5 grid gap-5 md:grid-cols-2">
+      <div class="rounded-2xl bg-accent-soft p-6">
+        <h2 class="flex items-center gap-2 text-lg font-semibold"><Icon name="lightbulb" size={18} class="text-accent" />{C.tipTitle}</h2>
+        <p class="mt-2 text-[15px] leading-relaxed text-[#312E81]">{C.tip}</p>
+      </div>
+      <div class="rounded-2xl border border-line p-6">
+        <h2 class="flex items-center gap-2 text-lg font-semibold"><Icon name="mail" size={18} class="text-accent" />{C.stuckTitle}</h2>
+        <p class:list={['mt-2 text-[15px] leading-relaxed text-muted', link]} set:html={C.stuck} />
+      </div>
+    </section>
+  </article>
+</ApplyKitLayout>

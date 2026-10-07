@@ -1,0 +1,1 @@
+pdf.js 6.3.289 (Mozilla, Apache License 2.0), served locally for the ATS check.

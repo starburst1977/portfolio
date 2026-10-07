@@ -1,0 +1,64 @@
+---
+// The dark ATS check band on the landing page: the three promises and an example result.
+// The example follows the real scoring in src/lib/ats-analyse.js: one ligature costs 8 points.
+import Icon from './Icon.astro';
+import { routes, type Lang } from '../../lib/apply-kit';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = {
+  en: {
+    eyebrow: 'Free ATS check', title: 'Can a parser read your CV?',
+    sub: 'Drop in any CV PDF. See the text an applicant tracking system extracts, in the order it reads it, with a score from 0 to 100.',
+    promises: ['Nothing is uploaded', 'Result in seconds', 'Free, no sign-up'],
+    button: 'Check your CV', verdict: 'Reads cleanly',
+    checks: [['Real text', '612 words'], ['Reading order', 'in order'], ['Contact details', 'email + phone'], ['Section headings', 'found'], ['Letter spacing', 'clean'], ['Problem characters', '1 ligature · −8']],
+  },
+  de: {
+    eyebrow: 'Kostenloser ATS-Check', title: 'Kann ein Parser Ihren Lebenslauf lesen?',
+    sub: 'Ziehen Sie ein beliebiges Lebenslauf-PDF hinein. Sie sehen den Text, den ein Bewerbermanagementsystem herausliest, in seiner Lesereihenfolge, mit einer Punktzahl von 0 bis 100.',
+    promises: ['Nichts wird hochgeladen', 'Ergebnis in Sekunden', 'Kostenlos, ohne Anmeldung'],
+    button: 'Lebenslauf prüfen', verdict: 'Wird sauber gelesen',
+    checks: [['Echter Text', '612 Wörter'], ['Lesereihenfolge', 'in Ordnung'], ['Kontaktdaten', 'E-Mail + Telefon'], ['Überschriften', 'gefunden'], ['Buchstabenabstand', 'sauber'], ['Problemzeichen', '1 Ligatur · −8']],
+  },
+}[lang];
+const icons = ['shield-check', 'zap', 'badge-check'];
+---
+<section class="bg-night text-white">
+  <div class="mx-auto grid max-w-[76rem] items-center gap-12 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[30rem_1fr] lg:gap-[4.5rem]">
+    <div>
+      <p class="ak-eyebrow !text-[#A5B4FC]">{c.eyebrow}</p>
+      <h2 class="ak-h2 mt-3 !text-[clamp(1.9rem,1.1rem+2.8vw,3rem)]">{c.title}</h2>
+      <p class="mt-4 text-base leading-relaxed text-[#A1A1AA] md:text-lg">{c.sub}</p>
+      <ul class="mt-7 space-y-2.5">
+        {c.promises.map((p, i) => (
+          <li class="flex items-center gap-3 text-[15px] font-semibold">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-white/[0.08] text-[#A5B4FC]"><Icon name={icons[i]} size={16} /></span>{p}
+          </li>
+        ))}
+      </ul>
+      <a href={routes.ats[lang]} class="ak-btn ak-btn-light mt-8 w-full sm:w-auto plausible-event-name=ATS+Band+Click"><Icon name="scan-text" size={17} />{c.button}</a>
+    </div>
+    <div class="rounded-2xl border border-white/[0.08] bg-night-2 p-5 md:p-7" aria-hidden="true">
+      <div class="flex items-center gap-5">
+        <p class="text-[3.25rem] font-semibold leading-none tracking-[-0.04em]">92<span class="ml-1 text-sm font-normal tracking-normal text-[#8B8B9A]">/ 100</span></p>
+        <div class="min-w-0 flex-1">
+          <p class="inline-flex items-center gap-1.5 rounded-full bg-[#4ADE80]/15 px-2.5 py-0.5 text-xs font-semibold text-[#4ADE80]"><Icon name="circle-check" size={12} />{c.verdict}</p>
+          <p class="mt-1.5 truncate font-mono text-xs text-[#8B8B9A]">CV_final_v3.pdf</p>
+          <div class="mt-3 h-1.5 rounded-full bg-white/[0.08]"><div class="h-full w-[92%] rounded-full bg-[#818CF8]"></div></div>
+        </div>
+      </div>
+      <ul class="mt-6">
+        {c.checks.map(([k, v], i) => {
+          const warn = i === c.checks.length - 1;
+          return (
+            <li class="flex items-center gap-3 border-t border-white/[0.08] py-3 text-sm">
+              <Icon name={warn ? 'circle-alert' : 'circle-check'} size={16} class={warn ? 'text-[#FBBF24]' : 'text-[#4ADE80]'} />
+              <span class="text-[#E4E4E7]">{k}</span>
+              <span class:list={['ml-auto font-mono text-xs', warn ? 'text-[#FBBF24]' : 'text-[#8B8B9A]']}>{v}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+</section>
