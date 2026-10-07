@@ -6,11 +6,23 @@ import letterEn from '../../assets/apply-kit/letter-en.png';
 import cvDe from '../../assets/apply-kit/cv-de.png';
 import letterDe from '../../assets/apply-kit/letter-de.png';
 import portrait from '../../assets/portrait-about.jpeg';
+import lClassic from '../../assets/apply-kit/layouts/classic.png';
+import lModern from '../../assets/apply-kit/layouts/modern.png';
+import lCompact from '../../assets/apply-kit/layouts/compact.png';
+import lMargin from '../../assets/apply-kit/layouts/margin.png';
+import lDin from '../../assets/apply-kit/layouts/din5008.png';
+import lStatement from '../../assets/apply-kit/layouts/statement.png';
+import lMono from '../../assets/apply-kit/layouts/mono.png';
+import lSidebar from '../../assets/apply-kit/layouts/sidebar.png';
+import lPoster from '../../assets/apply-kit/layouts/poster.png';
 
 // German version of /apply-kit. Same product, same numbers, German market wording.
 const PRICE = 'Kostenlos, Open Source (MIT)';
 // German checkout link: returns to /apply-kit/de/, succeeds to /apply-kit/de/thanks/.
 const BUY_URL = 'https://github.com/starburst1977/apply-kit';
+// Das Layout Pack über Polar (DE-Checkout: Erfolg /apply-kit/de/thanks/).
+const PACK_URL = 'https://buy.polar.sh/polar_cl_oy5ZBeS71ub3jzTs6Hfl86JcHbQhbn0Wo7OZn4QHc1s';
+const PACK_PRICE = '19 €';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // Phone visitors can't use the kit on the spot; this lets them send the page to themselves.
@@ -22,7 +34,7 @@ const productLd = {
   '@type': 'Product',
   name: 'Apply Kit for Claude',
   description:
-    'Einmal kaufen, lokal nutzen: Apply Kit macht Claude Code zum sorgfältigen Bewerbungsschreiber. Ehrliche Einschätzung jeder Stellenanzeige, maßgeschneiderter Lebenslauf und Anschreiben auf Deutsch oder Englisch, als druckfertige PDFs auf dem eigenen Rechner.',
+    'Kostenlos und Open Source: Apply Kit macht Claude Code zum sorgfältigen Bewerbungsschreiber. Ehrliche Einschätzung jeder Stellenanzeige, maßgeschneiderter Lebenslauf und Anschreiben auf Deutsch oder Englisch, als druckfertige PDFs auf dem eigenen Rechner.',
   image: 'https://www.svenread.com/apply-kit/og.png',
   url: 'https://www.svenread.com/apply-kit/de/',
   brand: { '@type': 'Brand', name: 'Sven Read' },
@@ -61,6 +73,22 @@ const examples = [
   { img: letterEn, title: 'Cover letter', note: 'Englisch, beginnt mit den Worten der Anzeige', file: 'CoverLetter_Kestrel' },
 ];
 
+// Classic ist kostenlos, das Layout Pack bringt acht weitere. Bilder: Seite 1 des Beispiel-Lebenslaufs.
+const packLayouts = [
+  { title: 'Einspaltig, bei Bedarf zwei Seiten', items: [
+    { img: lModern, name: 'Modern', note: 'Kräftig, serifenlos' },
+    { img: lCompact, name: 'Compact', note: 'Für lange Laufbahnen' },
+    { img: lMargin, name: 'Margin', note: 'Rubriken am Rand' },
+    { img: lDin, name: 'DIN 5008', note: 'Tabellarisch, passend zum Brief' },
+  ] },
+  { title: 'Zweispaltig auf einer Seite, Foto optional', items: [
+    { img: lStatement, name: 'Statement', note: 'Großer Name, farbiger Titel' },
+    { img: lMono, name: 'Mono', note: 'Initialen im Quadrat' },
+    { img: lSidebar, name: 'Sidebar', note: 'Getönte Seitenleiste' },
+    { img: lPoster, name: 'Poster', note: 'Riesiger Name, klein geschrieben' },
+  ] },
+];
+
 const faq = [
   {
     q: 'Funktioniert das im normalen Claude-Chat?',
@@ -69,6 +97,14 @@ const faq = [
   {
     q: 'Ist das wirklich kostenlos?',
     a: 'Ja. Das Kit steht unter MIT-Lizenz auf GitHub. Es läuft über Ihren eigenen Claude-Tarif, Kosten entstehen also nur für den Tarif, den Sie ohnehin haben.',
+  },
+  {
+    q: 'Was steckt im Layout Pack, und brauche ich es?',
+    a: 'Acht weitere Layouts für 19 €, vom tabellarischen Lebenslauf nach DIN 5008 bis zu zweispaltigen Layouts auf einer Seite. Nötig ist es nicht: Classic reicht völlig. Das Paket ist für einen anderen Look, ein Foto oder ein formelles Anschreiben nach DIN 5008.',
+  },
+  {
+    q: 'Kann ich ein Foto einfügen?',
+    a: 'Ja, in Statement, Mono, Sidebar und Poster. Standardmäßig ist es aus: Die meisten Lebensläufe kommen heute ohne Foto aus, auch in Deutschland, und in Großbritannien oder den USA kann ein Foto sogar schaden.',
   },
   {
     q: 'Und wenn es bei mir nicht funktioniert?',
@@ -129,6 +165,7 @@ const faq = [
           </div>
           <p class="font-sans text-sm text-ink mt-6">Läuft auf Ihrem Rechner, in der Claude-Desktop-App mit Claude Code.</p>
           <p class="font-sans text-sm text-muted mt-1">{PRICE} · Kein Konto, kein Abo</p>
+          <p class="font-sans text-sm mt-4"><a href="#layouts" class="font-semibold text-accent underline decoration-transparent underline-offset-4 hover:decoration-accent">Neu: acht weitere Layouts im Layout Pack →</a></p>
           <div class="lg:hidden mt-6 rounded-2xl border border-hairline bg-white/60 p-5">
             <p class="font-sans text-sm text-ink leading-relaxed">Gerade am Handy? Apply Kit braucht einen Rechner. Schicken Sie sich den Link und schauen Sie ihn später in Ruhe am Schreibtisch an.</p>
             <a href={MAIL_LATER} class="mt-3 inline-flex items-center rounded-full border border-ink px-5 py-2.5 font-sans text-sm font-semibold text-ink hover:border-accent hover:text-accent plausible-event-name=Email+Later">Link per E-Mail schicken</a>
@@ -186,9 +223,12 @@ const faq = [
           </div>
           <span aria-hidden="true" class="font-fraunces text-accent text-[7rem] md:text-[10rem] leading-none absolute -bottom-16 right-0 md:-bottom-20 md:-right-2 select-none">&ldquo;</span>
         </div>
-        <div class="flex items-center gap-4 mt-10 md:pl-16">
-          <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 rounded-full object-cover" />
-          <p class="font-sans text-sm text-muted"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a>, Produktdesigner bei München</p>
+        <div class="flex items-center gap-5 mt-10 md:pl-16">
+          <Image src={portrait} alt="Sven Read" widths={[176]} class="h-[5.5rem] w-[5.5rem] rounded-2xl object-cover" />
+          <div>
+            <p class="font-display text-xl tracking-tight"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a></p>
+            <p class="font-sans text-base text-muted">Produktdesigner bei München</p>
+          </div>
         </div>
       </div>
     </section>
@@ -259,6 +299,49 @@ const faq = [
               <p class="font-sans text-xs uppercase tracking-[0.15em] text-muted mt-2 group-hover:text-accent">PDF öffnen ↗</p>
             </a>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Layouts: Classic kostenlos, das Layout Pack für den Rest -->
+    <section id="layouts" class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28 scroll-mt-24">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted text-center mb-4">Layouts</h2>
+        <p class="font-display text-3xl md:text-[2.6rem] leading-tight tracking-tight text-center text-balance">
+          Das Classic-Layout ist kostenlos.<br /><span class="text-accent">Das Layout Pack bringt acht weitere.</span>
+        </p>
+        <p class="font-sans text-base text-muted leading-relaxed text-center max-w-2xl mx-auto mt-5">
+          Alle Layouts lesen dieselben Dateien für Lebenslauf und Anschreiben, der Wechsel ist ein Satz an Claude. Mischen Sie je Bewerbung: ein Anschreiben nach DIN 5008 neben einem Modern-Lebenslauf, ein einseitiger Mono-Lebenslauf fürs Start-up.
+        </p>
+        <div class="grid grid-cols-1 lg:grid-cols-[15rem_1fr] gap-12 mt-12">
+          <div class="max-w-[15rem]">
+            <div class="sheet"><Image src={lClassic} alt="Layout Classic, Lebenslauf Seite 1" widths={[300, 480]} sizes="240px" /></div>
+            <p class="font-display text-lg mt-4">Classic</p>
+            <p class="font-sans text-sm text-muted">Kostenlos, im Kit enthalten</p>
+            <p class="font-sans text-xs uppercase tracking-[0.15em] text-muted mt-2">Inklusive</p>
+          </div>
+          <div class="lg:border-l lg:border-hairline lg:pl-12 space-y-10">
+            {packLayouts.map((row) => (
+              <div>
+                <h3 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">{row.title}</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {row.items.map((l) => (
+                    <div>
+                      <div class="sheet"><Image src={l.img} alt={`Layout ${l.name}, Lebenslauf Seite 1`} widths={[240, 400]} sizes="(max-width: 768px) 45vw, 180px" /></div>
+                      <p class="font-display text-base mt-3">{l.name}</p>
+                      <p class="font-sans text-[13px] text-muted leading-snug">{l.note}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+          <a href={PACK_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Pack+Click">
+            Layout Pack holen · {PACK_PRICE}
+          </a>
+          <p class="font-sans text-sm text-muted">Einmalkauf · Braucht das kostenlose Kit ab Version 1.1.0</p>
         </div>
       </div>
     </section>

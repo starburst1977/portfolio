@@ -6,11 +6,23 @@ import letterEn from '../assets/apply-kit/letter-en.png';
 import cvDe from '../assets/apply-kit/cv-de.png';
 import letterDe from '../assets/apply-kit/letter-de.png';
 import portrait from '../assets/portrait-about.jpeg';
+import lClassic from '../assets/apply-kit/layouts/classic.png';
+import lModern from '../assets/apply-kit/layouts/modern.png';
+import lCompact from '../assets/apply-kit/layouts/compact.png';
+import lMargin from '../assets/apply-kit/layouts/margin.png';
+import lDin from '../assets/apply-kit/layouts/din5008.png';
+import lStatement from '../assets/apply-kit/layouts/statement.png';
+import lMono from '../assets/apply-kit/layouts/mono.png';
+import lSidebar from '../assets/apply-kit/layouts/sidebar.png';
+import lPoster from '../assets/apply-kit/layouts/poster.png';
 
 // Set these once the listing exists. With no link, the buttons read "Coming soon".
 const PRICE = 'Free, open source (MIT)';
 // The kit is free on GitHub. (Polar checkout links retired 6 Oct 2026.)
 const BUY_URL = 'https://github.com/starburst1977/apply-kit';
+// The Layout Pack, sold through Polar (EN checkout: success /apply-kit/thanks/).
+const PACK_URL = 'https://buy.polar.sh/polar_cl_NmROLmRsVNrLNKKkFgJAEBsBnHEwqMfQgLxwi3gB17Y';
+const PACK_PRICE = '19 €';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // Phone visitors can't use the kit on the spot; this lets them send the page to themselves.
@@ -23,7 +35,7 @@ const productLd = {
   '@type': 'Product',
   name: 'Apply Kit for Claude',
   description:
-    'A one-time-purchase kit that turns Claude Code into a careful application writer: honest fit checks, tailored CVs and cover letters in English and German, rendered as print-ready PDFs on your own computer.',
+    'A free, open-source kit that turns Claude Code into a careful application writer: honest fit checks, tailored CVs and cover letters in English and German, rendered as print-ready PDFs on your own computer.',
   image: 'https://www.svenread.com/apply-kit/og.png',
   url: 'https://www.svenread.com/apply-kit/',
   brand: { '@type': 'Brand', name: 'Sven Read' },
@@ -62,6 +74,22 @@ const examples = [
   { img: letterDe, title: 'Anschreiben', note: 'German, with recipient, date and subject', file: 'Anschreiben_Nordlicht' },
 ];
 
+// Classic is free; the Layout Pack adds eight. Images: page 1 of each layout's example CV.
+const packLayouts = [
+  { title: 'One column, two pages when needed', items: [
+    { img: lModern, name: 'Modern', note: 'Bold and sans-serif' },
+    { img: lCompact, name: 'Compact', note: 'For long careers' },
+    { img: lMargin, name: 'Margin', note: 'Names in the margin' },
+    { img: lDin, name: 'DIN 5008', note: 'Tabular, with the letter' },
+  ] },
+  { title: 'Two columns on one page, photo optional', items: [
+    { img: lStatement, name: 'Statement', note: 'Big name, accent title' },
+    { img: lMono, name: 'Mono', note: 'Initials in a square' },
+    { img: lSidebar, name: 'Sidebar', note: 'Tinted sidebar' },
+    { img: lPoster, name: 'Poster', note: 'Huge lowercase name' },
+  ] },
+];
+
 const faq = [
   {
     q: 'Does it work in the normal Claude chat?',
@@ -70,6 +98,14 @@ const faq = [
   {
     q: 'Is it really free?',
     a: 'Yes. The kit is MIT licensed and on GitHub. It runs on your own Claude plan, so the only cost is the Claude plan you already have.',
+  },
+  {
+    q: 'What’s in the Layout Pack, and do I need it?',
+    a: 'Eight more layouts for 19 €, from a tabular DIN 5008 CV to two-column one-page designs. You don’t need it: Classic does the job. The pack is for a different look, a photo, or a formal German letter.',
+  },
+  {
+    q: 'Can I add a photo?',
+    a: 'Yes, in Statement, Mono, Sidebar and Poster. It is off by default: most CVs go without one today, in Germany too, and in the UK or US a photo can count against you.',
   },
   {
     q: 'What if it doesn’t work for me?',
@@ -130,6 +166,7 @@ const faq = [
           </div>
           <p class="font-sans text-sm text-ink mt-6">Runs on your computer, in the Claude desktop app with Claude Code.</p>
           <p class="font-sans text-sm text-muted mt-1">{PRICE} · No account, no subscription</p>
+          <p class="font-sans text-sm mt-4"><a href="#layouts" class="font-semibold text-accent underline decoration-transparent underline-offset-4 hover:decoration-accent">New: eight more layouts in the Layout Pack →</a></p>
           <div class="lg:hidden mt-6 rounded-2xl border border-hairline bg-white/60 p-5">
             <p class="font-sans text-sm text-ink leading-relaxed">On your phone? Apply Kit needs a computer. Send yourself the link and look at it later at your desk.</p>
             <a href={MAIL_LATER} class="mt-3 inline-flex items-center rounded-full border border-ink px-5 py-2.5 font-sans text-sm font-semibold text-ink hover:border-accent hover:text-accent plausible-event-name=Email+Later">Email me the link</a>
@@ -187,9 +224,12 @@ const faq = [
           </div>
           <span aria-hidden="true" class="font-fraunces text-accent text-[7rem] md:text-[10rem] leading-none absolute -bottom-16 right-0 md:-bottom-20 md:-right-2 select-none">&rdquo;</span>
         </div>
-        <div class="flex items-center gap-4 mt-10 md:pl-16">
-          <Image src={portrait} alt="Sven Read" widths={[112]} class="h-14 w-14 rounded-full object-cover" />
-          <p class="font-sans text-sm text-muted"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a>, product designer near Munich</p>
+        <div class="flex items-center gap-5 mt-10 md:pl-16">
+          <Image src={portrait} alt="Sven Read" widths={[176]} class="h-[5.5rem] w-[5.5rem] rounded-2xl object-cover" />
+          <div>
+            <p class="font-display text-xl tracking-tight"><a href={`${base}/`} class="text-ink hover:text-accent">Sven Read</a></p>
+            <p class="font-sans text-base text-muted">Product designer near Munich</p>
+          </div>
         </div>
       </div>
     </section>
@@ -260,6 +300,49 @@ const faq = [
               <p class="font-sans text-xs uppercase tracking-[0.15em] text-muted mt-2 group-hover:text-accent">Open PDF ↗</p>
             </a>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Layouts: Classic free, the Layout Pack for the rest -->
+    <section id="layouts" class="mx-auto max-w-6xl px-6 md:px-10 pb-20 md:pb-28 scroll-mt-24">
+      <div class="border-t border-hairline pt-12 md:pt-16">
+        <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-muted text-center mb-4">Layouts</h2>
+        <p class="font-display text-3xl md:text-[2.6rem] leading-tight tracking-tight text-center text-balance">
+          The Classic layout is free.<br /><span class="text-accent">The Layout Pack adds eight more.</span>
+        </p>
+        <p class="font-sans text-base text-muted leading-relaxed text-center max-w-2xl mx-auto mt-5">
+          Every layout reads the same CV and letter files, so switching is one sentence to Claude. Mix them per application: a DIN 5008 Anschreiben next to a Modern CV, a one-page Mono CV for a start-up.
+        </p>
+        <div class="grid grid-cols-1 lg:grid-cols-[15rem_1fr] gap-12 mt-12">
+          <div class="max-w-[15rem]">
+            <div class="sheet"><Image src={lClassic} alt="Classic layout, CV page 1" widths={[300, 480]} sizes="240px" /></div>
+            <p class="font-display text-lg mt-4">Classic</p>
+            <p class="font-sans text-sm text-muted">Free, built into the kit</p>
+            <p class="font-sans text-xs uppercase tracking-[0.15em] text-muted mt-2">Included</p>
+          </div>
+          <div class="lg:border-l lg:border-hairline lg:pl-12 space-y-10">
+            {packLayouts.map((row) => (
+              <div>
+                <h3 class="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-4">{row.title}</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {row.items.map((l) => (
+                    <div>
+                      <div class="sheet"><Image src={l.img} alt={`${l.name} layout, CV page 1`} widths={[240, 400]} sizes="(max-width: 768px) 45vw, 180px" /></div>
+                      <p class="font-display text-base mt-3">{l.name}</p>
+                      <p class="font-sans text-[13px] text-muted leading-snug">{l.note}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+          <a href={PACK_URL} class="inline-flex items-center rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-cream transition-colors hover:bg-accent hover:text-cream plausible-event-name=Pack+Click">
+            Get the Layout Pack · {PACK_PRICE}
+          </a>
+          <p class="font-sans text-sm text-muted">One-time purchase · Needs the free kit 1.1.0 or newer</p>
         </div>
       </div>
     </section>
