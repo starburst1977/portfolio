@@ -16,7 +16,7 @@ const cats = [...new Set(articles.map((a) => a.category))];
 const [first, ...rest] = articles;
 ---
 
-<ApplyKitLayout lang={lang} title={C.title} description={C.description} altHref={routes.articles[other]} active="articles" noindex={articles.length === 0}>
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} image={lang === 'de' ? '/apply-kit/og-numbers-de.png' : '/apply-kit/og-numbers.png'} altHref={routes.articles[other]} active="articles" noindex={articles.length === 0}>
   <section class="mx-auto max-w-[76rem] px-5 pb-20 pt-10 md:px-8 md:pb-28 md:pt-[4.5rem]">
     <div class="mx-auto max-w-3xl text-center">
       <p class="ak-eyebrow">{C.eyebrow}</p>

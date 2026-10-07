@@ -2,7 +2,7 @@
 // A Claude Code session, drawn as a dark terminal window. Lines are plain text with a tone.
 interface Line { t: string; tone?: 'cmd' | 'head' | 'ok' | 'warn' | 'dim' | 'text' }
 interface Props { title?: string; lines: Line[]; class?: string; size?: 'sm' | 'md' }
-const { title = 'apply-kit — Claude Code', lines, class: cls = '', size = 'md' } = Astro.props;
+const { title = 'apply-kit · Claude Code', lines, class: cls = '', size = 'md' } = Astro.props;
 const tone = { cmd: 'text-white', head: 'text-[#A5B4FC]', ok: 'text-[#86EFAC]', warn: 'text-[#FCD34D]', dim: 'text-[#6B6B7B]', text: 'text-[#D4D4DC]' };
 ---
 <div class:list={['overflow-hidden rounded-2xl bg-night shadow-[0_30px_70px_-20px_rgb(30_27_75/0.45)]', cls]} role="img" aria-label={lines.map((l) => l.t.trim()).join(' / ')}>

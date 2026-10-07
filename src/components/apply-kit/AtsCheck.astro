@@ -15,7 +15,7 @@ const kitUrl = (content: string) => `${routes.home[lang]}?utm_source=ats-check&u
 const C = {
   en: {
     title: 'Free ATS CV & Resume Check: See What a Parser Reads in Your PDF',
-    description: 'Drop in your CV and see the text an applicant tracking system extracts: reading order, contact details, headings, problem characters. Runs in your browser; nothing is uploaded.',
+    description: 'See what an applicant tracking system reads in your CV PDF: reading order, contact details, headings. Free, runs in your browser, nothing is uploaded.',
     ogTitle: 'Can an applicant tracking system read your CV?',
     ogDescription: 'A free check that shows what a parser gets out of your CV PDF. Runs in your browser; your CV is never uploaded.',
     image: '/apply-kit/og-numbers.png',
@@ -45,7 +45,7 @@ const C = {
       ['tag', 'Document title', 'Is the PDF’s title your name, or a file name like “CV_final_v3”?', 'Info'],
     ],
     scaleHead: 'How the score reads',
-    bands: [['90 – 100', 'Reads cleanly'], ['70 – 89', 'Readable, with things to check'], ['0 – 69', 'A parser will likely get this wrong']],
+    bands: [['90 to 100', 'Reads cleanly'], ['70 to 89', 'Readable, with things to check'], ['0 to 69', 'A parser will likely get this wrong']],
     scoreNote: 'The score starts at 100; each finding takes off the points shown next to it. A PDF without real text scores 0.',
     reading: 'Reading your CV…', readingSub: 'On your computer, with pdf.js. Nothing is sent anywhere.',
     tabs: ['Findings', 'What the parser reads'],
@@ -73,7 +73,7 @@ const C = {
   },
   de: {
     title: 'Kostenloser ATS-Check für Lebensläufe: Was liest ein Parser aus Ihrem PDF?',
-    description: 'Lebenslauf-PDF hineinziehen und sehen, welchen Text ein Bewerbermanagementsystem herausliest: Reihenfolge, Kontaktdaten, Überschriften, Problemzeichen. Läuft im Browser, ohne Upload.',
+    description: 'Sehen Sie, was ein Bewerbermanagementsystem aus Ihrem Lebenslauf-PDF liest: Reihenfolge, Kontaktdaten, Überschriften. Kostenlos, im Browser, ohne Upload.',
     ogTitle: 'Kann ein Bewerbermanagementsystem Ihren Lebenslauf lesen?',
     ogDescription: 'Ein kostenloser Check, der zeigt, was ein Parser aus Ihrem Lebenslauf-PDF herausliest. Läuft im Browser, Ihr Lebenslauf wird nicht hochgeladen.',
     image: '/apply-kit/og-numbers-de.png',
@@ -103,7 +103,7 @@ const C = {
       ['tag', 'Dokumenttitel', 'Ist der Titel des PDFs Ihr Name oder ein Dateiname wie „CV_final_v3“?', 'Info'],
     ],
     scaleHead: 'So lesen Sie die Wertung',
-    bands: [['90 – 100', 'Wird sauber gelesen'], ['70 – 89', 'Lesbar, mit Punkten zum Prüfen'], ['0 – 69', 'Ein Parser liest das wahrscheinlich falsch']],
+    bands: [['90 bis 100', 'Wird sauber gelesen'], ['70 bis 89', 'Lesbar, mit Punkten zum Prüfen'], ['0 bis 69', 'Ein Parser liest das wahrscheinlich falsch']],
     scoreNote: 'Die Wertung startet bei 100; jeder Befund zieht die daneben stehenden Punkte ab. Ein PDF ohne echten Text bekommt 0.',
     reading: 'Ihr Lebenslauf wird gelesen…', readingSub: 'Auf Ihrem Rechner, mit pdf.js. Nichts wird verschickt.',
     tabs: ['Befunde', 'Was der Parser liest'],

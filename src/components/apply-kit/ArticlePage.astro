@@ -33,7 +33,7 @@ const ld = {
 const Content = a.Content;
 ---
 
-<ApplyKitLayout lang={lang} title={`${a.title} · Apply Kit`} description={a.description} altHref={translation?.url} active="articles" jsonLd={ld} noindex={a.draft}>
+<ApplyKitLayout lang={lang} title={`${a.title} · Apply Kit`} description={a.description} image={`/apply-kit/og/${a.slug}.png`} altHref={translation?.url} active="articles" jsonLd={ld} noindex={a.draft}>
   <article>
     <header class="mx-auto max-w-[59rem] px-5 pt-8 md:px-8 md:pt-16">
       <p class="flex items-center gap-1.5 text-sm text-muted"><a href={routes.articles[lang]} class="hover:text-ink">{C.articles}</a><Icon name="chevron-right" size={14} /><span class="font-medium text-accent">{a.category}</span></p>
