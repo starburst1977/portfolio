@@ -1,0 +1,60 @@
+---
+// Privacy page for Apply Kit itself: the free kit and the Claude plugin (plugin.json's
+// privacyPolicyUrl points here). The website's own policy stays at /datenschutz.
+import ApplyKitLayout from '../../layouts/ApplyKitLayout.astro';
+import { GITHUB, base, routes, type Lang } from '../../lib/apply-kit';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const other: Lang = lang === 'en' ? 'de' : 'en';
+const ANTHROPIC = 'https://www.anthropic.com/legal/privacy';
+const POLAR = 'https://polar.sh/legal/privacy-policy';
+const C = {
+  en: {
+    title: 'Privacy: Apply Kit', description: 'What Apply Kit and its Claude plugin do with your data: nothing leaves your computer except what you share with Claude.',
+    eyebrow: 'Apply Kit · Privacy', h1a: 'Privacy.', h1b: 'Your data stays on your computer.',
+    lead: `This covers Apply Kit, the free kit on <a href="${GITHUB}">GitHub</a> and the Apply Kit plugin for Claude. The website svenread.com has its own <a href="${base}/datenschutz">privacy policy</a> (in German).`,
+    sections: [
+      ['What Apply Kit collects', 'Nothing. Apply Kit has no account, no server, no telemetry and no analytics, in the kit and in the plugin. I never receive your profile, your CVs, your letters or anything else you put into the kit.'],
+      ['Where your data is', 'In the folder you chose for the kit, for example Documents/apply-kit: your profile, your applications and the PDFs. You can look at every file, and you can delete the folder at any time. If you use git, the kit keeps your own files out of version control.'],
+      ['What reaches Claude', `While you use the kit, Claude processes what you share in the conversation, such as your CV and the job ads, under your Claude plan's terms and <a href="${ANTHROPIC}">Anthropic's privacy policy</a>.`],
+      ['Which connections the kit makes', 'Setup runs npm install, which downloads the kit\'s packages from the npm registry; Playwright then downloads its Chromium browser once, to render PDFs on your computer. When you give a link to a job ad or ask for research on a company, Claude opens those pages (Claude Code asks you first) or runs a web search. Nothing else.'],
+      ['Buying the Layout Pack', `Polar handles the purchase as merchant of record. Your payment and receipt details go to Polar under <a href="${POLAR}">Polar's privacy policy</a>; I see your email address and your order.`],
+      ['Contact', `Sven Read, <a href="mailto:me@svenread.com">me@svenread.com</a>. Address in the <a href="${base}/impressum">imprint</a>.`],
+    ],
+    updated: 'Updated October 2026',
+  },
+  de: {
+    title: 'Datenschutz: Apply Kit', description: 'Was Apply Kit und sein Claude-Plugin mit Ihren Daten tun: Nichts verlässt Ihren Computer außer dem, was Sie mit Claude teilen.',
+    eyebrow: 'Apply Kit · Datenschutz', h1a: 'Datenschutz.', h1b: 'Ihre Daten bleiben auf Ihrem Computer.',
+    lead: `Diese Seite gilt für Apply Kit, das kostenlose Kit auf <a href="${GITHUB}">GitHub</a>, und das Apply-Kit-Plugin für Claude. Für die Website svenread.com gilt die <a href="${base}/datenschutz">Datenschutzerklärung</a> der Website.`,
+    sections: [
+      ['Was Apply Kit erhebt', 'Nichts. Apply Kit hat kein Konto, keinen Server, keine Telemetrie und keine Statistik, weder im Kit noch im Plugin. Ihr Profil, Ihre Lebensläufe, Ihre Anschreiben und alles andere, was Sie ins Kit legen, erreicht mich nie.'],
+      ['Wo Ihre Daten liegen', 'In dem Ordner, den Sie für das Kit gewählt haben, etwa Dokumente/apply-kit: Ihr Profil, Ihre Bewerbungen und die PDFs. Sie können jede Datei ansehen und den Ordner jederzeit löschen. Wenn Sie git nutzen, hält das Kit Ihre eigenen Dateien aus der Versionsverwaltung heraus.'],
+      ['Was Claude erreicht', `Während Sie das Kit nutzen, verarbeitet Claude, was Sie im Gespräch teilen, etwa Ihren Lebenslauf und die Stellenanzeigen, nach den Bedingungen Ihres Claude-Tarifs und der <a href="${ANTHROPIC}">Datenschutzerklärung von Anthropic</a>.`],
+      ['Welche Verbindungen das Kit aufbaut', 'Die Einrichtung führt npm install aus und lädt dabei die Pakete des Kits aus der npm-Registry; Playwright lädt anschließend einmalig seinen Chromium-Browser, der die PDFs auf Ihrem Computer erzeugt. Geben Sie einen Link zu einer Stellenanzeige oder bitten um Recherche zu einer Firma, öffnet Claude diese Seiten (Claude Code fragt Sie vorher) oder sucht im Web. Sonst nichts.'],
+      ['Kauf des Layout Packs', `Polar wickelt den Kauf als Händler ab. Zahlungs- und Belegdaten gehen an Polar, nach <a href="${POLAR}">Polars Datenschutzerklärung</a>; ich sehe Ihre E-Mail-Adresse und Ihre Bestellung.`],
+      ['Kontakt', `Sven Read, <a href="mailto:me@svenread.com">me@svenread.com</a>. Anschrift im <a href="${base}/impressum">Impressum</a>.`],
+    ],
+    updated: 'Stand: Oktober 2026',
+  },
+}[lang];
+const link = '[&_a]:text-accent [&_a]:underline [&_a]:decoration-accent-line [&_a]:underline-offset-4';
+---
+
+<ApplyKitLayout lang={lang} title={C.title} description={C.description} altHref={routes.privacy[other]}>
+  <article class="mx-auto max-w-3xl px-5 pb-24 pt-12 md:px-8 md:pb-32 md:pt-20">
+    <p class="ak-eyebrow">{C.eyebrow}</p>
+    <h1 class="mt-4 text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.5rem]">{C.h1a} <span class="text-accent">{C.h1b}</span></h1>
+    <p class:list={['mt-6 text-lg leading-relaxed text-muted md:text-xl', link]} set:html={C.lead} />
+    <div class="mt-12 space-y-9">
+      {C.sections.map(([h, p]) => (
+        <section>
+          <h2 class="text-xl font-semibold tracking-[-0.02em]">{h}</h2>
+          <p class:list={['mt-2 text-[16px] leading-relaxed text-muted', link]} set:html={p} />
+        </section>
+      ))}
+    </div>
+    <p class="mt-14 border-t border-line pt-6 text-sm text-muted">{C.updated}</p>
+  </article>
+</ApplyKitLayout>

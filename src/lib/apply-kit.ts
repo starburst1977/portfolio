@@ -21,6 +21,7 @@ export const routes = {
   ats: { en: `${base}/apply-kit/ats-check/`, de: `${base}/apply-kit/de/ats-check/` },
   articles: { en: `${base}/apply-kit/articles/`, de: `${base}/apply-kit/de/artikel/` },
   thanks: { en: `${base}/apply-kit/thanks/`, de: `${base}/apply-kit/de/thanks/` },
+  privacy: { en: `${base}/apply-kit/privacy/`, de: `${base}/apply-kit/de/datenschutz/` },
 } as const;
 export type Route = keyof typeof routes;
 
