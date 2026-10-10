@@ -24,7 +24,7 @@ const C = {
     sub: 'From a tabular DIN 5008 CV to two-column one-pagers with an optional photo. Each layout covers both CV and Anschreiben, in English and German, and plugs straight into the free kit.',
     price: 'one-time · or $19',
     buy: 'Buy the Layout Pack', install: 'How to install',
-    meta: [['circle-check', `Needs Apply Kit ${KIT_MIN}+`], ['lock', 'Checkout with Polar'], ['languages', 'EN and DE']],
+    meta: [['circle-check', `Needs Apply Kit ${KIT_MIN}+`], ['lock', 'Checkout with Polar'], ['shield-check', '14-day refund, no questions asked'], ['languages', 'EN and DE']],
     badge: 'Every layout passes the ATS check',
     facts: [['8', 'layouts, each for CV and letter'], ['4', 'with an optional photo'], ['2', 'languages: English and German'], ['1', 'payment, no subscription']],
     layEyebrow: 'The layouts', layTitle: 'See every page before you buy',
@@ -68,10 +68,11 @@ const C = {
       { q: 'Which layout for a German application?', a: 'DIN 5008 for formal ones: the business letter people in German offices expect, with a tabular CV in the same letterhead. Every other layout works in German too.' },
       { q: 'Does the free Classic layout stay?', a: 'Yes. Classic comes with the kit and stays the default until you pick another one.' },
       { q: 'Can I share the pack?', a: 'It’s for your own applications. You may change the files for yourself, but please don’t share or resell them. The fonts are free fonts under the SIL Open Font License.' },
+      { q: 'What if it isn’t for me?', a: 'Write to <a href="mailto:me@svenread.com">me@svenread.com</a> within 14 days of buying and you get your money back in full, no questions asked.' },
       { q: 'Something doesn’t work?', a: 'Write to <a href="mailto:me@svenread.com">me@svenread.com</a> and tell me where it stopped. A screenshot helps.' },
     ],
     ctaTitle: `Eight layouts. One payment. ${PACK_PRICE}.`,
-    ctaSub: 'Checkout with Polar. The download link arrives by email.',
+    ctaSub: 'Checkout with Polar. The download link arrives by email. 14-day refund, no questions asked.',
   },
   de: {
     title: 'Layout Pack für Apply Kit: acht Layouts für Lebenslauf und Anschreiben, mit DIN 5008',
@@ -81,7 +82,7 @@ const C = {
     sub: 'Vom tabellarischen Lebenslauf nach DIN 5008 bis zu zweispaltigen Seiten mit optionalem Foto. Jedes Layout gilt für Lebenslauf und Anschreiben, auf Deutsch und Englisch, und passt direkt ins kostenlose Kit.',
     price: 'einmalig · oder $19',
     buy: 'Layout Pack kaufen', install: 'So installieren Sie es',
-    meta: [['circle-check', `Braucht Apply Kit ab ${KIT_MIN}`], ['lock', 'Bezahlung über Polar'], ['languages', 'DE und EN']],
+    meta: [['circle-check', `Braucht Apply Kit ab ${KIT_MIN}`], ['lock', 'Bezahlung über Polar'], ['shield-check', '14 Tage Geld zurück, ohne Begründung'], ['languages', 'DE und EN']],
     badge: 'Jedes Layout besteht den ATS-Check',
     facts: [['8', 'Layouts, je für Lebenslauf und Brief'], ['4', 'mit optionalem Foto'], ['2', 'Sprachen: Deutsch und Englisch'], ['1', 'Zahlung, kein Abo']],
     layEyebrow: 'Die Layouts', layTitle: 'Jede Seite ansehen, bevor Sie kaufen',
@@ -125,15 +126,21 @@ const C = {
       { q: 'Welches Layout für eine deutsche Bewerbung?', a: 'DIN 5008 für formelle Bewerbungen: der Geschäftsbrief, den man in deutschen Büros erwartet, mit tabellarischem Lebenslauf im selben Briefkopf. Alle anderen Layouts funktionieren auf Deutsch genauso.' },
       { q: 'Bleibt das kostenlose Classic-Layout?', a: 'Ja. Classic gehört zum Kit und bleibt Standard, bis Sie ein anderes wählen.' },
       { q: 'Darf ich das Paket weitergeben?', a: 'Es ist für Ihre eigenen Bewerbungen. Sie dürfen die Dateien für sich ändern, aber bitte nicht weitergeben oder weiterverkaufen. Die Schriften sind freie Schriften unter der SIL Open Font License.' },
+      { q: 'Und wenn es nicht passt?', a: 'Schreiben Sie innerhalb von 14 Tagen nach dem Kauf an <a href="mailto:me@svenread.com">me@svenread.com</a>, und Sie bekommen den vollen Betrag zurück, ohne Begründung.' },
       { q: 'Etwas funktioniert nicht?', a: 'Schreiben Sie an <a href="mailto:me@svenread.com">me@svenread.com</a> und sagen Sie mir, wo es nicht weiterging. Ein Screenshot hilft.' },
     ],
     ctaTitle: `Acht Layouts. Eine Zahlung. ${PACK_PRICE}.`,
-    ctaSub: 'Bezahlung über Polar. Der Download-Link kommt per E-Mail.',
+    ctaSub: 'Bezahlung über Polar. Der Download-Link kommt per E-Mail. 14 Tage Geld zurück, ohne Begründung.',
   },
 }[lang];
 
 const pack = LAYOUTS.filter((l) => !l.free);
 const groups = (['flow', 'onepage'] as const).map((g) => ({ key: g, title: C.groups[g][0], sub: C.groups[g][1], items: pack.filter((l) => l.group === g) }));
+// Google's merchant listings ask for shipping and a return policy. A download ships free and at
+// once; the return policy is the 14-day refund the page promises (meta row, FAQ, closing banner).
+// Countries: where the pack is mostly bought; Polar sells worldwide.
+const COUNTRIES = ['DE', 'AT', 'CH', 'NL', 'BE', 'LU', 'FR', 'IT', 'ES', 'PT', 'IE', 'GB', 'DK', 'SE', 'NO', 'FI', 'PL', 'CZ', 'US', 'CA', 'AU', 'NZ'];
+const days = (n: number) => ({ '@type': 'QuantitativeValue', minValue: n, maxValue: n, unitCode: 'DAY' });
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -141,7 +148,23 @@ const ld = {
   description: C.description,
   url: `https://www.svenread.com${routes.pack[lang]}`,
   brand: { '@type': 'Brand', name: 'Sven Read' },
-  offers: { '@type': 'Offer', price: '19', priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: buy },
+  offers: {
+    '@type': 'Offer', price: '19', priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: buy,
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'EUR' },
+      shippingDestination: COUNTRIES.map((c) => ({ '@type': 'DefinedRegion', addressCountry: c })),
+      deliveryTime: { '@type': 'ShippingDeliveryTime', handlingTime: days(0), transitTime: days(0) },
+    },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: COUNTRIES,
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      merchantReturnDays: 14,
+      returnFees: 'https://schema.org/FreeReturn',
+      refundType: 'https://schema.org/FullRefund',
+    },
+  },
 };
 ---
 
